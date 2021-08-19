@@ -1,6 +1,6 @@
 <?php
 /** ------------ BPT Version ------------ */
-$version = 1.02;
+$version = 1.03;
 /** ------------ BPT Version ------------ */
 /** ----------- Check Included ---------- */
 if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {die("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Protected By BPT proto</title><style>* {-webkit-box-sizing: border-box;box-sizing: border-box;}body {padding: 0;margin: 0;}#notfound {position: relative;height: 100vh;}#notfound .notfound {position: absolute;left: 50%;top: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);}.notfound {max-width: 410px;width: 100%;text-align: center;}.notfound .notfound-404 {height: 280px;position: relative;z-index: -1;}.notfound .notfound-404 h1 {font-family: 'Montserrat', sans-serif;font-size: 230px;margin: 0px;font-weight: 900;position: absolute;left: 50%;-webkit-transform: translateX(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);background: url('https://bpt-proto.site/BPT/err.jpg') no-repeat;-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-size: cover;background-position: center;}@media only screen and (max-width: 767px){.notfound .notfound-404 {height: 142px;}.notfound .notfound-404 h1 {font-size: 112px;}}</style></head><body><div id=\"notfound\"><div class=\"notfound\"><div class=\"notfound-404\"><h1>BPT</h1></div></div></div></body></html>");}
@@ -21,14 +21,30 @@ if ($old) {
     echo "you are using an old and bugged version of php, please update to php 7.3$newline supported versions: php 7.1, 7.2 , 7.3+$newline recommended version: php 7.3$newline";
 }
 /** --------- Check Php version --------- */
+date_default_timezone_set("Asia/Tehran");
+if(file_exists('BPT.log')){
+    if(!(filesize('BPT.log') > 10*1024*1024)){
+        define('LOG',fopen('BPT.log','a+'));
+    }else{
+        define('LOG',fopen('BPT.log','w+'));
+        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nOur Channel : @BPT_Proto\nOur Website : https://bpt-proto.site\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
+        fwrite(LOG,"INFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10MB\n\n");
+    }
+}else{
+    define('LOG',fopen('BPT.log','a+'));
+    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nOur Channel : @BPT_Proto\nOur Website : https://bpt-proto.site\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
+    fwrite(LOG,"INFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10MB\n\n");
+}
 class BPT{
     private $token = '';
     private $start = false;
     public function __construct($token_bot) {
         $this->token = $token_bot;
     }
-    public function start($security=null){
+    public function start($security=null,$secure_folder=null){
+        fwrite(LOG,date('Y/m/d H:i:s').": BPT STARTED\n");
         if($security === true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT security is on!\n");
             ini_set('magic_quotes_gpc','off');
             ini_set('sql.safe_mode','on');
             ini_set('max_execution_time',30);
@@ -40,28 +56,53 @@ class BPT{
             ini_set('display_errors',0);
             ini_set('error_reporting',0);
         }
+        if($secure_folder === true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT security folder is on!\n");
+            $address = explode('/',$_SERVER['REQUEST_URI']);
+            unset($address[count($address)-1]);
+            $address = implode('/',$address).'/BPT.php';
+            $text = "ErrorDocument 404 $address
+ErrorDocument 403 $address
+ Options -Indexes
+  Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+<Files *.php>
+    Order Allow,Deny
+    Allow from all
+</Files>";
+            if(!file_exists('.htaccess') || filesize('.htaccess') != strlen($text)){
+                file_put_contents('.htaccess',$text);
+            }
+        }
         $this->start = true;
         if(!file_exists('BPT.look')){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT webhook was setted\n");
             $res = json_decode(file_get_contents('https://api.telegram.org/bot'.$this->token.'/setwebhook?url=https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']),true)['ok'];
             if($res === true){
                 touch('BPT.look');
                 die('webhook was setted');
             }
         }
-        else{$telegram_ip_ranges=[['lower'=>'149.154.160.0', 'upper'=>'149.154.175.255'], ['lower'=>'91.108.4.0', 'upper'=>'91.108.7.255'],];$ip_dec=(float)sprintf("%u", ip2long($_SERVER['REMOTE_ADDR']));$ok=false;foreach($telegram_ip_ranges as $telegram_ip_range) if(!$ok){$lower_dec=(float)sprintf("%u", ip2long($telegram_ip_range['lower']));$upper_dec=(float)sprintf("%u", ip2long($telegram_ip_range['upper']));if($ip_dec>=$lower_dec and $ip_dec<=$upper_dec) $ok=true;}if(!$ok){die("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Protected By BPT proto</title><style>* {-webkit-box-sizing: border-box;box-sizing: border-box;}body {padding: 0;margin: 0;}#notfound {position: relative;height: 100vh;}#notfound .notfound {position: absolute;left: 50%;top: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);}.notfound {max-width: 410px;width: 100%;text-align: center;}.notfound .notfound-404 {height: 280px;position: relative;z-index: -1;}.notfound .notfound-404 h1 {font-family: 'Montserrat', sans-serif;font-size: 230px;margin: 0px;font-weight: 900;position: absolute;left: 50%;-webkit-transform: translateX(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);background: url('https://bpt-proto.site/BPT/err.jpg') no-repeat;-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-size: cover;background-position: center;}@media only screen and (max-width: 767px){.notfound .notfound-404 {height: 142px;}.notfound .notfound-404 h1 {font-size: 112px;}}</style></head><body><div id=\"notfound\"><div class=\"notfound\"><div class=\"notfound-404\"><h1>BPT</h1></div></div></div></body></html>");}}
+        else{$telegram_ip_ranges=[['lower'=>'149.154.160.0', 'upper'=>'149.154.175.255'], ['lower'=>'91.108.4.0', 'upper'=>'91.108.7.255'],];$ip_dec=(float)sprintf("%u", ip2long($_SERVER['REMOTE_ADDR']));$ok=false;foreach($telegram_ip_ranges as $telegram_ip_range) if(!$ok){$lower_dec=(float)sprintf("%u", ip2long($telegram_ip_range['lower']));$upper_dec=(float)sprintf("%u", ip2long($telegram_ip_range['upper']));if($ip_dec>=$lower_dec and $ip_dec<=$upper_dec) $ok=true;}if(!$ok){fwrite(LOG,time()." BPT Wrong access denied\n");die("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Protected By BPT proto</title><style>* {-webkit-box-sizing: border-box;box-sizing: border-box;}body {padding: 0;margin: 0;}#notfound {position: relative;height: 100vh;}#notfound .notfound {position: absolute;left: 50%;top: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);}.notfound {max-width: 410px;width: 100%;text-align: center;}.notfound .notfound-404 {height: 280px;position: relative;z-index: -1;}.notfound .notfound-404 h1 {font-family: 'Montserrat', sans-serif;font-size: 230px;margin: 0px;font-weight: 900;position: absolute;left: 50%;-webkit-transform: translateX(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);background: url('https://bpt-proto.site/BPT/err.jpg') no-repeat;-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-size: cover;background-position: center;}@media only screen and (max-width: 767px){.notfound .notfound-404 {height: 142px;}.notfound .notfound-404 h1 {font-size: 112px;}}</style></head><body><div id=\"notfound\"><div class=\"notfound\"><div class=\"notfound-404\"><h1>BPT</h1></div></div></div></body></html>");}}
+        fwrite(LOG,date('Y/m/d H:i:s').": BPT telegram access granted\n");
         $update = json_decode(file_get_contents('php://input'), true);
         if(isset($update) && !is_null($update)){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT update received\n");
             if(isset($update['inline_query'])){
+                fwrite(LOG,date('Y/m/d H:i:s').": BPT update is inline_query\n");
                 $inline_query=$update['inline_query'];
                 $this->users($inline_query,'inline');
                 @$this->inline_query($inline_query);
             }
             elseif(isset($update['callback_query'])){
+                fwrite(LOG,date('Y/m/d H:i:s').": BPT update is callback_query\n");
                 $callback_query=$update['callback_query'];
                 $this->users($callback_query,'callback');
                 @$this->callback_query($callback_query);
             }
             elseif(isset($update['message'])){
+                fwrite(LOG,date('Y/m/d H:i:s').": BPT update is message\n");
                 $message=$update['message'];
                 $this->users($message,'message');
                 if($security === true){
@@ -71,6 +112,7 @@ class BPT{
                 @$this->message($message);
             }
             elseif(isset($update['edited_message'])){
+                fwrite(LOG,date('Y/m/d H:i:s').": BPT update is edited_message\n");
                 $edited_message=$update['edited_message'];
                 $this->users($edited_message,'edit');
                 @$this->edited_message($edited_message);
@@ -80,12 +122,14 @@ class BPT{
     private function bot($method, $datas = [])
     {
         if($this->start === true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT $method function used\n");
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'https://api.telegram.org/bot' . $this->token . '/' . $method);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $datas);
             return json_decode(curl_exec($ch),true);
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT $method function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
@@ -630,6 +674,7 @@ class BPT{
     /** ---------- Extra Function ----------- */
     public function jsonSave($name,$data){
         if($this->start === true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonSave function used\n");
             if(is_array($data)){
                 $data=json_encode($data);
             }
@@ -640,10 +685,12 @@ class BPT{
             return true;
         }
         else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonSave function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function jsonGet($name,$type = true){
+        fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonGet function used\n");
         if($this->start === true){
             if($name === 'BPT.php'){
                 $name = 'BPT2.php';
@@ -654,10 +701,12 @@ class BPT{
                 return false;
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonGet function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function jsonDel($name){
+        fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonDel function used\n");
         if($this->start === true){
             if($name === 'BPT.php'){
                 $name = 'BPT2.php';
@@ -669,6 +718,7 @@ class BPT{
                 return false;
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonDel function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
@@ -704,36 +754,43 @@ class BPT{
     }
     public function forward2users($chatid,$msgid){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2users function used\n");
             $BPT_user=json_decode(file_get_contents('BPT-users.json'), true);
             foreach($BPT_user['private'] as $id=>$x){
                 $this->forwardMessage(['chat_id'=>$id, 'from_chat_id'=>$chatid, 'message_id'=>$msgid]);
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2users function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function forward2groups($chatid,$msgid){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2groups function used\n");
             $BPT_user=json_decode(file_get_contents('BPT-users.json'), true);
             foreach($BPT_user['groups'] as $id=>$x){
                 $this->forwardMessage(['chat_id'=>$id, 'from_chat_id'=>$chatid, 'message_id'=>$msgid]);
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2groups function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function forward2supergroups($chatid, $msgid){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2supergroups function used\n");
             $BPT_user=json_decode(file_get_contents('BPT-users.json'), true);
             foreach($BPT_user['supergroup'] as $id=>$x){
                 $this->forwardMessage(['chat_id'=>$id, 'from_chat_id'=>$chatid, 'message_id'=>$msgid]);
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2supergroups function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function forward2gps($chatid, $msgid){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2gps function used\n");
             $BPT_user=json_decode(file_get_contents('BPT-users.json'), true);
             foreach($BPT_user['groups'] as $id=>$x){
                 $this->forwardMessage(['chat_id'=>$id, 'from_chat_id'=>$chatid, 'message_id'=>$msgid]);
@@ -742,11 +799,13 @@ class BPT{
                 $this->forwardMessage(['chat_id'=>$id, 'from_chat_id'=>$chatid, 'message_id'=>$msgid]);
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2gps function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function forward2all($chatid, $msgid){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2all function used\n");
             $BPT_user=json_decode(file_get_contents('BPT-users.json'), true);
             foreach($BPT_user['private'] as $id=>$x){
                 $this->forwardMessage(['chat_id'=>$id, 'from_chat_id'=>$chatid, 'message_id'=>$msgid]);
@@ -758,11 +817,13 @@ class BPT{
                 $this->forwardMessage(['chat_id'=>$id, 'from_chat_id'=>$chatid, 'message_id'=>$msgid]);
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT forward2all function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function stats(){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonSave function used\n");
             $BPT_user=json_decode(file_get_contents('BPT-users.json'), true);
             $BPT_users=count($BPT_user['private']);
             $BPT_group=count($BPT_user['group']);
@@ -770,11 +831,13 @@ class BPT{
             $BPT_channel=count($BPT_user['channel']);
             return ['users'=>$BPT_users, 'groups'=>$BPT_group, 'supergroups'=>$BPT_sgroup, 'channels'=>$BPT_channel];
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT jsonSave function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function statsHere($chatid, $type){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT statsHere function used\n");
             $BPT_user=json_decode(file_get_contents('BPT-users.json'), true);
             if(isset($BPT_user[$type][$chatid])){
                 $callback=$BPT_user[$type][$chatid][1];
@@ -785,14 +848,22 @@ class BPT{
                 return false;
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT statsHere function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
     public function api($type,$array=null){
         if($this->start===true){
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT api function used , API type is $type\n");
             switch($type){
                 case 'alaki':
                     return json_decode(file_get_contents('https://poty.fun/apis/alaki.php'), true)['results'];
+                    break;
+                case 'arz':
+                    return json_decode(file_get_contents('https://poty.fun/apis/arz.php?type=arz'), true)['results'];
+                    break;
+                case 'tala':
+                    return json_decode(file_get_contents('https://poty.fun/apis/arz.php?type=tala'), true)['results'];
                     break;
                 case 'arzdigital':
                     return json_decode(file_get_contents('https://poty.fun/apis/arzdigital.php'), true)['results'];
@@ -806,6 +877,9 @@ class BPT{
                 case 'dastan':
                     return json_decode(file_get_contents('https://poty.fun/apis/dastan.php'), true)['results'];
                     break;
+                case 'chistan':
+                    return json_decode(file_get_contents('https://poty.fun/apis/chistan.php'), true)['results'][0];
+                    break;
                 case 'dialog':
                     return json_decode(file_get_contents('https://poty.fun/apis/dialog.php'), true)['results'];
                     break;
@@ -815,11 +889,23 @@ class BPT{
                 case 'joke':
                     return json_decode(file_get_contents('https://poty.fun/apis/joke.php'), true)['results'];
                     break;
+                case 'fall':
+                    return "https://poty.fun/apis/fal.php";
+                    break;
                 case 'khatere':
                     return json_decode(file_get_contents('https://poty.fun/apis/khatere.php'), true)['results'];
                     break;
                 case 'pnp':
                     return json_decode(file_get_contents('https://poty.fun/apis/pnp.php'), true)['results'];
+                    break;
+                case 'noroz':
+                    return json_decode(file_get_contents('https://poty.fun/apis/noroz.php'), true)['results'];
+                    break;
+                case 'capcha':
+                    return json_decode(file_get_contents('https://poty.fun/apis/capcha2.php'), true)['results'];
+                    break;
+                case 'time':
+                    return json_decode(file_get_contents('https://poty.fun/apis/time.php'), true)['results'];
                     break;
                 case 'pdf':
                     if($array !== null){
@@ -842,6 +928,7 @@ class BPT{
                     break;
             }
         }else{
+            fwrite(LOG,date('Y/m/d H:i:s').": BPT api function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
