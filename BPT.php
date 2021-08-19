@@ -1,6 +1,6 @@
 <?php
 /** ------------ BPT Version ------------ */
-$version = 1.05;
+$version = 1.06;
 /** ------------ BPT Version ------------ */
 
 /** ----------- Check Included ---------- */
@@ -34,6 +34,7 @@ if(!file_exists('BPT.log')) {
 class BPT {
     private $token = '';
     private $start = false;
+    public $update;
     public function __construct($token_bot) {
         $this->token = $token_bot;
     }
@@ -66,17 +67,21 @@ class BPT {
         } else {
             if(file_exists('BPT.log')) {
                 if(!(filesize('BPT.log') > 10 * 1024 * 1024)) {
-                    define('LOG', fopen('BPT.log', 'a+'));
+                    if(!defined('LOG')){
+                        define('LOG', fopen('BPT.log', 'a+'));
+                    }
                 } else {
-                    define('LOG', fopen('BPT.log', 'w+'));
+                    if(!defined('LOG')){
+                        define('LOG', fopen('BPT.log', 'w+'));
+                    }
                     fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nOur Channel : @BPT_Proto\nOur Website : https://bpt-proto.site\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
                     fwrite(LOG, "INFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10MB\n\n");
                 }
             }
         }
         if(!is_array($settings)) {
-            fwrite(LOG, date('Y/m/d H:i:s') . ": setting parameter must be array");
-            throw new Exception('setting must be array');
+            fwrite(LOG, date('Y/m/d H:i:s') . ": settings parameter most be array");
+            throw new Exception('settings most be array');
         } else {
             $security = isset($settings['security']) ? $settings['security'] : false;
             $secure_folder = isset($settings['secure_folder']) ? $settings['secure_folder'] : false;
@@ -247,6 +252,12 @@ Allow from 127.0.0.1
     public function getMe() {
         return $this->bot('getMe');
     }
+    public function logOut() {
+        return $this->bot('logOut');
+    } /** Don't Use It */
+    public function close() {
+        return $this->bot('close');
+    } /** Don't Use It */
     public function sendMessage($array) {
         if(is_array($array)) {
             return $this->bot('sendMessage', $array);
@@ -257,6 +268,13 @@ Allow from 127.0.0.1
     public function forwardMessage($array) {
         if(is_array($array)) {
             return $this->bot('forwardMessage', $array);
+        } else {
+            throw new Exception('input value most be array');
+        }
+    }
+    public function copyMessage($array) {
+        if(is_array($array)) {
+            return $this->bot('copyMessage', $array);
         } else {
             throw new Exception('input value most be array');
         }
@@ -693,48 +711,6 @@ Allow from 127.0.0.1
     }
     /** --------- Telegram Function --------- */
     /** ---------- Extra Function ----------- */
-    public function jChecker($array){
-        if($this->start === true) {
-            if(is_array($array)) {
-                if(isset($array['ids'])){
-                    $ids = $array['ids'];
-                    if(is_string($ids)){
-                        $ids = [$ids];
-                    }
-                } else {
-                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : ids parameter not found");
-                    throw new Exception('ids parameter not found');
-                }
-                if(isset($array['user_id'])){
-                    $user_id = $array['user_id'];
-                } else {
-                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : user_id parameter not found");
-                    throw new Exception('user_id parameter not found');
-                }
-                $result = [];
-                foreach($ids as $id){
-                    $check = $this->getChat(['chat_id'=>$id])['result'];
-                    if(isset($check['id'])){
-                        $check = $this->getChatMember(['chat_id'=>$id,'user_id'=>$user_id])['result'];
-                        if($check['status'] == 'member' || $check['status'] == 'administrator' || $check['status'] == 'creator') {
-                            $result[$id] = true;
-                        } else {
-                            $result[$id] = false;
-                        }
-                    }else{
-                        $result[$id] = 'chat not found';
-                    }
-                }
-                return $result;
-            } else {
-                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : input most be array");
-                throw new Exception('input most be array');
-            }
-        } else {
-            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : You must use start function for use this function");
-            throw new Exception('you must use start function');
-        }
-    }
     public function jsonSave($array) {
         if($this->start === true) {
             if(is_array($array)) {
@@ -751,13 +727,13 @@ Allow from 127.0.0.1
                     throw new Exception('data parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jsonSave function used\n");
-                if(is_array($data)) {
+                if(is_array($data) || is_object($data))  {
                     $data = json_encode($data);
                 }
-                if($name === 'BPT.php') {
-                    $name = 'BPT2.php';
+                if(pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
+                    $name = $name.'.json';
                 }
-                file_put_contents($name, $data);
+                file_put_contents($name, gzcompress($data));
                 return true;
             } else {
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jsonSave function used\nError : input most be array");
@@ -783,11 +759,11 @@ Allow from 127.0.0.1
                     $type = true;
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jsonGet function used\n");
-                if($name === 'BPT.php') {
-                    $name = 'BPT2.php';
+                if(pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
+                    $name = $name.'.json';
                 }
                 if(file_exists($name)) {
-                    return json_decode(file_get_contents($name), $type);
+                    return json_decode(gzuncompress(file_get_contents($name)), $type);
                 } else {
                     return false;
                 }
@@ -810,8 +786,8 @@ Allow from 127.0.0.1
                     throw new Exception('name parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jsonDel function used\n");
-                if($name === 'BPT.php') {
-                    $name = 'BPT2.php';
+                if(pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
+                    $name = $name.'.json';
                 }
                 if(file_exists($name)) {
                     unlink($name);
@@ -828,32 +804,187 @@ Allow from 127.0.0.1
             throw new Exception('you must use start function');
         }
     }
-    private function users($update, $a) {
-        if(!file_exists('BPT-users.json')) {
-            file_put_contents('BPT-users.json', json_encode(['private' => [], 'group' => [], 'supergroup' => [], 'channel' => []]));
+    public function dataSave($array){
+        if($this->start === true) {
+            if(is_array($array)) {
+                if(isset($array['key'])) {
+                    if(is_string($array['key'])){
+                        $key = $array['key'];
+                    }else{
+                        fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataSave function used\nError : key most be string");
+                        throw new Exception('key most be string');
+                    }
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataSave function used\nError : key parameter not found");
+                    throw new Exception('key parameter not found');
+                }
+                if(isset($array['value'])) {
+                    $value = $array['value'];
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataSave function used\nError : value parameter not found");
+                    throw new Exception('value parameter not found');
+                }
+                if(isset($array['id'])) {
+                    $id = $array['id'];
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataSave function used\nError : id parameter not found");
+                    throw new Exception('id parameter not found');
+                }
+                if(isset($array['type'])) {
+                    $type = $array['type'];
+                    if($type!=='private'||$type!=='group'||$type!=='supergroup'||$type!=='channel'){
+                        $type = 'private';
+                    }
+                } else {
+                    $type = 'private';
+                }
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                if(isset($BPT_DB[$type][$id])){
+                    $BPT_DB[$type][$id][$key] = $value;
+                    file_put_contents('BPT-DB.json', json_encode($BPT_DB));
+                    return true;
+                }else{
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataSave function used\nError : id not found in BPT database");
+                    throw new Exception('id not found');
+                }
+            } else {
+                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataSave function used\nError : input most be array");
+                throw new Exception('input most be array');
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataSave function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
         }
-        $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
+    }
+    public function dataGet($array){
+        if($this->start === true) {
+            if(is_array($array)) {
+                if(isset($array['key'])) {
+                    if(is_string($array['key'])){
+                        $key = $array['key'];
+                    }else{
+                        fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataGet function used\nError : key most be string");
+                        throw new Exception('key most be string');
+                    }
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataGet function used\nError : key parameter not found");
+                    throw new Exception('key parameter not found');
+                }
+                if(isset($array['id'])) {
+                    $id = $array['id'];
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataGet function used\nError : id parameter not found");
+                    throw new Exception('id parameter not found');
+                }
+                if(isset($array['type'])) {
+                    $type = $array['type'];
+                    if($type!=='private'||$type!=='group'||$type!=='supergroup'||$type!=='channel'){
+                        $type = 'private';
+                    }
+                } else {
+                    $type = 'private';
+                }
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                if(isset($BPT_DB[$type][$id])){
+                    if(isset($BPT_DB[$type][$id][$key])){
+                        return $BPT_DB[$type][$id][$key];
+                    }else{
+                        fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataGet function used\nError : key not found in BPT database");
+                        throw new Exception('key not found');
+                    }
+                }else{
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataGet function used\nError : id not found in BPT database");
+                    throw new Exception('id not found');
+                }
+            } else {
+                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataGet function used\nError : input most be array");
+                throw new Exception('input most be array');
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataGet function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
+        }
+    }
+    public function dataDel($array){
+        if($this->start === true) {
+            if(is_array($array)) {
+                if(isset($array['key'])) {
+                    if(is_string($array['key'])){
+                        $key = $array['key'];
+                    }else{
+                        fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataDel function used\nError : key most be string");
+                        throw new Exception('key most be string');
+                    }
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataDel function used\nError : key parameter not found");
+                    throw new Exception('key parameter not found');
+                }
+                if(isset($array['id'])) {
+                    $id = $array['id'];
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataDel function used\nError : id parameter not found");
+                    throw new Exception('id parameter not found');
+                }
+                if(isset($array['type'])) {
+                    $type = $array['type'];
+                    if($type!=='private'||$type!=='group'||$type!=='supergroup'||$type!=='channel'){
+                        $type = 'private';
+                    }
+                } else {
+                    $type = 'private';
+                }
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                if(isset($BPT_DB[$type][$id])){
+                    if(isset($BPT_DB[$type][$id][$key])){
+                        unset($BPT_DB[$type][$id][$key]);
+                        file_put_contents('BPT-DB.json', json_encode($BPT_DB));
+                    }else{
+                        fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataDel function used\nError : key not found in BPT database");
+                        throw new Exception('key not found');
+                    }
+                }else{
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataDel function used\nError : id not found in BPT database");
+                    throw new Exception('id not found');
+                }
+            } else {
+                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataDel function used\nError : input most be array");
+                throw new Exception('input most be array');
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT dataDel function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
+        }
+    }
+    private function users($update, $a) {
+        if(!file_exists('BPT-DB.json')) {
+            file_put_contents('BPT-DB.json', json_encode(['private' => [], 'group' => [], 'supergroup' => [], 'channel' => []]));
+        }
+        $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
         if($a == 'message') {
             $type = $update['chat']['type'];
             $id = $update['from']['id'];
-            $BPT_user[$type][$id][0] += 1;
+            if(!isset($BPT_DB[$type][$id])) {
+                $BPT_DB[$type][$id] = [0, 0, 0];
+            }
+            $BPT_DB[$type][$id][0] += 1;
         } elseif($a == 'inline') {
             $id = $update['from']['id'];
         } elseif($a == 'callback') {
             $type = $update['message']['chat']['type'];
             $id = $update['from']['id'];
-            $BPT_user[$type][$id][1] += 1;
+            if(!isset($BPT_DB[$type][$id])) {
+                $BPT_DB[$type][$id] = [0, 0, 0];
+            }
+            $BPT_DB[$type][$id][1] += 1;
         } elseif($a == 'edit') {
             $type = $update['chat']['type'];
             $id = $update['from']['id'];
-            $BPT_user[$type][$id][2] += 1;
-        }
-        if(isset($type)) {
-            if(!isset($BPT_user[$type][$id])) {
-                $BPT_user[$type][$id] = [0, 0, 0];
+            if(!isset($BPT_DB[$type][$id])) {
+                $BPT_DB[$type][$id] = [0, 0, 0];
             }
+            $BPT_DB[$type][$id][2] += 1;
         }
-        file_put_contents('BPT-users.json', json_encode($BPT_user));
+        file_put_contents('BPT-DB.json', json_encode($BPT_DB));
     }
     public function forward2users($array) {
         if($this->start === true) {
@@ -871,8 +1002,8 @@ Allow from 127.0.0.1
                     throw new Exception('msgid parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward2users function used\n");
-                $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
-                foreach($BPT_user['private'] as $id => $x) {
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                foreach($BPT_DB['private'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
                 return true;
@@ -901,8 +1032,8 @@ Allow from 127.0.0.1
                     throw new Exception('msgid parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward2groups function used\n");
-                $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
-                foreach($BPT_user['groups'] as $id => $x) {
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                foreach($BPT_DB['groups'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
             } else {
@@ -930,8 +1061,8 @@ Allow from 127.0.0.1
                     throw new Exception('msgid parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward2supergroups function used\n");
-                $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
-                foreach($BPT_user['supergroup'] as $id => $x) {
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                foreach($BPT_DB['supergroup'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
             } else {
@@ -959,11 +1090,11 @@ Allow from 127.0.0.1
                     throw new Exception('msgid parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward2gps function used\n");
-                $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
-                foreach($BPT_user['groups'] as $id => $x) {
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                foreach($BPT_DB['groups'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
-                foreach($BPT_user['supergroup'] as $id => $x) {
+                foreach($BPT_DB['supergroup'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
             } else {
@@ -991,14 +1122,14 @@ Allow from 127.0.0.1
                     throw new Exception('msgid parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward2all function used\n");
-                $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
-                foreach($BPT_user['private'] as $id => $x) {
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                foreach($BPT_DB['private'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
-                foreach($BPT_user['groups'] as $id => $x) {
+                foreach($BPT_DB['groups'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
-                foreach($BPT_user['supergroup'] as $id => $x) {
+                foreach($BPT_DB['supergroup'] as $id => $x) {
                     $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chatid, 'message_id' => $msgid]);
                 }
             } else {
@@ -1013,11 +1144,11 @@ Allow from 127.0.0.1
     public function stats() {
         if($this->start === true) {
             fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jsonSave function used\n");
-            $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
-            $BPT_users = count($BPT_user['private']);
-            $BPT_group = count($BPT_user['group']);
-            $BPT_sgroup = count($BPT_user['supergroup']);
-            $BPT_channel = count($BPT_user['channel']);
+            $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+            $BPT_users = count($BPT_DB['private']);
+            $BPT_group = count($BPT_DB['group']);
+            $BPT_sgroup = count($BPT_DB['supergroup']);
+            $BPT_channel = count($BPT_DB['channel']);
             return ['users' => $BPT_users, 'groups' => $BPT_group, 'supergroups' => $BPT_sgroup, 'channels' => $BPT_channel];
         } else {
             fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jsonSave function used\nError : You must use start function for use this function");
@@ -1040,11 +1171,11 @@ Allow from 127.0.0.1
                     throw new Exception('type parameter not found');
                 }
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT statsHere function used\n");
-                $BPT_user = json_decode(file_get_contents('BPT-users.json'), true);
-                if(isset($BPT_user[$type][$chatid])) {
-                    $callback = $BPT_user[$type][$chatid][1];
-                    $message = $BPT_user[$type][$chatid][0];
-                    $edit = $BPT_user[$type][$chatid][2];
+                $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                if(isset($BPT_DB[$type][$chatid])) {
+                    $callback = $BPT_DB[$type][$chatid][1];
+                    $message = $BPT_DB[$type][$chatid][0];
+                    $edit = $BPT_DB[$type][$chatid][2];
                     return ['callback_query' => $callback, 'message' => $message, 'edited_message' => $edit];
                 } else {
                     return false;
@@ -1090,10 +1221,7 @@ Allow from 127.0.0.1
                             fwrite(LOG, date('Y/m/d H:i:s') . ": BPT delete function used\nError : delete function cannot delete folder because its have subfiles and sub parameter haven't true value");
                             throw new Exception('folder have subfiles');
                         }
-                    } else {
-                        rmdir($path);
-                        return true;
-                    }
+                    } else rmdir($path);
                 } elseif(basename($path) !== 'BPT.php') unlink($path);
             } else {
                 fwrite(LOG, date('Y/m/d H:i:s') . ": BPT delete function used\nError : input most be array");
@@ -1238,13 +1366,13 @@ Allow from 127.0.0.1
                 if(isset($array['path'])){
                     $path = $array['path'];
                 }else{
-                    fwrite(LOG , date('Y/m/d H:i:s') . ": BPT zip function used\nError : datetime parameter not found");
+                    fwrite(LOG , date('Y/m/d H:i:s') . ": BPT zip function used\nError : path parameter not found");
                     throw new Exception('path parameter not found');
                 }
                 if(isset($array['dest'])){
                     $dest = $array['dest'];
                 }else{
-                    fwrite(LOG , date('Y/m/d H:i:s') . ": BPT zip function used\nError : datetime parameter not found");
+                    fwrite(LOG , date('Y/m/d H:i:s') . ": BPT zip function used\nError : dest parameter not found");
                     throw new Exception('dest parameter not found');
                 }
                 $rootPath = realpath($path);
@@ -1414,9 +1542,25 @@ Allow from 127.0.0.1
                                     //۰۱۲۳۴۵۶۷۸۹
                                     $option['num'] = str_replace(['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], $option['num']);
                                     $url = urlencode($option['num']);
-                                    return "https://poty.fun/apis/num.php?num=$url";
+                                    return json_decode(file_get_contents("https://poty.fun/apis/num.php?num=$url"), true)['results'];
                                 } else {
                                     throw new Exception('pdf api need url field!');
+                                }
+                            } else {
+                                throw new Exception('array parameter must be array!');
+                            }
+                        } else {
+                            throw new Exception('You must insert array parameter!');
+                        }
+                        break;
+                    case 'fin2pe':
+                        if($option !== null) {
+                            if(is_array($option)) {
+                                if(isset($option['text'])) {
+                                    $text = urlencode($option['text']);
+                                    return json_decode(file_get_contents("https://poty.fun/apis/fintope.php?text=$text"), true)['results'];
+                                } else {
+                                    throw new Exception('fin2pe api need text field!');
                                 }
                             } else {
                                 throw new Exception('array parameter must be array!');
@@ -1435,6 +1579,245 @@ Allow from 127.0.0.1
             }
         } else {
             fwrite(LOG, date('Y/m/d H:i:s') . ": BPT api function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
+        }
+    }
+    public function eKey($array){
+        if($this->start === true) {
+            if(is_array($array)) {
+                if(isset($array['keyboard'])) {
+                    $keyboard = $array['keyboard'];
+                }
+                elseif(isset($array['inline'])) {
+                    $inline = $array['inline'];
+                }
+                if(isset($keyboard)){
+                    $r = ['keyboard'=>[],'resize_keyboard'=>true];
+                    foreach($keyboard as $key){
+                        $k = [];
+                        foreach($key as $but){
+                            $o = explode('||',$but);
+                            if(count($o) > 1){
+                                if($o[1] == 'con'){
+                                    $k[] = ['text'=>$o[0],'request_contact'=>true];
+                                }
+                                elseif($o[1] == 'loc'){
+                                    $k[] = ['text'=>$o[0],'request_location'=>true];
+                                }
+                                else{
+                                    $k[] = ['text'=>$but];
+                                }
+                            }else{
+                                $k[] = ['text'=>$but];
+                            }
+                        }
+                        $r['keyboard'][] = $k;
+                    }
+                    return json_encode($r);
+                }
+                elseif(isset($inline)){
+                    $r = ['inline_keyboard'=>[]];
+                    foreach($inline as $key){
+                        $k = [];
+                        foreach($key as $but){
+                            $text = $but[0];
+                            if(isset($but[1])){
+                                if(filter_var($but[1],FILTER_VALIDATE_URL)){
+                                    $k[] = ['text'=>$but[0],'url'=>$but[1]];
+                                }else{
+                                    $k[] = ['text'=>$but[0],'callback_data'=>$but[1]];
+                                }
+                            }else{
+                                $k[] = ['text'=>$but[0],'url'=>'https://t.me/BPT_CH'];
+                            }
+                        }
+                        $r['inline_keyboard'][] = $k;
+                    }
+                    return json_encode($r);
+                }
+                else{
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT eKey function used\nError : keyboard or inline parameter not found");
+                    throw new Exception('keyboard or inline nfound');
+                }
+            } else {
+                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT eKey function used\nError : input most be array");
+                throw new Exception('input most be array');
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT eKey function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
+        }
+    }
+    public function del(){
+        if($this->start === true) {
+            if(isset($this->update->message)) {
+                return $this->deleteMessage(['chat_id' => $this->update->message->chat->id, 'message_id' => $this->update->message->message_id]);
+            }
+            elseif(isset($this->update->callback_query)) {
+                return $this->deleteMessage(['chat_id' => $this->update->callback_query->message->chat->id, 'message_id' => $this->update->callback_query->message->message_id]);
+            }
+            elseif(isset($this->update->edited_message)) {
+                return $this->deleteMessage(['chat_id' => $this->update->edited_message->chat->id, 'message_id' => $this->update->edited_message->message_id]);
+            }
+            elseif(isset($this->update->channel_post)) {
+                return $this->deleteMessage(['chat_id' => $this->update->channel_post->chat->id, 'message_id' => $this->update->channel_post->message_id]);
+            }
+            elseif(isset($this->update->edited_channel_post)) {
+                return $this->deleteMessage(['chat_id' => $this->update->edited_channel_post->chat->id, 'message_id' => $this->update->edited_channel_post->message_id]);
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT del function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
+        }
+    }
+    public function forward($array){
+        if($this->start === true) {
+            if(is_array($array)) {
+                if(isset($array['to'])) {
+                    $to = $array['to'];
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward function used\nError : to parameter not found");
+                    throw new Exception('to parameter not found');
+                }
+                return $this->forwardMessage(['chat_id'=>$to,'from_chat_id'=>$this->update->message->chat->id,'message_id'=>$this->update->message->message_id]);
+            } else {
+                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward function used\nError : input most be array");
+                throw new Exception('input most be array');
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT forward function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
+        }
+    }
+    public function checkPhone($array){
+        if($this->start === true) {
+            if(is_array($array)) {
+                if(isset($array['text']) && is_string($array['text'])) {
+                    $text = $array['text'];
+                } else {
+                    $text = "با سلام کاربر گرامی\nجهت ادامه دادن فعالیت خود در این ربات باید شماره خود را ارسال نمایید";
+                }
+                if(isset($array['btext']) && is_string($array['btext'])) {
+                    $btext = $array['btext'];
+                } else {
+                    $btext = 'ارسال شماره تلفن';
+                }
+                if(isset($array['phones']) && is_array($array['phones'])) {
+                    $phones = $array['phones'];
+                } elseif(is_string($array['phones']) && ($array['phones'] == '98'||strtolower($array['phones'])=='iran'||$array['phones']=='ایران')) {
+                    $phones = ['98'];
+                } else{
+                    $phones = 'all';
+                }
+                if(isset($this->update->message)) {
+                    $id = $this->update->message->chat->id;
+                    $type =  $this->update->message->chat->type;
+                    $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
+                    if($type == 'private'){
+                        if(isset($BPT_DB[$type][$id]['phone_number'])){
+                            if(is_array($phones)){
+                                $p = false;
+                                $phone = $BPT_DB[$type][$id]['phone_number'];
+                                foreach($phones as $range){
+                                    if(is_string($range) && strpos($phone,$range) === 0){
+                                        $p = true;
+                                        break;
+                                    }
+                                }
+                                if($p){
+                                    return 'true';
+                                }else{
+                                    unset($BPT_DB[$type][$id]['phone_number']);
+                                    file_put_contents('BPT-DB.json', json_encode($BPT_DB));
+                                    $this->sendMessage(['chat_id'=>$id,'text'=>$text,'reply_markup'=>$this->eKey(['keyboard'=>[["$btext||con"]]])]);
+                                    return 'false';
+                                }
+                            }else{
+                                return 'true';
+                            }
+                        }
+                        else{
+                            if(isset($this->update->message->contact)){
+                                $p = false;
+                                $phone = $this->update->message->contact->phone_number;
+                                if(is_string($phones)){
+                                    $BPT_DB[$type][$id]['phone_number'] = $phone;
+                                    $p = true;
+                                }else{
+                                    foreach($phones as $range){
+                                        if(is_string($range) && strpos($phone,$range) === 0){
+                                            $BPT_DB[$type][$id]['phone_number'] = $phone;
+                                            $p = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if($p){
+                                    file_put_contents('BPT-DB.json', json_encode($BPT_DB));
+                                    return 'd';
+                                }else{
+                                    return 'r';
+                                }
+                            }else{
+                                $this->sendMessage(['chat_id'=>$id,'text'=>$text,'reply_markup'=>$this->eKey(['keyboard'=>[["$btext||con"]]])]);
+                                return 'false';
+                            }
+                        }
+                    }
+                    else{
+                        return 'n';
+                    }
+                }else{
+                    return 'n';
+                }
+            } else {
+                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT checkPhone function used\nError : input most be array");
+                throw new Exception('input most be array');
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT checkPhone function used\nError : You must use start function for use this function");
+            throw new Exception('you must use start function');
+        }
+    }
+    public function jChecker($array){
+        if($this->start === true) {
+            if(is_array($array)) {
+                if(isset($array['ids'])){
+                    $ids = $array['ids'];
+                    if(is_string($ids)){
+                        $ids = [$ids];
+                    }
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : ids parameter not found");
+                    throw new Exception('ids parameter not found');
+                }
+                if(isset($array['user_id'])){
+                    $user_id = $array['user_id'];
+                } else {
+                    fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : user_id parameter not found");
+                    throw new Exception('user_id parameter not found');
+                }
+                $result = [];
+                foreach($ids as $id){
+                    $check = $this->getChatMember(['chat_id' => $id, 'user_id' => $user_id]);
+                    if(isset($check['result'])) {
+                        $check = $check['result'];
+                        if($check['status'] == 'member' || $check['status'] == 'administrator' || $check['status'] == 'creator') {
+                            $result[$id] = true;
+                        } else {
+                            $result[$id] = false;
+                        }
+                    } else {
+                        $result[$id] = 'chat not found';
+                    }
+                }
+                return $result;
+            } else {
+                fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : input most be array");
+                throw new Exception('input most be array');
+            }
+        } else {
+            fwrite(LOG, date('Y/m/d H:i:s') . ": BPT jChecker function used\nError : You must use start function for use this function");
             throw new Exception('you must use start function');
         }
     }
