@@ -1,6 +1,6 @@
 <?php
 /** ------------ BPT Version ------------ */
-$version = 1.00;
+$version = 1.01;
 /** ------------ BPT Version ------------ */
 /** ----------- Check Included ---------- */
 if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {die("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Protected By BPT proto</title><style>* {-webkit-box-sizing: border-box;box-sizing: border-box;}body {padding: 0;margin: 0;}#notfound {position: relative;height: 100vh;}#notfound .notfound {position: absolute;left: 50%;top: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);}.notfound {max-width: 410px;width: 100%;text-align: center;}.notfound .notfound-404 {height: 280px;position: relative;z-index: -1;}.notfound .notfound-404 h1 {font-family: 'Montserrat', sans-serif;font-size: 230px;margin: 0px;font-weight: 900;position: absolute;left: 50%;-webkit-transform: translateX(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);background: url('https://bpt-proto.site/BPT/err.jpg') no-repeat;-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-size: cover;background-position: center;}@media only screen and (max-width: 767px){.notfound .notfound-404 {height: 142px;}.notfound .notfound-404 h1 {font-size: 112px;}}</style></head><body><div id=\"notfound\"><div class=\"notfound\"><div class=\"notfound-404\"><h1>BPT</h1></div></div></div></body></html>");}
@@ -27,7 +27,19 @@ class BPT{
     public function __construct($token_bot) {
         $this->token = $token_bot;
     }
-    public function start(){
+    public function start($security=null){
+        if($security === true){
+            ini_set('magic_quotes_gpc','off');
+            ini_set('sql.safe_mode','on');
+            ini_set('max_execution_time',30);
+            ini_set('max_input_time',30);
+            ini_set('memory_limit','20M');
+            ini_set('post_max_size','8K');
+            ini_set('expose_php','off');
+            ini_set('file_uploads','off');
+            ini_set('display_errors',0);
+            ini_set('error_reporting',0);
+        }
         $this->start = true;
         if(!file_exists('BPT.look')){
             $res = json_decode(file_get_contents('https://api.telegram.org/bot'.$this->token.'/setwebhook?url=https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']),true)['ok'];
@@ -52,6 +64,10 @@ class BPT{
             elseif(isset($update['message'])){
                 $message=$update['message'];
                 $this->users($message,'message');
+                if($security === true){
+                    $text = $message['text'];
+                    $message['text'] = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                }
                 @$this->message($message);
             }
             elseif(isset($update['edited_message'])){
