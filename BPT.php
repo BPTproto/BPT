@@ -1,6 +1,6 @@
 <?php
 /** ------------ BPT Version ------------ */
-$version = 1.11;
+$version = 1.12;
 /** ------------ BPT Version ------------ */
 
 /** ----------- Check Included ---------- */
@@ -26,7 +26,7 @@ if(PHP_MAJOR_VERSION === 5 || (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION === 
 date_default_timezone_set("Asia/Tehran");
 if(!file_exists('BPT.log')) {
     define('LOG', fopen('BPT.log', 'a+'));
-    fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nOur Channel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
+    fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\n Channel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
     fwrite(LOG, "INFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10MB\n\n");
 }
 /** -------------- BPT LOG -------------- */
@@ -58,7 +58,7 @@ class BPT {
                         if(!defined('LOG')){
                             define('LOG', fopen('BPT.log', 'w+'));
                         }
-                        $this->logger('',"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nOur Channel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
+                        $this->logger('',"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\n Channel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
                         $this->logger('',"INFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $logsize" . "MB\n\n");
                     }
                 }
@@ -72,7 +72,7 @@ class BPT {
                         if(!defined('LOG')){
                             define('LOG', fopen('BPT.log', 'w+'));
                         }
-                        $this->logger('',"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nOur Channel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
+                        $this->logger('',"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\n Channel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\n");
                         $this->logger('',"INFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10MB\n\n");
                     }
                 }
@@ -106,7 +106,7 @@ class BPT {
                         $this->logger('',"db name parameter not found");
                         throw new exception('db name parameter');
                     }
-                    $db = new mysqli($settings['db']['host'],$settings['db']['user'],$settings['db']['user'],$settings['db']['name'],$settings['db']['port']);
+                    $db = new mysqli($settings['db']['host'],$settings['db']['user'],$settings['db']['pass'],$settings['db']['name'],$settings['db']['port']);
                     if ($db->errno) {
                         $this->logger('',"sql connection has problem");
                         throw new exception('sql connection problem');
@@ -2787,7 +2787,10 @@ Allow from 127.0.0.1
             throw new exception('input most be array');
         }
     }
-    public function buildBot($array){mkdir('bots');
+    public function buildBot($array){
+        if(!is_dir('bots')){
+            mkdir('bots');
+        }
         if(is_array($array)) {
             if(isset($array['token'])){
                 $token = $array['token'];
@@ -2827,16 +2830,20 @@ Allow from 127.0.0.1
             } else {
                 $done_text = 'ربات شما با موفقیت نصب گردید.';
             }
-            $result = $this->getMe(['token'=>$token]);
+            $result = json_decode(file_get_contents('https://api.telegram.org/bot'.$token.'/getMe'), true);
             if($result['ok'] !== true){
                 return $this->send(['text'=>$error_text,'chat_id'=>$chat_id]);
             }
-            $un = $result['result']['username'];
-            if(file_exists("bots/$un/index.php")){
+            $username = $result['result']['username'];
+            if(file_exists("bots/$username/index.php")){
                 return $this->send(['text'=>$exist_text,'chat_id'=>$chat_id]);
             }
-            if($type == 'NUM') $path = 'https://bpt-proto.ir/BPT/source/shomare/src.php';
-            elseif($type == 'PM') $path = 'https://bpt-proto.ir/BPT/source/pm/src.php';
+            if($type == 'NUM'){
+                $path = 'https://bpt-proto.ir/BPT/source/shomare/src.php';
+            }
+            elseif($type == 'PM'){
+                $path = 'https://bpt-proto.ir/BPT/source/pm/src.php';
+            }
             else{
                 $this->logger(''," BPT buildBot function used\nError : type parameter has wrong data");
                 throw new exception('type parameter is wrongd');
@@ -2844,12 +2851,12 @@ Allow from 127.0.0.1
             $config = file_get_contents($path);
             $config = str_replace("[ADMIN]", $admin, $config);
             $config = str_replace("[TOKEN]", $token, $config);
-            mkdir("bots/$un");
-            file_put_contents("bots/$un/index.php",$config);
+            mkdir("bots/$username");
+            file_put_contents("bots/$username/index.php",$config);
             $site = explode('/',$_SERVER['SCRIPT_URI']);
             $site = str_replace(end($site),null,$_SERVER['SCRIPT_URI']);
             $site = str_replace('http://','https://',$site);
-            $this->setWebhook(['url'=>$site.'bots/'.$un.'/index.php','token'=>$token]);
+            $this->setWebhook(['url'=>$site.'bots/'.$username.'/index.php','token'=>$token]);
             return $this->send(['text'=>$done_text,'chat_id'=>$chat_id]);
         } else {
             $this->logger(''," BPT buildBot function used\nError : input most be array");
@@ -2864,12 +2871,26 @@ Allow from 127.0.0.1
                 $this->logger(''," BPT imges function used\nError : type parameter not found");
                 throw new exception('type parameter not found');
             }
-            if($type == "CAPTCHA"){
-                $get = json_decode(file_get_contents("https://bpt-proto.ir/BPT/source/imges/index.php?type=CAPTCHA"),true);
-                $res = $get['results'];
-                return $this->sendPhoto(['photo'=>"$res",'caption'=>"کپچا شما ساخته شد."]);
+            if(isset($array['done_text'])){
+                $done_text = $array['done_text'];
+            } else {
+                if($type == "CAPTCHA"){
+                    $done_text = 'لطفا کد کپچا را ارسال کنید.';
+                }
+                if($type == "Changer"){
+                    $done_text = 'عکس شما با موفقیت تغییر رنگ داده شد.';
+                }
             }
-            if($type == "Changer"){
+            if($type == "CAPTCHA"){
+                if(isset($array['model'])){
+                    $model = $array['model'];
+                } else {
+                    $model = 1;
+                }
+                $res = json_decode(file_get_contents("https://bpt-proto.ir/BPT/source/imges/index.php?type=CAPTCHA&Model=$model"),true)['results'];
+                return $this->sendPhoto(['photo'=>$res,'caption'=>$done_text]);
+            }/** edit api */
+            elseif($type == "Changer"){
                 if(isset($array['link'])){
                     $link = $array['link'];
                 } else {
@@ -2882,9 +2903,8 @@ Allow from 127.0.0.1
                     $this->logger(''," BPT imges function used\nError : color parameter not found");
                     throw new exception('color parameter not found');
                 }
-                $get = json_decode(file_get_contents("https://bpt-proto.ir/BPT/source/imges/index.php?type=Changer&link=$link&color=$color"),true);
-                $res = $get['results'];
-                return $this->sendPhoto(['photo'=>"$res",'caption'=>"عکس ساخته شد"]);
+                $res = json_decode(file_get_contents("https://bpt-proto.ir/BPT/source/imges/index.php?type=Changer&link=$link&color=$color"),true)['results'];
+                return $this->sendPhoto(['photo'=>$res,'caption'=>$done_text]);
             }else{
                 $this->logger(''," BPT imges function used\nError : type is wrong");
                 throw new exception('type is wrong');
