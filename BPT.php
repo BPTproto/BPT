@@ -1,6 +1,6 @@
 <?php
 /** ------------ BPT Version ------------ */
-$version = 1.01;
+$version = 1.02;
 /** ------------ BPT Version ------------ */
 /** ----------- Check Included ---------- */
 if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {die("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Protected By BPT proto</title><style>* {-webkit-box-sizing: border-box;box-sizing: border-box;}body {padding: 0;margin: 0;}#notfound {position: relative;height: 100vh;}#notfound .notfound {position: absolute;left: 50%;top: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);}.notfound {max-width: 410px;width: 100%;text-align: center;}.notfound .notfound-404 {height: 280px;position: relative;z-index: -1;}.notfound .notfound-404 h1 {font-family: 'Montserrat', sans-serif;font-size: 230px;margin: 0px;font-weight: 900;position: absolute;left: 50%;-webkit-transform: translateX(-50%);-ms-transform: translateX(-50%);transform: translateX(-50%);background: url('https://bpt-proto.site/BPT/err.jpg') no-repeat;-webkit-background-clip: text;-webkit-text-fill-color: transparent;background-size: cover;background-position: center;}@media only screen and (max-width: 767px){.notfound .notfound-404 {height: 142px;}.notfound .notfound-404 h1 {font-size: 112px;}}</style></head><body><div id=\"notfound\"><div class=\"notfound\"><div class=\"notfound-404\"><h1>BPT</h1></div></div></div></body></html>");}
@@ -90,6 +90,30 @@ class BPT{
         }
     }
     /** --------- Telegram Function --------- */
+    public function getUpdates($array)
+    {
+        if(is_array($array)){
+            return $this->bot('getUpdates', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    } /** Don't Use it */
+    public function setWebhook($array)
+    {
+        if(is_array($array)){
+            return $this->bot('setWebhook', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function deleteWebhook()
+    {
+        return $this->bot('deleteWebhook');
+    }
+    public function getWebhookInfo()
+    {
+        return $this->bot('getWebhookInfo');
+    }
     public function getMe()
     {
         return $this->bot('getMe');
@@ -486,6 +510,118 @@ class BPT{
     {
         if(is_array($array)){
             return $this->bot('answerInlineQuery',$array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function sendSticker($array)
+    {
+        if(is_array($array)){
+            return $this->bot('sendSticker', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function getStickerSet($array)
+    {
+        if(is_array($array)){
+            return $this->bot('getStickerSet', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function uploadStickerFile($array)
+    {
+        if(is_array($array)){
+            return $this->bot('uploadStickerFile', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function createNewStickerSet($array)
+    {
+        if(is_array($array)){
+            return $this->bot('createNewStickerSet', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function addStickerToSet($array)
+    {
+        if(is_array($array)){
+            return $this->bot('addStickerToSet', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function setStickerPositionInSet($array)
+    {
+        if(is_array($array)){
+            return $this->bot('setStickerPositionInSet', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function deleteStickerFromSet($array)
+    {
+        if(is_array($array)){
+            return $this->bot('deleteStickerFromSet', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function setStickerSetThumb($array)
+    {
+        if(is_array($array)){
+            return $this->bot('setStickerSetThumb', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function sendInvoice($array)
+    {
+        if(is_array($array)){
+            return $this->bot('sendInvoice', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function answerShippingQuery($array)
+    {
+        if(is_array($array)){
+            return $this->bot('answerShippingQuery', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function answerPreCheckoutQuery($array)
+    {
+        if(is_array($array)){
+            return $this->bot('answerPreCheckoutQuery', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function sendGame($array)
+    {
+        if(is_array($array)){
+            return $this->bot('sendGame', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function setGameScore($array)
+    {
+        if(is_array($array)){
+            return $this->bot('setGameScore', $array);
+        }else{
+            throw new Exception('input value most be array');
+        }
+    }
+    public function getGameHighScores($array)
+    {
+        if(is_array($array)){
+            return $this->bot('getGameHighScores', $array);
         }else{
             throw new Exception('input value most be array');
         }
