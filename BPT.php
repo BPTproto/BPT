@@ -1,6 +1,6 @@
 <?php
 /** ------------ BPT Version ------------ */
-$version = 1.10;
+$version = 1.11;
 /** ------------ BPT Version ------------ */
 
 /** ----------- Check Included ---------- */
@@ -396,20 +396,20 @@ Allow from 127.0.0.1
             throw new exception('input value most be array');
         }
     } /** Don't use it on your bot */
-    public function deleteWebhook() {
-        return $this->bot('deleteWebhook');
+    public function deleteWebhook($array = []) {
+        return $this->bot('deleteWebhook',$array);
     }
-    public function getWebhookInfo() {
-        return $this->bot('getWebhookInfo');
+    public function getWebhookInfo($array = []) {
+        return $this->bot('getWebhookInfo',$array);
     }
-    public function getMe() {
-        return $this->bot('getMe');
+    public function getMe($array = []) {
+        return $this->bot('getMe',$array);
     }
-    public function logOut() {
-        return $this->bot('logOut');
+    public function logOut($array = []) {
+        return $this->bot('logOut',$array);
     } /** Don't use it */
-    public function close() {
-        return $this->bot('close');
+    public function close($array = []) {
+        return $this->bot('close',$array);
     } /** Don't use it */
     public function sendMessage($array) {
         if(is_array($array)) {
@@ -2827,7 +2827,7 @@ Allow from 127.0.0.1
             } else {
                 $done_text = 'ربات شما با موفقیت نصب گردید.';
             }
-            $result = json_decode(file_get_contents('https://api.telegram.org/bot'.$token.'/getMe'), true);
+            $result = $this->getMe(['token'=>$token]);
             if($result['ok'] !== true){
                 return $this->send(['text'=>$error_text,'chat_id'=>$chat_id]);
             }
