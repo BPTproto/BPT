@@ -1,6 +1,6 @@
 <?php
 /** ------------ BPT Version ------------ */
-$version = 1.07;
+$version = 1.08;
 /** ------------ BPT Version ------------ */
 
 /** ----------- Check Included ---------- */
@@ -45,7 +45,10 @@ class BPT {
     }
     public function start($settings = []) {
         $this->settings = $settings;
-        $logsize = isset($settings['log_size']) ? $settings['log_size'] : false;
+        if (!isset($settings['log_size'])){
+            $settings['log_size'] = false;
+        }
+        $logsize = $settings['log_size'];
         if($logsize !== false) {
             if(is_numeric($logsize)) {
                 $logsize = round($logsize, 0);
@@ -84,10 +87,27 @@ class BPT {
             $this->logger(''," settings parameter most be array");
             throw new exception('settings most be array');
         } else {
-            $security = isset($settings['security']) ? $settings['security'] : false;
-            $secure_folder = isset($settings['secure_folder']) ? $settings['secure_folder'] : false;
-            $multi = isset($settings['multi']) ? $settings['multi'] : false;
-            $split_update = isset($settings['updates']) ? $settings['updates'] : true;
+            if (!isset($settings['security'])){
+                $settings['security'] = false;
+            }
+            if (!isset($settings['secure_folder'])){
+                $settings['secure_folder'] = false;
+            }
+            if (!isset($settings['multi'])){
+                $settings['multi'] = false;
+            }
+            if (!isset($settings['split_update'])){
+                $settings['split_update'] = true;
+            }
+            if (!isset($settings['array_update'])){
+                $settings['array_update'] = true;
+            }
+            $security = $settings['security'];
+            $secure_folder = $settings['secure_folder'];
+            $multi = $settings['multi'];
+            $split_update = $settings['split_update'];
+            $array_update = $settings['array_update'];
+            $this->settings = $settings;
         }
         $this->logger(''," BPT STARTED\n");
         if($security == true) {
@@ -186,41 +206,76 @@ Allow from 127.0.0.1
             }
         }
         $this->logger(''," BPT telegram access granted\n");
-        $update = json_decode($updates, true);
+        if ($array_update){
+            $update = json_decode($updates, true);
+        }else{
+            $update = json_decode($updates);
+        }
         if(isset($update) && !is_null($update)) {
             $this->update = json_decode($updates);
             $this->logger(''," BPT update received\n");
             if ($split_update || !method_exists($this,'all')){
-                if (!method_exists($this,'all')){
+                if (!method_exists($this,'all') && !$split_update){
                     $this->logger(''," If you want use the library with out split update , you most define all method in your bot source\n");
                 }
-                if(isset($update['inline_query']) && method_exists($this,'inline_query')) {
-                    $this->logger(''," BPT update is inline_query\n");
-                    $inline_query = $update['inline_query'];
-                    $this->users($inline_query, 'inline');
-                    @$this->inline_query($inline_query);
-                }
-                elseif(isset($update['callback_query']) && method_exists($this,'callback_query')) {
-                    $this->logger(''," BPT update is callback_query\n");
-                    $callback_query = $update['callback_query'];
-                    $this->users($callback_query, 'callback');
-                    $this->callback_query($callback_query);
-                }
-                elseif(isset($update['message']) && method_exists($this,'message')) {
-                    $this->logger(''," BPT update is message\n");
-                    $message = $update['message'];
-                    $this->users($message, 'message');
-                    if($security === true) {
-                        $text = $message['text'];
-                        $message['text'] = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                if ($array_update){
+                    if(isset($update['inline_query']) && method_exists($this,'inline_query')) {
+                        $this->logger(''," BPT update is inline_query\n");
+                        $inline_query = $update['inline_query'];
+                        $this->users($inline_query, 'inline');
+                        $this->inline_query($inline_query);
                     }
-                    $this->message($message);
-                }
-                elseif(isset($update['edited_message']) && method_exists($this,'edited_message')) {
-                    $this->logger(''," BPT update is edited_message\n");
-                    $edited_message = $update['edited_message'];
-                    $this->users($edited_message, 'edit');
-                    $this->edited_message($edited_message);
+                    elseif(isset($update['callback_query']) && method_exists($this,'callback_query')) {
+                        $this->logger(''," BPT update is callback_query\n");
+                        $callback_query = $update['callback_query'];
+                        $this->users($callback_query, 'callback');
+                        $this->callback_query($callback_query);
+                    }
+                    elseif(isset($update['message']) && method_exists($this,'message')) {
+                        $this->logger(''," BPT update is message\n");
+                        $message = $update['message'];
+                        $this->users($message, 'message');
+                        if($security === true) {
+                            $text = $message['text'];
+                            $message['text'] = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                        }
+                        $this->message($message);
+                    }
+                    elseif(isset($update['edited_message']) && method_exists($this,'edited_message')) {
+                        $this->logger(''," BPT update is edited_message\n");
+                        $edited_message = $update['edited_message'];
+                        $this->users($edited_message, 'edit');
+                        $this->edited_message($edited_message);
+                    }
+                }else{
+                    if(isset($update->inline_query) && method_exists($this,'inline_query')) {
+                        $this->logger(''," BPT update is inline_query\n");
+                        $inline_query = $update->inline_query;
+                        $this->users($inline_query, 'inline');
+                        $this->inline_query($inline_query);
+                    }
+                    elseif(isset($update->callback_query) && method_exists($this,'callback_query')) {
+                        $this->logger(''," BPT update is callback_query\n");
+                        $callback_query = $update->callback_query;
+                        $this->users($callback_query, 'callback');
+                        $this->callback_query($callback_query);
+                    }
+                    elseif(isset($update->message) && method_exists($this,'message')) {
+                        $this->logger(''," BPT update is message\n");
+                        $message = $update->message;
+                        $this->users($message, 'message');
+                        if($security === true) {
+                            $text = $message->text;
+                            $message->text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                        }
+                        $this->message($message);
+                    }
+                    elseif(isset($update->edited_message) && method_exists($this,'edited_message')) {
+                        $this->logger(''," BPT update is edited_message\n");
+                        $edited_message = $update->edited_message;
+                        $this->users($edited_message, 'edit');
+                        $this->edited_message($edited_message);
+                    }
                 }
             }else{
                 $this->logger(''," BPT Split update is off\n");
@@ -274,9 +329,7 @@ Allow from 127.0.0.1
     public function sendMessage($array) {
         if(is_array($array)) {
             if(!isset($array['chat_id'])){
-
                 $array['chat_id'] = $this->catch_field('chat_id')==false?null:$this->catch_field('chat_id');
-                return $this->bot('sendMessage', $array);
             }
             return $this->bot('sendMessage', $array);
         } else {
@@ -298,8 +351,8 @@ Allow from 127.0.0.1
     }
     public function copyMessage($array) {
         if(is_array($array)) {
-            if(!isset($array['chat_id'])){
-                $array['chat_id'] = $this->catch_field('chat_id')==false?null:$this->catch_field('chat_id');
+            if(!isset($array['from_chat_id'])){
+                $array['from_chat_id'] = $this->catch_field('chat_id')==false?null:$this->catch_field('chat_id');
             }
             if(!isset($array['message_id'])){
                 $array['message_id'] = $this->catch_field('message_id')==false?null:$this->catch_field('message_id');
@@ -1119,29 +1172,159 @@ Allow from 127.0.0.1
             file_put_contents('BPT-DB.json', json_encode(['private' => [], 'group' => [], 'supergroup' => [], 'channel' => []]));
         }
         $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
-        if($a == 'message') {
-            $type = $update['chat']['type'];
-            $id = $update['from']['id'];
-            if(!isset($BPT_DB[$type][$id])) {
-                $BPT_DB[$type][$id] = [0, 0, 0];
+        if ($this->settings['array_update']){
+            if($a == 'message') {
+                $type = $update['chat']['type'];
+                $id = $update['chat']['id'];
+                if(!isset($BPT_DB[$type][$id])) {
+                    $BPT_DB[$type][$id] = [];
+                }
+                if ($type !== 'private'){
+                    $user_id = $update['from']['id'];
+                    if (isset($update['left_chat_member'])){
+                        $user_id = $update['left_chat_member']['id'];
+                        $BPT_DB[$type][$id]['users'][$user_id]['leaved'] = true;
+                    }
+                    elseif (isset($update['new_chat_members'])){
+                        $news = $update['new_chat_members'];
+                        foreach ($news as $user){
+                            $user_id = $user['id'];
+                            if (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                                $BPT_DB[$type][$id]['users'][$user_id] = [];
+                            }else{
+                                unset($BPT_DB[$type][$id]['users'][$user_id]['leaved']);
+                            }
+                        }
+                    }
+                    elseif (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                        $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    }
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time()-1609410000;
+                }
+                else{
+                    $BPT_DB[$type][$id]['last_active'] = time()-1609410000;
+                }
             }
-            $BPT_DB[$type][$id][0] += 1;
-        } elseif($a == 'inline') {
-            $id = $update['from']['id'];
-        } elseif($a == 'callback') {
-            $type = $update['message']['chat']['type'];
-            $id = $update['from']['id'];
-            if(!isset($BPT_DB[$type][$id])) {
-                $BPT_DB[$type][$id] = [0, 0, 0];
+            elseif($a == 'inline') {
+                $id = $update['from']['id'];
+                if(!isset($BPT_DB['private'][$id])) {
+                    $BPT_DB['private'][$id] = ['last_active'=>time()-1609410000];
+                }
+                else{
+                    $BPT_DB['private'][$id]['last_active'] = time()-1609410000;
+                }
             }
-            $BPT_DB[$type][$id][1] += 1;
-        } elseif($a == 'edit') {
-            $type = $update['chat']['type'];
-            $id = $update['from']['id'];
-            if(!isset($BPT_DB[$type][$id])) {
-                $BPT_DB[$type][$id] = [0, 0, 0];
+            elseif($a == 'callback') {
+                $type = $update['message']['chat']['type'];
+                $id = $update['message']['chat']['id'];
+                if(!isset($BPT_DB[$type][$id])) {
+                    $BPT_DB[$type][$id] = [];
+                }
+                if ($type !== 'private'){
+                    $user_id = $update['from']['id'];
+                    if (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                        $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    }
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time()-1609410000;
+                }
+                else{
+                    $BPT_DB[$type][$id]['last_active'] = time()-1609410000;
+                }
             }
-            $BPT_DB[$type][$id][2] += 1;
+            elseif($a == 'edit') {
+                $type = $update['chat']['type'];
+                $id = $update['chat']['id'];
+                if(!isset($BPT_DB[$type][$id])) {
+                    $BPT_DB[$type][$id] = [];
+                }
+                if ($type !== 'private'){
+                    $user_id = $update['from']['id'];
+                    if (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                        $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    }
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time()-1609410000;
+                }
+                else{
+                    $BPT_DB[$type][$id]['last_active'] = time()-1609410000;
+                }
+            }
+        }
+        else{
+            if($a == 'message') {
+                $type = $update->chat->type;
+                $id = $update->chat->id;
+                if(!isset($BPT_DB[$type][$id])) {
+                    $BPT_DB[$type][$id] = [0];
+                }
+                if ($type !== 'private'){
+                    $user_id = $update->from->id;
+                    if (isset($update->left_chat_member)){
+                        $user_id = $update->left_chat_member->id;
+                        $BPT_DB[$type][$id]['users'][$user_id]['leaved'] = true;
+                    }
+                    elseif (isset($update->new_chat_members)){
+                        $news = $update->new_chat_members;
+                        foreach ($news as $user){
+                            $user_id = $user->id;
+                            if (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                                $BPT_DB[$type][$id]['users'][$user_id] = [];
+                            }else{
+                                unset($BPT_DB[$type][$id]['users'][$user_id]['leaved']);
+                            }
+                        }
+                    }
+                    elseif (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                        $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    }
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time()-1609410000;
+                }
+                else{
+                    $BPT_DB[$type][$id]['last_active'] = time()-1609410000;
+                }
+            }
+            elseif($a == 'inline') {
+                $id = $update->from->id;
+                if(!isset($BPT_DB['private'][$id])) {
+                    $BPT_DB['private'][$id] = ['last_active'=>time()-1609410000];
+                }
+                else{
+                    $BPT_DB['private'][$id]['last_active'] = time()-1609410000;
+                }
+            }
+            elseif($a == 'callback') {
+                $type = $update->message->chat->type;
+                $id = $update->message->chat->id;
+                if(!isset($BPT_DB[$type][$id])) {
+                    $BPT_DB[$type][$id] = [];
+                }
+                if ($type !== 'private'){
+                    $user_id = $update->from->id;
+                    if (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                        $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    }
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time()-1609410000;
+                }
+                else{
+                    $BPT_DB[$type][$id]['last_active'] = time()-1609410000;
+                }
+            }
+            elseif($a == 'edit') {
+                $type = $update->chat->type;
+                $id = $update->chat->id;
+                if(!isset($BPT_DB[$type][$id])) {
+                    $BPT_DB[$type][$id] = [];
+                }
+                if ($type !== 'private'){
+                    $user_id = $update->from->id;
+                    if (!isset($BPT_DB[$type][$id]['users'][$user_id])){
+                        $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    }
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time()-1609410000;
+                }
+                else{
+                    $BPT_DB[$type][$id]['last_active'] = time()-1609410000;
+                }
+            }
         }
         file_put_contents('BPT-DB.json', json_encode($BPT_DB));
     }
@@ -1276,6 +1459,23 @@ Allow from 127.0.0.1
                 return false;
             }
         }
+        elseif ($field == 'type'){
+            if (isset($this->update->message)){
+                return $this->update->message->chat->type;
+            }
+            elseif (isset($this->update->edited_message)){
+                return $this->update->edited_message->chat->type;
+            }
+            elseif (isset($this->update->inline_query)){
+                return 'private';
+            }
+            elseif (isset($this->update->callback_query)){
+                return 'private';
+            }
+            else{
+                return false;
+            }
+        }
     }
     public function jsonSave($array) {
         if($this->start === true) {
@@ -1375,7 +1575,7 @@ Allow from 127.0.0.1
             if(is_array($array)) {
                 if(isset($array['key'])) {
                     if(is_string($array['key'])){
-                        $key = $array['key'];
+                        $key = $array['key']=='users'?'ussers':$array['key'];
                     }else{
                         $this->logger(''," BPT dataSave function used\nError : key most be string");
                         throw new exception('key most be string');
@@ -1390,20 +1590,24 @@ Allow from 127.0.0.1
                     $this->logger(''," BPT dataSave function used\nError : value parameter not found");
                     throw new exception('value parameter not found');
                 }
-                if(isset($array['id'])) {
-                    $id = $array['id'];
-                } else {
-                    $this->logger(''," BPT dataSave function used\nError : id parameter not found");
-                    throw new exception('id parameter not found');
-                }
                 if(isset($array['type'])) {
                     $type = $array['type'];
                     if($type!=='private'||$type!=='group'||$type!=='supergroup'||$type!=='channel'){
-                        $type = 'private';
+                        $type = $this->catch_field('type');
                     }
                 } else {
-                    $type = 'private';
+                    $type = $this->catch_field('type');
                 }
+                if(isset($array['id'])) {
+                    $id = $array['id'];
+                } else {
+                    if ($type == 'private'){
+                        $id = $this->catch_field('user_id');
+                    }else{
+                        $id = $this->catch_field('chat_id');
+                    }
+                }
+
                 $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
                 if(isset($BPT_DB[$type][$id])){
                     $BPT_DB[$type][$id][$key] = $value;
@@ -1436,19 +1640,22 @@ Allow from 127.0.0.1
                     $this->logger(''," BPT dataGet function used\nError : key parameter not found");
                     throw new exception('key parameter not found');
                 }
-                if(isset($array['id'])) {
-                    $id = $array['id'];
-                } else {
-                    $this->logger(''," BPT dataGet function used\nError : id parameter not found");
-                    throw new exception('id parameter not found');
-                }
                 if(isset($array['type'])) {
                     $type = $array['type'];
                     if($type!=='private'||$type!=='group'||$type!=='supergroup'||$type!=='channel'){
-                        $type = 'private';
+                        $type = $this->catch_field('type');
                     }
                 } else {
-                    $type = 'private';
+                    $type = $this->catch_field('type');
+                }
+                if(isset($array['id'])) {
+                    $id = $array['id'];
+                } else {
+                    if ($type == 'private'){
+                        $id = $this->catch_field('user_id');
+                    }else{
+                        $id = $this->catch_field('chat_id');
+                    }
                 }
                 $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
                 if(isset($BPT_DB[$type][$id])){
@@ -1485,19 +1692,22 @@ Allow from 127.0.0.1
                     $this->logger(''," BPT dataDel function used\nError : key parameter not found");
                     throw new exception('key parameter not found');
                 }
-                if(isset($array['id'])) {
-                    $id = $array['id'];
-                } else {
-                    $this->logger(''," BPT dataDel function used\nError : id parameter not found");
-                    throw new exception('id parameter not found');
-                }
                 if(isset($array['type'])) {
                     $type = $array['type'];
                     if($type!=='private'||$type!=='group'||$type!=='supergroup'||$type!=='channel'){
-                        $type = 'private';
+                        $type = $this->catch_field('type');
                     }
                 } else {
-                    $type = 'private';
+                    $type = $this->catch_field('type');
+                }
+                if(isset($array['id'])) {
+                    $id = $array['id'];
+                } else {
+                    if ($type == 'private'){
+                        $id = $this->catch_field('user_id');
+                    }else{
+                        $id = $this->catch_field('chat_id');
+                    }
                 }
                 $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
                 if(isset($BPT_DB[$type][$id])){
@@ -1708,10 +1918,7 @@ Allow from 127.0.0.1
                 $this->logger(''," BPT statsHere function used\n");
                 $BPT_DB = json_decode(file_get_contents('BPT-DB.json'), true);
                 if(isset($BPT_DB[$type][$chatid])) {
-                    $callback = $BPT_DB[$type][$chatid][1];
-                    $message = $BPT_DB[$type][$chatid][0];
-                    $edit = $BPT_DB[$type][$chatid][2];
-                    return ['callback_query' => $callback, 'message' => $message, 'edited_message' => $edit];
+                    return $BPT_DB[$type][$chatid];
                 } else {
                     return false;
                 }
@@ -2070,11 +2277,96 @@ Allow from 127.0.0.1
                             throw new exception('You must insert array parameter!');
                         }
                         break;
+                    case 'uupload':
+                        if($option !== null) {
+                            if(is_array($option)) {
+                                if(isset($option['url'])) {
+                                    $url = urlencode($option['url']);
+                                    return json_decode(file_get_contents('https://poty.fun/apis/uupload.php?link='.$url), true)['results'];
+                                } else {
+                                    throw new exception('uupload api need url field!');
+                                }
+                            } else {
+                                throw new exception('array parameter must be array!');
+                            }
+                        } else {
+                            throw new exception('You must insert array parameter!');
+                        }
+                        break;
+                    case 'screenshot':
+                        if($option !== null) {
+                            if(is_array($option)) {
+                                if(isset($option['url'])) {
+                                    $url = urlencode($option['url']);
+                                    $res1 = file_get_contents('https://poty.fun/apis/screenshot3.php?url='.$url);
+                                    if (strpos($res1,'cannot be displayed because it contains errors.') != false){
+                                        return 'https://poty.fun/apis/screenshot3.php?url='.$url;
+                                    }else{
+                                        $res1 = file_get_contents('https://poty.fun/apis/screenshot2.php?url='.$url);
+                                        if (strpos($res1,'cannot be displayed because it contains errors.') != false){
+                                            return 'https://poty.fun/apis/screenshot2.php?url='.$url;
+                                        }else{
+                                            $res1 = file_get_contents('https://poty.fun/apis/screenshot.php?type=fullscreen&url='.$url);
+                                            if (strpos($res1,'cannot be displayed because it contains errors.') != false){
+                                                return 'https://poty.fun/apis/screenshot.php?type=fullscreen&url='.$url;
+                                            }else{
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    throw new exception('screenshot api need url field!');
+                                }
+                            } else {
+                                throw new exception('array parameter must be array!');
+                            }
+                        } else {
+                            throw new exception('You must insert array parameter!');
+                        }
+                        break;
+                    case 'short':
+                        if($option !== null) {
+                            if(is_array($option)) {
+                                if(isset($option['url'])) {
+                                    $url = urlencode($option['url']);
+                                    if (strpos($url,'http')===0){
+                                        return json_decode(file_get_contents('https://ix9.ir/?domain=auto&url=google.com'.$url), true)['results'];
+                                    }else{
+                                        return json_decode(file_get_contents('https://ix9.ir/?domain=auto&url=http%3A%2F%2Fgoogle.com'.$url), true)['results'];
+                                    }
+                                } else {
+                                    throw new exception('short api need url field!');
+                                }
+                            } else {
+                                throw new exception('array parameter must be array!');
+                            }
+                        } else {
+                            throw new exception('You must insert array parameter!');
+                        }
+                        break;
+                    case 'corona':
+                        return json_decode(file_get_contents('https://poty.fun/apis/corona.php'), true)['results'];
+                        break;
+                    case 'alexa':
+                        if($option !== null) {
+                            if(is_array($option)) {
+                                if(isset($option['url'])) {
+                                    $url = urlencode($option['url']);
+                                    return json_decode(file_get_contents('https://poty.fun/apis/alexa.php?url='.$url), true)['results'];
+                                } else {
+                                    throw new exception('alexa api need url field!');
+                                }
+                            } else {
+                                throw new exception('array parameter must be array!');
+                            }
+                        } else {
+                            throw new exception('You must insert array parameter!');
+                        }
+                        break;
                     case 'num2text':
                         if($option !== null) {
                             if(is_array($option)) {
                                 if(isset($option['num'])) {
-                                    //۰۱۲۳۴۵۶۷۸۹
                                     $option['num'] = str_replace(['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], $option['num']);
                                     $url = urlencode($option['num']);
                                     return json_decode(file_get_contents("https://poty.fun/apis/num.php?num=$url"), true)['results'];
