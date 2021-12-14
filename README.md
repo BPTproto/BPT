@@ -1,170 +1,82 @@
-# BPT Proto Library
-<img src="https://bpt-proto.ir/asset/img/Bpt.jpg" width="1000px"></img>
-<img src="https://img.shields.io/badge/Version-1.12-blue?style=for-the-badge&logo=V"> <img src="https://img.shields.io/badge/php-+7-green?style=for-the-badge&logo=php"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey">
+<img src="https://img.shields.io/badge/Version-2.00-blue?style=for-the-badge&logo=V"> <img src="https://img.shields.io/badge/php-+7-green?style=for-the-badge&logo=php"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey">
 
 ## Table of Contents
 - [Introduction](#Introduction) 
 - [Getting started](#Getting-started)
-- [BPT Settings](#Setting)
-- [Source Sample](#Examples)
-- [Download Section](#Download-Section)
+- [Faq](#Faq)
+- [Contact ways](#Contact-ways)
+- [Download Section](#Download)
 
----------------
 ## Introduction
-**What is the BPT Library? <br>
-A library for easier use and better coding in source codes**
+**What is the BPT Library?** <br>
+A simple library created by php language to make and manage telegram bot easier
 
-**What is BPT? <br>
-This word for `Bot Php Tools` in Persian means php bot tool.**
+**What is BPT?** <br>
+This word stand for `Bot Php Tools` , meaning tools for bot in php
 
-**How do I use it? <br>
-This library is a free resource and you can easily use it by reading the documentation.**
+**Do I need to pay for this?** <br>
+No at all , this is a free and open source library
 
-**Developers? <br>
-This library has been designed by (Alireza Ghafoorshid, Miad Sadeghlou) and is available for free to your loved ones.**
+**How do I use it?** <br>
+There is several ways to use it , you will see them in the next
 
-----------
+**What we need to know before using your library?** <br>
+Know basic knowledge about PHP language <br>
+Know basic knowledge about Telegram API
+
+**Developers?** <br>
+This library created by [Miaad Sadeghloo](https://github.com/miaadp) and [Alireza Ghafoorashid](https://github.com/Alireza-ME)
+
 ## Getting started
-- **Go to `@BotFather` and create a bot**
-- **After create bot copy your `API_KEY`**
-- **Then download the version of Bese**
-- **Open the version of bese**
-- **Go to Line 2 and input token on `YOUR-TOKEN`**
-```php
-$token = 'YOUR-TOKEN'; //Write Your Token here!!
-```
-**Great, now apply the library settings**<br>
-**All settings of `BPT_handler`**
-- **[You Can See Setting parameters Click Here](#Setting)**
-
-**We'll set the settings now**
-```php
-$BPT = new BPT_handler([
-'token'=>$token,
-'security'=>true,
-'secure_folder'=>true,
-'multi'=>false,
-'db'=>[
-'type'=>'json',
-'file_name'=>'BPT-DB.json'
-]
-]);
-```
-**Now everything is great and set by default**
+- First of all , you will need a telegram bot token.
+- Go to `@BotFather` and create a bot and copy it's token
+- Now you must download our [Base](#Download)
+- In the base file , see line 2 , place your token in there `YOUR-TOKEN`
+- For default , everythings are done now! Upload your source in webservers
+- Open your source in browser so your webhook will be setted automatically
 <br>
-#### Now we're going to have the bot respond to an Command.
-**To do this, we need `text` and `chat_id`**
-**To get these two, we use the The following code**
-```php
-$chat_id = $update['chat']['id'];
-$text = $update['text'];
-```
-**Now we say if the user's message is equal to `/start` send him a message**
-```php
-  if($text == '/start'){    
-  //Sample SendMessage
-  $this->sendMessage(['text'=>'Hi Welcome!']);   
-   }    
-```
-**Our final code is as follows**
-```php
-<?php
-$token= 'YOUR-TOKEN'; //Write Your Token here!!
-if(!file_exists('BPT.php')){
-    copy('https://BPT-Proto.ir/BPT/BPT.php','BPT.php');
-}
-include 'BPT.php';
-class BPT_handler extends BPT{
-    public function __construct($token_bot){
-        parent::__construct($token_bot);
-    }
-    public function inline_query($update){
-        return;
-    }
-    public function callback_query($update){
-        return;
-    }
-    public function message($update){
-    $chat_id = $update['chat']['id'];
-    $text = $update['text'];
-     if($text == '/start'){    
-    //Sample SendMessage   
-    $this->sendMessage(['text'=>'Hi Welcome!']);   
-      }    
-       return;
-    }
-    public function edited_message($update){
-        return;
-    }
-    public function something_else($update){
-        return;
-    }
-}
-$BPT = new BPT_handler([
-'token'=>$token,
-'security'=>true,
-'secure_folder'=>true,
-'multi'=>false,
-'db'=>[
-'type'=>'json',
-'file_name'=>'BPT-DB.json'
-]
-]);
-```
-**All you can now run the source and enjoy**
- - [Need more samples? Click Here](#Examples).<br>
+**Done**
 
-----------
-## Setting
-Index | Type | Description
------ | ---- | -----------
-__token__ | string | Your API_KEY
-__security__ | boolean | Source Security
-_secure_folder_ | boolean | security folder Provides security for the source and related Folders 
-__multi__ | boolean | Adds parallel processing to source
-__db__ | array | The library has two databases. Click on the name to see the parameters of each<br>db : [Json](#json)<br>db : [sql](#sql)
+## Faq
 
-----------
-#### json database
-Index | Type | Description
------ | ---- | -----------
-__type__ | string | Database type must be json
-__filename__ | string | Tom a file created by the library and the data inside it
+**I found some bug in your library , how can i report it?** <br>
+- You can create an issues in github page
+- You can contact us by our contacts way
+- We have a group in telegram , so you can say it to us there
 
-Example : 
-```php
-'db'=>[
-'type'=>'json',
-'file_name'=>'BPT-DB.json'
-]
-```
+**I need more information about your library style , where can i found it?** <br>
+You should check our documantation, Also you can check our examples in Example folder on github or [here](https://dl.bptlib.ir/examples)
 
-----------
-#### sql database
-Index | Type | Description
------ | ---- | -----------
-__type__ | string | Database type must be sql
-__user__ | string | Database username
-__pass__ | string | Database password 
-__name__ | string | Database name
+**Can we trust your library?** <br>
+You can check our code! Then check if you can trust it or not :)
 
-Example : 
-```php
-'db'=>[
-'type'=>'sql',
-'user'=> '',
-'pass'=> '',
-'name'=> '' 
-]
-```
+**All of the APIs in the library are free and permanent?** <br>
+All of our APIs in the library are free. Nothing in the world is permanent but we are tring to keep it online
 
-----------
-## Examples
-- **Basic version of sql database based on BPT** : [See Source](https://bpt-proto.ir)
+**Can we send our ideas and APIs to you for adding to library?** <br>
+Yes, Of coure. Just contact us.
 
-----------
-## Download Section
-- [You can see full document  here](https://bpt-proto.ir).<br>
-- [You can download latest version of BPT here](https://bpt-proto.ir/BPT/BPT.php).<br>
-- [You can download latest version of BPT base here](https://bpt-proto.ir/BPT/base.php).<br>
-- [You can see all of BPT vesrion here](https://dl.bpt-proto.ir/BPT).
+**If your question isn't here , feel free to ask** <br>
+
+## Cotanct ways
+- Our site : [https://bptlib.ir](https://bptlib.ir)
+- Our github : [https://github.com/BPTproto/BPT](https://github.com/BPTproto/BPT)
+- Our email : support@bptlib.ir
+- Our telegram support : [https://t.me/BPT_Support](https://t.me/BPT_Support)
+<br><br>
+**Miaad contact ways :**
+<br><br>
+- Email : me@miaadp.ir
+- Gmail : miaadps@gmail.com
+- Telegram : @Im_Miaad
+<br><br>
+**Alireza contact ways :**
+<br><br>
+- Email : alireza@bptlib.ir
+- Telegram : @A_LiReza_ME
+
+## Download
+- [You can see full document  here](https://bptlib.ir/doc).<br>
+- [You can download latest version of BPT here](https://bptlib.ir/BPT/BPT.php).<br>
+- [You can download latest version of BPT base here](https://bptlib.ir/BPT/base.php).<br>
+- [You can see all of BPT vesrion here](https://dl.bptlib.ir/BPT).
