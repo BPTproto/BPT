@@ -1,12 +1,12 @@
 <img src="https://img.shields.io/badge/Version-2.00-blue?style=for-the-badge&logo=V"> <img src="https://img.shields.io/badge/php-+7-green?style=for-the-badge&logo=php"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey">
 
 ## Table of Contents
-- [Introduction](#Introduction) 
-- [Getting started](#Getting-started)
-- [Faq](#Faq)
-- [Contact ways](#Contact-ways)
-- [advantage](#Whats-the-advantage)
-- [Links Section](#Links)
+- [Introduction](#introduction) 
+- [Getting started](#getting-started)
+- [Faq](#faq)
+- [Contact ways](#cotanct-ways)
+- [advantage](#whats-the-advantage)
+- [Links Section](#links)
 
 ## Introduction
 **What is the BPT Library?** <br>
@@ -31,7 +31,7 @@ This library created by [Miaad Sadeghloo](https://github.com/miaadp) and [Alirez
 ## Getting started
 - First of all , you will need a telegram bot token.
 - Go to `@BotFather` and create a bot and copy it's token
-- Now you must download our [Base](#Links)
+- Now you must download our [Base](#links)
 - In the base file , see line 2 , place your token in there `YOUR-TOKEN`
 - For default , everythings are done now! Upload your source in webservers
 - Open your source in browser so your webhook will be setted automatically
