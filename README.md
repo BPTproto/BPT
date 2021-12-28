@@ -5,7 +5,8 @@
 - [Getting started](#Getting-started)
 - [Faq](#Faq)
 - [Contact ways](#Contact-ways)
-- [Download Section](#Download)
+- [advantage](#Whats-the-advantage)
+- [Links Section](#Links)
 
 ## Introduction
 **What is the BPT Library?** <br>
@@ -30,7 +31,7 @@ This library created by [Miaad Sadeghloo](https://github.com/miaadp) and [Alirez
 ## Getting started
 - First of all , you will need a telegram bot token.
 - Go to `@BotFather` and create a bot and copy it's token
-- Now you must download our [Base](#Download)
+- Now you must download our [Base](#Links)
 - In the base file , see line 2 , place your token in there `YOUR-TOKEN`
 - For default , everythings are done now! Upload your source in webservers
 - Open your source in browser so your webhook will be setted automatically
@@ -58,6 +59,22 @@ Yes, Of coure. Just contact us.
 
 **If your question isn't here , feel free to ask** <br>
 
+## Whats the advantage
+- Support for all Telegram methods (API version: 5.5)
+- Many alices for telegram methods (simple syntax)
+- Set many parameters by default for telegram methods (chat_id in sendMessage, etc.)
+- You can call the telegram methods as you wish (sendMessage, send_message, sendMESSAGE, ...)
+- You can set ip checker with just one change in settings (Telegram and cloudflare support).
+- Settings to increase the security of your robot
+- Support for Webhook and GetUpdate to receive updates
+- Use web hook even on sites without ssl
+- A beautiful and simple handler for updating
+- There is a special setting for multiple processing that uses 2 different methods depending on your service settings
+- There are many methods to make things easier
+- Lots of APIs to make things easier
+- Default support for MySQL database and of course JSON
+- Lots of settings for everything
+
 ## Cotanct ways
 - Our site : [https://bptlib.ir](https://bptlib.ir)
 - Our github : [https://github.com/BPTproto/BPT](https://github.com/BPTproto/BPT)
@@ -72,11 +89,11 @@ Yes, Of coure. Just contact us.
 <br><br>
 **Alireza contact ways :**
 <br><br>
-- Email : alireza@bptlib.ir
+- Email : alighafurgh82@gmail.com
 - Telegram : @A_LiReza_ME
 
-## Download
+## Links
 - [You can see full document  here](https://bptlib.ir/doc).<br>
-- [You can download latest version of BPT here](https://bptlib.ir/BPT/BPT.php).<br>
-- [You can download latest version of BPT base here](https://bptlib.ir/BPT/base.php).<br>
+- [You can download latest version of BPT here](https://dl.bptlib.ir/BPT.php).<br>
+- [You can download latest version of BPT base here](https://dl.bptlib.ir/base.php).<br>
 - [You can see all of BPT vesrion here](https://dl.bptlib.ir/BPT).
