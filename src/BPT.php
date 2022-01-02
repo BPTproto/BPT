@@ -13,23 +13,23 @@ if(PHP_MAJOR_VERSION === 5){
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 5.5
+ * BOT API version : 5.6
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
  * @method updates($array = [])
- * @method setWebhook($array)
- * @method setWeb($array)
- * @method webhook($array)
- * @method deleteWebhook($array=[])
- * @method deleteWeb($array=[])
- * @method delWeb($array=[])
- * @method getWebhookInfo($array=[])
- * @method getWeb($array=[])
- * @method getMe($array=[])
- * @method me($array=[])
- * @method logOut($array=[])
- * @method close($array=[])
+ * @method setWebhook($array = [])
+ * @method setWeb($array = [])
+ * @method webhook($array = [])
+ * @method deleteWebhook($array = [])
+ * @method deleteWeb($array = [])
+ * @method delWeb($array = [])
+ * @method getWebhookInfo($array = [])
+ * @method getWeb($array = [])
+ * @method getMe($array = [])
+ * @method me($array = [])
+ * @method logOut($array = [])
+ * @method close($array = [])
  * @method sendMessage($array)
  * @method send($array)
  * @method forwardMessage($array)
@@ -71,21 +71,21 @@ if(PHP_MAJOR_VERSION === 5){
  * @method contact($array)
  * @method sendPoll($array)
  * @method poll($array)
- * @method sendDice($array=[])
- * @method dice($array=[])
- * @method sendChatAction($array=[])
- * @method chatAction($array=[])
- * @method action($array=[])
- * @method getUserProfilePhotos($array=[])
- * @method userPhotos($array=[])
- * @method getFile($array=[])
- * @method file($array=[])
- * @method banChatMember($array=[])
- * @method ban($array=[])
- * @method kickChatMember($array=[]) DEPRECATED! use banChatMember instead
- * @method unbanChatMember($array=[])
- * @method unban($array=[])
- * @method kick($array=[]) This is not alice with kickChatMember , will use unban method to kick user
+ * @method sendDice($array = [])
+ * @method dice($array = [])
+ * @method sendChatAction($array = [])
+ * @method chatAction($array = [])
+ * @method action($array = [])
+ * @method getUserProfilePhotos($array = [])
+ * @method userPhotos($array = [])
+ * @method getFile($array = [])
+ * @method file($array = [])
+ * @method banChatMember($array = [])
+ * @method ban($array = [])
+ * @method kickChatMember($array = []) DEPRECATED! use banChatMember instead
+ * @method unbanChatMember($array = [])
+ * @method unban($array = [])
+ * @method kick($array = []) This is not alice with kickChatMember , will use unban method to kick user
  * @method restrictChatMember($array)
  * @method restrict($array)
  * @method promoteChatMember($array)
@@ -98,53 +98,53 @@ if(PHP_MAJOR_VERSION === 5){
  * @method customTitle($array)
  * @method setChatPermissions($array)
  * @method permissions($array)
- * @method exportChatInviteLink($array=[])
- * @method link($array=[])
- * @method createChatInviteLink($array=[])
- * @method crLink($array=[])
- * @method editChatInviteLink($array=[])
- * @method edLink($array=[])
- * @method revokeChatInviteLink($array=[])
- * @method reLink($array=[])
- * @method approveChatJoinRequest($array=[])
- * @method acceptJoin($array=[])
- * @method declineChatJoinRequest($array=[])
- * @method denyJoin($array=[])
+ * @method exportChatInviteLink($array = [])
+ * @method link($array = [])
+ * @method createChatInviteLink($array = [])
+ * @method crLink($array = [])
+ * @method editChatInviteLink($array = [])
+ * @method edLink($array = [])
+ * @method revokeChatInviteLink($array = [])
+ * @method reLink($array = [])
+ * @method approveChatJoinRequest($array = [])
+ * @method acceptJoin($array = [])
+ * @method declineChatJoinRequest($array = [])
+ * @method denyJoin($array = [])
  * @method setChatPhoto($array)
- * @method deleteChatPhoto($array=[])
+ * @method deleteChatPhoto($array = [])
  * @method setChatTitle($array)
  * @method title($array)
  * @method setChatDescription($array)
  * @method description($array)
  * @method pinChatMessage($array)
  * @method pin($array)
- * @method unpinChatMessage($array=[])
- * @method unpin($array=[])
- * @method unpinAllChatMessages($array=[])
- * @method unpinall($array=[])
- * @method leaveChat($array=[])
- * @method leave($array=[])
- * @method getChat($array=[])
- * @method chat($array=[])
- * @method getChatAdministrators($array=[])
- * @method admins($array=[])
- * @method getChatMemberCount($array=[]) DEPRECATED! Use getChatMembersCount instead
- * @method getChatMembersCount($array=[])
- * @method membersCount($array=[])
- * @method getChatMember($array=[])
- * @method member($array=[])
+ * @method unpinChatMessage($array = [])
+ * @method unpin($array = [])
+ * @method unpinAllChatMessages($array = [])
+ * @method unpinall($array = [])
+ * @method leaveChat($array = [])
+ * @method leave($array = [])
+ * @method getChat($array = [])
+ * @method chat($array = [])
+ * @method getChatAdministrators($array = [])
+ * @method admins($array = [])
+ * @method getChatMemberCount($array = []) DEPRECATED! Use getChatMembersCount instead
+ * @method getChatMembersCount($array = [])
+ * @method membersCount($array = [])
+ * @method getChatMember($array = [])
+ * @method member($array = [])
  * @method setChatStickerSet($array)
  * @method setSticker($array)
  * @method deleteChatStickerSet($array)
  * @method delSticker($array)
- * @method answerCallbackQuery($array=[])
- * @method answer($array=[])
+ * @method answerCallbackQuery($array = [])
+ * @method answer($array = [])
  * @method setMyCommands($array)
- * @method setcommands($array)
- * @method deleteMyCommands($array=[])
- * @method deletecommands($array=[])
- * @method getMyCommands($array=[])
- * @method getcommands($array=[])
+ * @method setCommands($array)
+ * @method deleteMyCommands($array = [])
+ * @method deleteCommands($array = [])
+ * @method getMyCommands($array = [])
+ * @method getCommands($array = [])
  * @method editMessageText($array)
  * @method editText($array)
  * @method editMessageCaption($array)
@@ -152,50 +152,50 @@ if(PHP_MAJOR_VERSION === 5){
  * @method editCaption($array)
  * @method editMessageMedia($array)
  * @method editMedia($array)
- * @method editMessageReplyMarkup ($array=[])
- * @method editReply($array=[])
- * @method editKeyboard($array=[])
+ * @method editMessageReplyMarkup ($array = [])
+ * @method editReply($array = [])
+ * @method editKeyboard($array = [])
  * @method stopPoll($array)
- * @method deleteMessage($array=[])
- * @method del($array=[])
+ * @method deleteMessage($array = [])
+ * @method del($array = [])
  * @method sendSticker($array)
  * @method sticker($array)
  * @method getStickerSet($array)
  * @method uploadStickerFile($array)
- * @method uploadsticker($array)
+ * @method uploadSticker($array)
  * @method createNewStickerSet($array)
- * @method createsticker($array)
+ * @method createSticker($array)
  * @method addStickerToSet($array)
- * @method addsticker($array)
+ * @method addSticker($array)
  * @method setStickerPositionInSet($array)
- * @method setstickerposition($array)
- * @method setstickerpos($array)
+ * @method setStickerPosition($array)
+ * @method setStickerPos($array)
  * @method deleteStickerFromSet($array)
- * @method deletesticker($array)
+ * @method deleteSticker($array)
  * @method setStickerSetThumb($array)
- * @method setstickerthumb($array)
- * @method answerInlineQuery($array=[])
- * @method answerinline($array=[])
+ * @method setStickerThumb($array)
+ * @method answerInlineQuery($array = [])
+ * @method answerInline($array = [])
  * @method sendInvoice($array)
  * @method invoice($array)
  * @method answerShippingQuery($array)
- * @method answershipping($array)
+ * @method answerShipping($array)
  * @method answerPreCheckoutQuery($array)
- * @method answerprecheckout($array)
- * @method answerprecheck($array)
+ * @method answerPreCheckout($array)
+ * @method answerPreCheck($array)
  * @method setPassportDataErrors($array)
- * @method setpassport($array)
+ * @method setPassport($array)
  * @method sendGame($array)
  * @method game($array)
  * @method setGameScore($array)
- * @method gamescore($array)
- * @method getGameHighScores($array=[])
- * @method getgamehigh($array=[])
+ * @method gameScore($array)
+ * @method getGameHighScores($array = [])
+ * @method getGameHigh($array = [])
  *
  * @link https://bpt-proto.ir
  */
 class BPT {
-    private $version = 2.00;
+    private $version = 2.01;
 
     private $bot_id;
 
@@ -210,6 +210,8 @@ class BPT {
 
     public $db;
 
+    private $curl_handler = null;
+
     private $web_answered = false;
 
     public function __construct (array $settings) {
@@ -221,7 +223,7 @@ class BPT {
                 $settings['max_connection'] = $settings['max_connection'] ?? 40;
                 $settings['certificate'] = $settings['certificate'] ?? null;
                 $settings['base_url'] = $settings['base_url'] ?? 'https://api.telegram.org/bot';
-                $settings['down_url'] = $settings['down_url'] ?? 'https://api.telegram.org/file/bot';///////////////////////////////////////////////////////////////
+                $settings['down_url'] = $settings['down_url'] ?? 'https://api.telegram.org/file/bot';
                 $settings['forgot_time'] = isset($settings['forgot_time']) && is_numeric($settings['forgot_time']) ? $settings['forgot_time'] : 100;
                 $settings['receive'] = $settings['receive'] ?? 'webhook';
                 $settings['handler'] = $settings['handler'] ?? true;
@@ -269,9 +271,6 @@ class BPT {
                             $this->logger('', "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nChannel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n");
                         }
                     }
-                }
-                if ($this->settings['auto_update']) {
-                    $this->bptUpdate();
                 }
                 if (!$settings['debug']) {
                     if ($settings['security']) {
@@ -377,6 +376,9 @@ CREATE TABLE IF NOT EXISTS `users` (
                         throw new exception('wrong db type');
                     }
                 }
+                if ($this->settings['auto_update']) {
+                    $this->bptUpdate();
+                }
                 if($settings['receive'] === 'webhook'){
                     if ($settings['multi']) {
                         if (!file_exists('BPT-M.look')) {
@@ -387,8 +389,9 @@ CREATE TABLE IF NOT EXISTS `users` (
                                 if (file_exists('getUpdate.lock')) {
                                     unlink('getUpdate.lock');
                                 }
-                                if (empty(!$settings['certificate'])) {
+                                if (empty($settings['certificate'])) {
                                     $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                                    $settings['certificate'] = null;
                                 }
                                 else {
                                     $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
@@ -425,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                                     }
                                     $timeout = round(array_sum($times) / count($times));
                                     $timeout = $timeout > 50 ? $timeout + 10 : 50;
-                                    file_put_contents('receiver.php', '<?php http_response_code(200);ignore_user_abort();$ch = curl_init(\'' . $url . '\');curl_setopt_array($ch, [CURLOPT_POSTFIELDS => json_encode([\'update\'=>file_get_contents(\'php://input\'),\'ip\'=>$_SERVER[\'REMOTE_ADDR\']]);, CURLOPT_TIMEOUT_MS => ' . $timeout . ', CURLOPT_RETURNTRANSFER => true, CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSL_VERIFYHOST => false, CURLOPT_CONNECTTIMEOUT_MS => ' . $timeout . ', CURLOPT_HTTPHEADER => [\'accept: application/json\', \'content-type: application/json\']]);curl_exec($ch);curl_close($ch);?>');
+                                    file_put_contents('receiver.php', '<?php http_response_code(200);ignore_user_abort();$ch = curl_init(\'' . $url . '\');curl_setopt_array($ch, [CURLOPT_POSTFIELDS => json_encode([\'update\'=>file_get_contents(\'php://input\'),\'ip\'=>$_SERVER[\'REMOTE_ADDR\']]), CURLOPT_TIMEOUT_MS => ' . $timeout . ', CURLOPT_RETURNTRANSFER => true, CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSL_VERIFYHOST => false, CURLOPT_CONNECTTIMEOUT_MS => ' . $timeout . ', CURLOPT_HTTPHEADER => [\'accept: application/json\', \'content-type: application/json\']]);curl_exec($ch);curl_close($ch);?>');
                                     $res = $this->setWebhook(['url' => $url2, 'allowed_updates' => json_encode($settings['allowed_updates']), 'max_connections' => $settings['max_connection'], 'certificate' => $settings['certificate']]);
                                     if ($res['ok'] === true) {
                                         $this->logger('info', 'webhook was set successfully');
@@ -525,12 +528,13 @@ CREATE TABLE IF NOT EXISTS `users` (
                                 $callback_query = method_exists($this, 'callback_query');
                                 $edited_message = method_exists($this, 'edited_message');
                                 $something_else = method_exists($this, 'something_else');
+                                $all = method_exists($this, 'all');
                             }
                             else {
                                 $all = method_exists($this, 'all');
                             }
                             if ($settings['split_update'] || !$all) {
-                                if (!$all && !$settings['split_update']) {
+                                if (!$settings['split_update'] && !$all) {
                                     $this->logger('warning', " If you want use the library with out split update , you most define `all` method in handler");
                                 }
                                 if ($settings['array_update']) {
@@ -561,7 +565,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                                 else {
                                     if (isset($update->message) && $message_update === true) {
                                         $message = $update->message;
-                                        if ($settings['security']) {
+                                        if ($settings['security'] && isset($message->text)) {
                                             $message->text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($message->text)))));
                                         }
                                         $this->users($message, 'message');
@@ -717,6 +721,9 @@ CREATE TABLE IF NOT EXISTS `users` (
         if(is_resource(LOG)) {
             $this->logger('',"BPT Done");
         }
+        if ($this->curl_handler){
+            curl_close($this->curl_handler);
+        }
     }
 
     public function __call ($action, $data) {
@@ -766,343 +773,366 @@ CREATE TABLE IF NOT EXISTS `users` (
                     unset($data['only_if_banned']);
                 }
             }
-            if (isset($data['answer'])) {
-                if (!$this->web_answered) {
-                    if ($this->settings['multi'] === true) {
-                        $this->logger('error', 'you can\'t use answer mode when multi is on');
-                        throw new exception('answer mode not allowed bc multi');
+            if ($action === 'sendMediaGroup') {
+                foreach ($data['media'] as $key => $media) {
+                    if (file_exists($media['media'])) {
+                        $data['media'][$key] = new CURLFile($media['media']);
                     }
-                    if (isset($data['token'])) {
-                        unset($data['token']);
-                    }
-                    if (isset($data['forgot'])) {
-                        unset($data['forgot']);
-                    }
-                    if (isset($data['return_array'])) {
-                        unset($data['return_array']);
-                    }
-                    $this->web_answered = true;
-                    $data["method"] = $action;
-                    $payload = json_encode($data);
-                    header('Content-Type: application/json;Content-Length: ' . strlen($payload));
-                    echo $payload;
-                    return true;
-                }
-                else {
-                    $this->logger('error', 'you can use answer mode only once for each webhook update and you already did');
-                    throw new exception('answer mode not allowed');
                 }
             }
             else {
-                $ch = curl_init();
-                $token = $this->token;
-                $return_array = true;
+                $file_params = $this->methodsFile($action);
+                foreach ($file_params as $param) {
+                    if (isset($data[$param]) && file_exists($data[$param])) {
+                        $data[$param] = new CURLFile($data[$param]);
+                    }
+                }
+            }
+        }
+        else{
+            $this->logger('warning',"$req_action methods not found , but its called anyway");
+            $action = $req_action;
+        }
+        if (isset($data['answer'])) {
+            if (!$this->web_answered) {
+                if ($this->settings['multi'] === true) {
+                    $this->logger('error', 'you can\'t use answer mode when multi is on');
+                    throw new exception('answer mode not allowed bc multi');
+                }
                 if (isset($data['token'])) {
-                    $token = $data['token'];
                     unset($data['token']);
                 }
                 if (isset($data['forgot'])) {
-                    curl_setopt($ch, CURLOPT_TIMEOUT_MS, $this->settings['forgot_time']);
                     unset($data['forgot']);
                 }
                 if (isset($data['return_array'])) {
-                    $return_array = $data['return_array'];
                     unset($data['return_array']);
                 }
-                if ($action === 'sendMediaGroup') {
-                    foreach ($data['media'] as $key => $media) {
-                        if (file_exists($media['media'])) {
-                            $data['media'][$key] = new CURLFile($media['media']);
-                        }
+                foreach ($data as $key=>&$value){
+                    if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
+                        $value = json_encode($value);
                     }
                 }
-                else {
-                    $file_params = $this->methodsFile($action);
-                    foreach ($file_params as $param) {
-                        if (isset($data[$param]) && file_exists($data[$param])) {
-                            $data[$param] = new CURLFile($data[$param]);
-                        }
-                    }
-                }
-                curl_setopt($ch, CURLOPT_URL, "{$this->settings['base_url']}$token/$action");
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                return json_decode(curl_exec($ch), $return_array);
+                $this->web_answered = true;
+                $data["method"] = $action;
+                $payload = json_encode($data);
+                header('Content-Type: application/json;Content-Length: ' . strlen($payload));
+                echo $payload;
+                return true;
+            }
+            else {
+                $this->logger('error', 'you can use answer mode only once for each webhook update and you already did');
+                throw new exception('answer mode not allowed');
             }
         }
         else {
-            $this->logger('error', "requested method is not exist(method : $action)");
-            throw new exception('method not found');
+            if (isset($data['token'])) {
+                $token = $data['token'];
+                unset($data['token']);
+            }
+            else{
+                $token = $this->token;
+            }
+
+            if (!isset($this->curl_handler)){
+                $this->curl_handler = curl_init("{$this->settings['base_url']}$token/");
+                curl_setopt($this->curl_handler, CURLOPT_RETURNTRANSFER, true);
+            }
+
+            if (isset($data['forgot'])) {
+                curl_setopt($this->curl_handler, CURLOPT_TIMEOUT_MS, $this->settings['forgot_time']);
+                unset($data['forgot']);
+            }
+            else{
+                curl_setopt($this->curl_handler, CURLOPT_TIMEOUT_MS, 300);
+            }
+
+            if (isset($data['return_array'])) {
+                $return_array = $data['return_array'];
+                unset($data['return_array']);
+            }
+            else{
+                $return_array = true;
+            }
+
+            foreach ($data as $key=>&$value){
+                if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
+                    $value = json_encode($value);
+                }
+            }
+            $data['method'] = $action;
+            curl_setopt($this->curl_handler, CURLOPT_POSTFIELDS, $data);
+            return json_decode(curl_exec($this->curl_handler), $return_array);
         }
     }
 
     private function methodsAction($input){
         return [
-            'getupdates'                      =>'getUpdates',
-            'getup'                           =>'getUpdates',
-            'updates'                         =>'getUpdates',
-            'setwebhook'                      =>'setWebhook',
-            'setweb'                          =>'setWebhook',
-            'webhook'                         =>'setWebhook',
-            'deletewebhook'                   =>'deleteWebhook',
-            'deleteweb'                       =>'deleteWebhook',
-            'delweb'                          =>'deleteWebhook',
-            'getwebhookinfo'                  =>'getWebhookInfo',
-            'getweb'                          =>'getWebhookInfo',
-            'getme'                           =>'getMe',
-            'me'                              =>'getMe',
-            'logout'                          =>'logOut',
-            'close'                           =>'close',
-            'sendmessage'                     =>'sendMessage',
-            'send'                            =>'sendMessage',
-            'forwardmessage'                  =>'forwardMessage',
-            'forward'                         =>'forwardMessage',
-            'copymessage'                     =>'copyMessage',
-            'copy'                            =>'copyMessage',
-            'sendphoto'                       =>'sendPhoto',
-            'photo'                           =>'sendPhoto',
-            'sendaudio'                       =>'sendAudio',
-            'audio'                           =>'sendAudio',
-            'senddocument'                    =>'sendDocument',
-            'senddoc'                         =>'sendDocument',
-            'document'                        =>'sendDocument',
-            'doc'                             =>'sendDocument',
-            'sendvideo'                       =>'sendVideo',
-            'video'                           =>'sendVideo',
-            'sendanimation'                   =>'sendAnimation',
-            'animation'                       =>'sendAnimation',
-            'sendgif'                         =>'sendAnimation',
-            'gif'                             =>'sendAnimation',
-            'sendvoice'                       =>'sendVoice',
-            'voice'                           =>'sendVoice',
-            'sendvideonote'                   =>'sendVideoNote',
-            'videonote'                       =>'sendVideoNote',
-            'sendmediagroup'                  =>'sendMediaGroup',
-            'mediagroup'                      =>'sendMediaGroup',
-            'media'                           =>'sendMediaGroup',
-            'sendlocation'                    =>'sendLocation',
-            'sendloc'                         =>'sendLocation',
-            'location'                        =>'sendLocation',
-            'loc'                             =>'sendLocation',
-            'editmessagelivelocation'         =>'editMessageLiveLocation',
-            'editliveloc'                     =>'editMessageLiveLocation',
-            'stopmessagelivelocation'         =>'stopMessageLiveLocation',
-            'stopliveloc'                     =>'stopMessageLiveLocation',
-            'sendvenue'                       =>'sendVenue',
-            'venue'                           =>'sendVenue',
-            'sendcontact'                     =>'sendContact',
-            'contact'                         =>'sendContact',
-            'sendpoll'                        =>'sendPoll',
-            'poll'                            =>'sendPoll',
-            'senddice'                        =>'sendDice',
-            'dice'                            =>'sendDice',
-            'sendchataction'                  =>'sendChatAction',
-            'chataction'                      =>'sendChatAction',
-            'action'                          =>'sendChatAction',
-            'getuserprofilephotos'            =>'getUserProfilePhotos',
-            'userphotos'                      =>'getUserProfilePhotos',
-            'getfile'                         =>'getFile',
-            'file'                            =>'getFile',
-            'banchatmember'                   =>'banChatMember',
-            'ban'                             =>'banChatMember',
-            'kickchatmember'                  =>'banChatMember',
-            'kick'                            =>'unbanChatMember',
-            'unbanchatmember'                 =>'unbanChatMember',
-            'unban'                           =>'unbanChatMember',
-            'restrictchatmember'              =>'restrictChatMember',
-            'restrict'                        =>'restrictChatMember',
-            'promotechatmember'               =>'promoteChatMember',
-            'promote'                         =>'promoteChatMember',
-            'setchatadministratorcustomtitle' =>'setChatAdministratorCustomTitle',
-            'customtitle'                     =>'setChatAdministratorCustomTitle',
-            'banchatsenderchat'               =>'banChatSenderChat',
-            'banSender'                       =>'banChatSenderChat',
-            'unbanchatsenderchat'             =>'unbanChatSenderChat',
-            'unbanSender'                     =>'unbanChatSenderChat',
-            'setchatpermissions'              =>'setChatPermissions',
-            'permissions'                     =>'setChatPermissions',
-            'exportchatinvitelink'            =>'exportChatInviteLink',
-            'link'                            =>'exportChatInviteLink',
-            'createchatinvitelink'            =>'createChatInviteLink',
-            'crlink'                          =>'createChatInviteLink',
-            'editchatinvitelink'              =>'editChatInviteLink',
-            'edlink'                          =>'editChatInviteLink',
-            'revokechatinvitelink'            =>'revokeChatInviteLink',
-            'relink'                          =>'revokeChatInviteLink',
-            'approvechatjoinrequest'          =>'approveChatJoinRequest',
-            'acceptjoin'                      =>'approveChatJoinRequest',
-            'declinechatjoinrequest'          =>'declineChatJoinRequest',
-            'denyjoin'                        =>'declineChatJoinRequest',
-            'setchatphoto'                    =>'setChatPhoto',
-            'deletechatphoto'                 =>'deleteChatPhoto',
-            'setchattitle'                    =>'setChatTitle',
-            'title'                           =>'setChatTitle',
-            'setchatdescription'              =>'setChatDescription',
-            'description'                     =>'setChatDescription',
-            'pinchatmessage'                  =>'pinChatMessage',
-            'pin'                             =>'pinChatMessage',
-            'unpinchatmessage'                =>'unpinChatMessage',
-            'unpin'                           =>'unpinChatMessage',
-            'unpinallchatmessages'            =>'unpinAllChatMessages',
-            'unpinall'                        =>'unpinAllChatMessages',
-            'leavechat'                       =>'leaveChat',
-            'leave'                           =>'leaveChat',
-            'getchat'                         =>'getChat',
-            'chat'                            =>'getChat',
-            'getchatadministrators'           =>'getChatAdministrators',
-            'admins'                          =>'getChatAdministrators',
-            'getchatmembercount'              =>'getChatMembersCount',
-            'getchatmemberscount'             =>'getChatMembersCount',
-            'memberscount'                    =>'getChatMembersCount',
-            'getchatmember'                   =>'getChatMember',
-            'member'                          =>'getChatMember',
-            'setchatstickerset'               =>'setChatStickerSet',
-            'setsticker'                      =>'setChatStickerSet',
-            'deletechatstickerset'            =>'deleteChatStickerSet',
-            'delsticker'                      =>'deleteChatStickerSet',
-            'answercallbackquery'             =>'answerCallbackQuery',
-            'answer'                          =>'answerCallbackQuery',
-            'setmycommands'                   =>'setMyCommands',
-            'setcommands'                     =>'setMyCommands',
-            'deletemycommands'                =>'deleteMyCommands',
-            'deletecommands'                  =>'deleteMyCommands',
-            'getmycommands'                   =>'getMyCommands',
-            'getcommands'                     =>'getMyCommands',
-            'editmessagetext'                 =>'editMessageText',
-            'edittext'                        =>'editMessageText',
-            'editmessagecaption'              =>'editMessageCaption',
-            'editcap'                         =>'editMessageCaption',
-            'editcaption'                     =>'editMessageCaption',
-            'editmessagemedia'                =>'editMessageMedia',
-            'editmedia'                       =>'editMessageMedia',
-            'editmessagereplymarkup'          =>'editMessageReplyMarkup',
-            'editreply'                       =>'editMessageReplyMarkup',
-            'editkeyboard'                    =>'editMessageReplyMarkup',
-            'stoppoll'                        =>'stopPoll',
-            'deletemessage'                   =>'deleteMessage',
-            'del'                             =>'deleteMessage',
-            'sendsticker'                     =>'sendSticker',
-            'sticker'                         =>'sendSticker',
-            'getstickerset'                   =>'getStickerSet',
-            'uploadstickerfile'               =>'uploadStickerFile',
-            'uploadsticker'                   =>'uploadStickerFile',
-            'createnewstickerset'             =>'createNewStickerSet',
-            'createsticker'                   =>'createNewStickerSet',
-            'addstickertoset'                 =>'addStickerToSet',
-            'addsticker'                      =>'addStickerToSet',
-            'setstickerpositioninset'         =>'setStickerPositionInSet',
-            'setstickerposition'              =>'setStickerPositionInSet',
-            'setstickerpos'                   =>'setStickerPositionInSet',
-            'deletestickerfromset'            =>'deleteStickerFromSet',
-            'deletesticker'                   =>'deleteStickerFromSet',
-            'setstickersetthumb'              =>'setStickerSetThumb',
-            'setstickerthumb'                 =>'setStickerSetThumb',
-            'answerinlinequery'               =>'answerInlineQuery',
-            'answerinline'                    =>'answerInlineQuery',
-            'sendinvoice'                     =>'sendInvoice',
-            'invoice'                         =>'sendInvoice',
-            'answershippingquery'             =>'answerShippingQuery',
-            'answershipping'                  =>'answerShippingQuery',
-            'answerprecheckoutquery'          =>'answerPreCheckoutQuery',
-            'answerprecheckout'               =>'answerPreCheckoutQuery',
-            'answerprecheck'                  =>'answerPreCheckoutQuery',
-            'setpassportdataerrors'           =>'setPassportDataErrors',
-            'setpassport'                     =>'setPassportDataErrors',
-            'sendgame'                        =>'sendGame',
-            'game'                            =>'sendGame',
-            'setgamescore'                    =>'setGameScore',
-            'gamescore'                       =>'setGameScore',
-            'getgamehighscores'               =>'getGameHighScores',
-            'getgamehigh'                     =>'getGameHighScores'
-        ][$input]??'';
+                'getupdates'                      =>'getUpdates',
+                'getup'                           =>'getUpdates',
+                'updates'                         =>'getUpdates',
+                'setwebhook'                      =>'setWebhook',
+                'setweb'                          =>'setWebhook',
+                'webhook'                         =>'setWebhook',
+                'deletewebhook'                   =>'deleteWebhook',
+                'deleteweb'                       =>'deleteWebhook',
+                'delweb'                          =>'deleteWebhook',
+                'getwebhookinfo'                  =>'getWebhookInfo',
+                'getweb'                          =>'getWebhookInfo',
+                'getme'                           =>'getMe',
+                'me'                              =>'getMe',
+                'logout'                          =>'logOut',
+                'close'                           =>'close',
+                'sendmessage'                     =>'sendMessage',
+                'send'                            =>'sendMessage',
+                'forwardmessage'                  =>'forwardMessage',
+                'forward'                         =>'forwardMessage',
+                'copymessage'                     =>'copyMessage',
+                'copy'                            =>'copyMessage',
+                'sendphoto'                       =>'sendPhoto',
+                'photo'                           =>'sendPhoto',
+                'sendaudio'                       =>'sendAudio',
+                'audio'                           =>'sendAudio',
+                'senddocument'                    =>'sendDocument',
+                'senddoc'                         =>'sendDocument',
+                'document'                        =>'sendDocument',
+                'doc'                             =>'sendDocument',
+                'sendvideo'                       =>'sendVideo',
+                'video'                           =>'sendVideo',
+                'sendanimation'                   =>'sendAnimation',
+                'animation'                       =>'sendAnimation',
+                'sendgif'                         =>'sendAnimation',
+                'gif'                             =>'sendAnimation',
+                'sendvoice'                       =>'sendVoice',
+                'voice'                           =>'sendVoice',
+                'sendvideonote'                   =>'sendVideoNote',
+                'videonote'                       =>'sendVideoNote',
+                'sendmediagroup'                  =>'sendMediaGroup',
+                'mediagroup'                      =>'sendMediaGroup',
+                'media'                           =>'sendMediaGroup',
+                'sendlocation'                    =>'sendLocation',
+                'sendloc'                         =>'sendLocation',
+                'location'                        =>'sendLocation',
+                'loc'                             =>'sendLocation',
+                'editmessagelivelocation'         =>'editMessageLiveLocation',
+                'editliveloc'                     =>'editMessageLiveLocation',
+                'stopmessagelivelocation'         =>'stopMessageLiveLocation',
+                'stopliveloc'                     =>'stopMessageLiveLocation',
+                'sendvenue'                       =>'sendVenue',
+                'venue'                           =>'sendVenue',
+                'sendcontact'                     =>'sendContact',
+                'contact'                         =>'sendContact',
+                'sendpoll'                        =>'sendPoll',
+                'poll'                            =>'sendPoll',
+                'senddice'                        =>'sendDice',
+                'dice'                            =>'sendDice',
+                'sendchataction'                  =>'sendChatAction',
+                'chataction'                      =>'sendChatAction',
+                'action'                          =>'sendChatAction',
+                'getuserprofilephotos'            =>'getUserProfilePhotos',
+                'userphotos'                      =>'getUserProfilePhotos',
+                'getfile'                         =>'getFile',
+                'file'                            =>'getFile',
+                'banchatmember'                   =>'banChatMember',
+                'ban'                             =>'banChatMember',
+                'kickchatmember'                  =>'banChatMember',
+                'kick'                            =>'unbanChatMember',
+                'unbanchatmember'                 =>'unbanChatMember',
+                'unban'                           =>'unbanChatMember',
+                'restrictchatmember'              =>'restrictChatMember',
+                'restrict'                        =>'restrictChatMember',
+                'promotechatmember'               =>'promoteChatMember',
+                'promote'                         =>'promoteChatMember',
+                'setchatadministratorcustomtitle' =>'setChatAdministratorCustomTitle',
+                'customtitle'                     =>'setChatAdministratorCustomTitle',
+                'banchatsenderchat'               =>'banChatSenderChat',
+                'banSender'                       =>'banChatSenderChat',
+                'unbanchatsenderchat'             =>'unbanChatSenderChat',
+                'unbanSender'                     =>'unbanChatSenderChat',
+                'setchatpermissions'              =>'setChatPermissions',
+                'permissions'                     =>'setChatPermissions',
+                'exportchatinvitelink'            =>'exportChatInviteLink',
+                'link'                            =>'exportChatInviteLink',
+                'createchatinvitelink'            =>'createChatInviteLink',
+                'crlink'                          =>'createChatInviteLink',
+                'editchatinvitelink'              =>'editChatInviteLink',
+                'edlink'                          =>'editChatInviteLink',
+                'revokechatinvitelink'            =>'revokeChatInviteLink',
+                'relink'                          =>'revokeChatInviteLink',
+                'approvechatjoinrequest'          =>'approveChatJoinRequest',
+                'acceptjoin'                      =>'approveChatJoinRequest',
+                'declinechatjoinrequest'          =>'declineChatJoinRequest',
+                'denyjoin'                        =>'declineChatJoinRequest',
+                'setchatphoto'                    =>'setChatPhoto',
+                'deletechatphoto'                 =>'deleteChatPhoto',
+                'setchattitle'                    =>'setChatTitle',
+                'title'                           =>'setChatTitle',
+                'setchatdescription'              =>'setChatDescription',
+                'description'                     =>'setChatDescription',
+                'pinchatmessage'                  =>'pinChatMessage',
+                'pin'                             =>'pinChatMessage',
+                'unpinchatmessage'                =>'unpinChatMessage',
+                'unpin'                           =>'unpinChatMessage',
+                'unpinallchatmessages'            =>'unpinAllChatMessages',
+                'unpinall'                        =>'unpinAllChatMessages',
+                'leavechat'                       =>'leaveChat',
+                'leave'                           =>'leaveChat',
+                'getchat'                         =>'getChat',
+                'chat'                            =>'getChat',
+                'getchatadministrators'           =>'getChatAdministrators',
+                'admins'                          =>'getChatAdministrators',
+                'getchatmembercount'              =>'getChatMembersCount',
+                'getchatmemberscount'             =>'getChatMembersCount',
+                'memberscount'                    =>'getChatMembersCount',
+                'getchatmember'                   =>'getChatMember',
+                'member'                          =>'getChatMember',
+                'setchatstickerset'               =>'setChatStickerSet',
+                'setsticker'                      =>'setChatStickerSet',
+                'deletechatstickerset'            =>'deleteChatStickerSet',
+                'delsticker'                      =>'deleteChatStickerSet',
+                'answercallbackquery'             =>'answerCallbackQuery',
+                'answer'                          =>'answerCallbackQuery',
+                'setmycommands'                   =>'setMyCommands',
+                'setcommands'                     =>'setMyCommands',
+                'deletemycommands'                =>'deleteMyCommands',
+                'deletecommands'                  =>'deleteMyCommands',
+                'getmycommands'                   =>'getMyCommands',
+                'getcommands'                     =>'getMyCommands',
+                'editmessagetext'                 =>'editMessageText',
+                'edittext'                        =>'editMessageText',
+                'editmessagecaption'              =>'editMessageCaption',
+                'editcap'                         =>'editMessageCaption',
+                'editcaption'                     =>'editMessageCaption',
+                'editmessagemedia'                =>'editMessageMedia',
+                'editmedia'                       =>'editMessageMedia',
+                'editmessagereplymarkup'          =>'editMessageReplyMarkup',
+                'editreply'                       =>'editMessageReplyMarkup',
+                'editkeyboard'                    =>'editMessageReplyMarkup',
+                'stoppoll'                        =>'stopPoll',
+                'deletemessage'                   =>'deleteMessage',
+                'del'                             =>'deleteMessage',
+                'sendsticker'                     =>'sendSticker',
+                'sticker'                         =>'sendSticker',
+                'getstickerset'                   =>'getStickerSet',
+                'uploadstickerfile'               =>'uploadStickerFile',
+                'uploadsticker'                   =>'uploadStickerFile',
+                'createnewstickerset'             =>'createNewStickerSet',
+                'createsticker'                   =>'createNewStickerSet',
+                'addstickertoset'                 =>'addStickerToSet',
+                'addsticker'                      =>'addStickerToSet',
+                'setstickerpositioninset'         =>'setStickerPositionInSet',
+                'setstickerposition'              =>'setStickerPositionInSet',
+                'setstickerpos'                   =>'setStickerPositionInSet',
+                'deletestickerfromset'            =>'deleteStickerFromSet',
+                'deletesticker'                   =>'deleteStickerFromSet',
+                'setstickersetthumb'              =>'setStickerSetThumb',
+                'setstickerthumb'                 =>'setStickerSetThumb',
+                'answerinlinequery'               =>'answerInlineQuery',
+                'answerinline'                    =>'answerInlineQuery',
+                'sendinvoice'                     =>'sendInvoice',
+                'invoice'                         =>'sendInvoice',
+                'answershippingquery'             =>'answerShippingQuery',
+                'answershipping'                  =>'answerShippingQuery',
+                'answerprecheckoutquery'          =>'answerPreCheckoutQuery',
+                'answerprecheckout'               =>'answerPreCheckoutQuery',
+                'answerprecheck'                  =>'answerPreCheckoutQuery',
+                'setpassportdataerrors'           =>'setPassportDataErrors',
+                'setpassport'                     =>'setPassportDataErrors',
+                'sendgame'                        =>'sendGame',
+                'game'                            =>'sendGame',
+                'setgamescore'                    =>'setGameScore',
+                'gamescore'                       =>'setGameScore',
+                'getgamehighscores'               =>'getGameHighScores',
+                'getgamehigh'                     =>'getGameHighScores'
+            ][$input]??'';
     }
 
     private function methodsDefault($input){
         return [
-            'getUpdates'                      => [],
-            'setWebhook'                      => [],
-            'deleteWebhook'                   => [],
-            'getWebhookInfo'                  => [],
-            'getMe'                           => [],
-            'logOut'                          => [],
-            'close'                           => [],
-            'sendMessage'                     => ['chat_id'],
-            'forwardMessage'                  => ['from_chat_id','message_id'],
-            'copyMessage'                     => ['from_chat_id','message_id'],
-            'sendPhoto'                       => ['chat_id'],
-            'sendAudio'                       => ['chat_id'],
-            'sendDocument'                    => ['chat_id'],
-            'sendVideo'                       => ['chat_id'],
-            'sendAnimation'                   => ['chat_id'],
-            'sendVoice'                       => ['chat_id'],
-            'sendVideoNote'                   => ['chat_id'],
-            'sendMediaGroup'                  => ['chat_id'],
-            'sendLocation'                    => ['chat_id'],
-            'editMessageLiveLocation'         => [],
-            'stopMessageLiveLocation'         => [],
-            'sendVenue'                       => [],
-            'sendContact'                     => ['chat_id'],
-            'sendPoll'                        => ['chat_id'],
-            'sendDice'                        => ['chat_id'],
-            'sendChatAction'                  => ['chat_id','action'],
-            'getUserProfilePhotos'            => ['user_id'],
-            'getFile'                         => ['file_id'],
-            'banChatMember'                   => ['chat_id','user_id'],
-            'kickChatMember'                  => ['chat_id','user_id'],
-            'unbanChatMember'                 => ['chat_id','user_id'],
-            'restrictChatMember'              => ['chat_id','user_id'],
-            'promoteChatMember'               => ['chat_id','user_id'],
-            'setChatAdministratorCustomTitle' => ['chat_id','user_id'],
-            'banChatSenderChat'               => ['chat_id'],
-            'unbanChatSenderChat'             => ['chat_id'],
-            'setChatPermissions'              => ['chat_id'],
-            'exportChatInviteLink'            => ['chat_id'],
-            'createChatInviteLink'            => ['chat_id'],
-            'editChatInviteLink'              => ['chat_id'],
-            'revokeChatInviteLink'            => ['chat_id'],
-            'approveChatJoinRequest'          => ['chat_id','user_id'],
-            'declineChatJoinRequest'          => ['chat_id','user_id'],
-            'setChatPhoto'                    => ['chat_id'],
-            'deleteChatPhoto'                 => ['chat_id'],
-            'setChatTitle'                    => ['chat_id'],
-            'setChatDescription'              => ['chat_id'],
-            'pinChatMessage'                  => ['chat_id'],
-            'unpinChatMessage'                => ['chat_id'],
-            'unpinAllChatMessages'            => ['chat_id'],
-            'leaveChat'                       => ['chat_id'],
-            'getChat'                         => ['chat_id'],
-            'getChatAdministrators'           => ['chat_id'],
-            'getChatMembersCount'             => ['chat_id'],
-            'getChatMember'                   => ['chat_id','user_id'],
-            'setChatStickerSet'               => ['chat_id'],
-            'deleteChatStickerSet'            => ['chat_id'],
-            'answerCallbackQuery'             => ['callback_query_id'],
-            'setMyCommands'                   => [],
-            'deleteMyCommands'                => [],
-            'getMyCommands'                   => [],
-            'editMessageText'                 => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-            'editMessageCaption'              => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-            'editMessageMedia'                => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-            'editMessageReplyMarkup'          => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-            'stopPoll'                        => ['chat_id','message_id'],
-            'deleteMessage'                   => ['chat_id','message_id'],
-            'sendSticker'                     => ['chat_id'],
-            'getStickerSet'                   => [],
-            'uploadStickerFile'               => ['user_id'],
-            'createNewStickerSet'             => ['user_id'],
-            'addStickerToSet'                 => ['user_id'],
-            'setStickerPositionInSet'         => [],
-            'deleteStickerFromSet'            => [],
-            'setStickerSetThumb'              => ['user_id'],
-            'answerInlineQuery'               => ['inline_query_id'],
-            'sendInvoice'                     => ['chat_id'],
-            'answerShippingQuery'             => ['shipping_query_id'],
-            'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
-            'setPassportDataErrors'           => ['user_id'],
-            'sendGame'                        => ['chat_id'],
-            'setGameScore'                    => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-            'getGameHighScores'               => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']]
-        ][$input]??[];
+                'getUpdates'                      => [],
+                'setWebhook'                      => ['url'],
+                'deleteWebhook'                   => [],
+                'getWebhookInfo'                  => [],
+                'getMe'                           => [],
+                'logOut'                          => [],
+                'close'                           => [],
+                'sendMessage'                     => ['chat_id'],
+                'forwardMessage'                  => ['from_chat_id','message_id'],
+                'copyMessage'                     => ['from_chat_id','message_id'],
+                'sendPhoto'                       => ['chat_id'],
+                'sendAudio'                       => ['chat_id'],
+                'sendDocument'                    => ['chat_id'],
+                'sendVideo'                       => ['chat_id'],
+                'sendAnimation'                   => ['chat_id'],
+                'sendVoice'                       => ['chat_id'],
+                'sendVideoNote'                   => ['chat_id'],
+                'sendMediaGroup'                  => ['chat_id'],
+                'sendLocation'                    => ['chat_id'],
+                'editMessageLiveLocation'         => [],
+                'stopMessageLiveLocation'         => [],
+                'sendVenue'                       => [],
+                'sendContact'                     => ['chat_id'],
+                'sendPoll'                        => ['chat_id'],
+                'sendDice'                        => ['chat_id'],
+                'sendChatAction'                  => ['chat_id','action'],
+                'getUserProfilePhotos'            => ['user_id'],
+                'getFile'                         => ['file_id'],
+                'banChatMember'                   => ['chat_id','user_id'],
+                'kickChatMember'                  => ['chat_id','user_id'],
+                'unbanChatMember'                 => ['chat_id','user_id'],
+                'restrictChatMember'              => ['chat_id','user_id'],
+                'promoteChatMember'               => ['chat_id','user_id'],
+                'setChatAdministratorCustomTitle' => ['chat_id','user_id'],
+                'banChatSenderChat'               => ['chat_id'],
+                'unbanChatSenderChat'             => ['chat_id'],
+                'setChatPermissions'              => ['chat_id'],
+                'exportChatInviteLink'            => ['chat_id'],
+                'createChatInviteLink'            => ['chat_id'],
+                'editChatInviteLink'              => ['chat_id'],
+                'revokeChatInviteLink'            => ['chat_id'],
+                'approveChatJoinRequest'          => ['chat_id','user_id'],
+                'declineChatJoinRequest'          => ['chat_id','user_id'],
+                'setChatPhoto'                    => ['chat_id'],
+                'deleteChatPhoto'                 => ['chat_id'],
+                'setChatTitle'                    => ['chat_id'],
+                'setChatDescription'              => ['chat_id'],
+                'pinChatMessage'                  => ['chat_id'],
+                'unpinChatMessage'                => ['chat_id'],
+                'unpinAllChatMessages'            => ['chat_id'],
+                'leaveChat'                       => ['chat_id'],
+                'getChat'                         => ['chat_id'],
+                'getChatAdministrators'           => ['chat_id'],
+                'getChatMembersCount'             => ['chat_id'],
+                'getChatMember'                   => ['chat_id','user_id'],
+                'setChatStickerSet'               => ['chat_id'],
+                'deleteChatStickerSet'            => ['chat_id'],
+                'answerCallbackQuery'             => ['callback_query_id'],
+                'setMyCommands'                   => [],
+                'deleteMyCommands'                => [],
+                'getMyCommands'                   => [],
+                'editMessageText'                 => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                'editMessageCaption'              => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                'editMessageMedia'                => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                'editMessageReplyMarkup'          => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                'stopPoll'                        => ['chat_id','message_id'],
+                'deleteMessage'                   => ['chat_id','message_id'],
+                'sendSticker'                     => ['chat_id'],
+                'getStickerSet'                   => [],
+                'uploadStickerFile'               => ['user_id'],
+                'createNewStickerSet'             => ['user_id'],
+                'addStickerToSet'                 => ['user_id'],
+                'setStickerPositionInSet'         => [],
+                'deleteStickerFromSet'            => [],
+                'setStickerSetThumb'              => ['user_id'],
+                'answerInlineQuery'               => ['inline_query_id'],
+                'sendInvoice'                     => ['chat_id'],
+                'answerShippingQuery'             => ['shipping_query_id'],
+                'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
+                'setPassportDataErrors'           => ['user_id'],
+                'sendGame'                        => ['chat_id'],
+                'setGameScore'                    => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                'getGameHighScores'               => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']]
+            ][$input]??[];
     }
 
     private function methodsRequire($input){
@@ -1195,24 +1225,24 @@ CREATE TABLE IF NOT EXISTS `users` (
 
     private function methodsFile($input){
         return [
-            'sendPhoto'           => ['photo'],
-            'sendAudio'           => ['audio', 'thumb'],
-            'sendDocument'        => ['document', 'thumb'],
-            'sendVideo'           => ['video', 'thumb'],
-            'sendAnimation'       => ['animation', 'thumb'],
-            'sendVoice'           => ['voice', 'thumb'],
-            'sendVideoNote'       => ['video_note', 'thumb'],
-            'setChatPhoto'        => ['photo'],
-            'sendSticker'         => ['sticker'],
-            'uploadStickerFile'   => ['png_sticker'],
-            'createNewStickerSet' => ['png_sticker', 'tgs_sticker'],
-            'addStickerToSet'     => ['png_sticker', 'tgs_sticker'],
-            'setStickerSetThumb'  => ['thumb'],
-        ][$input]??[];
+                'sendPhoto'           => ['photo'],
+                'sendAudio'           => ['audio', 'thumb'],
+                'sendDocument'        => ['document', 'thumb'],
+                'sendVideo'           => ['video', 'thumb'],
+                'sendAnimation'       => ['animation', 'thumb'],
+                'sendVoice'           => ['voice', 'thumb'],
+                'sendVideoNote'       => ['video_note', 'thumb'],
+                'setChatPhoto'        => ['photo'],
+                'sendSticker'         => ['sticker'],
+                'uploadStickerFile'   => ['png_sticker'],
+                'createNewStickerSet' => ['png_sticker', 'tgs_sticker'],
+                'addStickerToSet'     => ['png_sticker', 'tgs_sticker'],
+                'setStickerSetThumb'  => ['thumb'],
+            ][$input]??[];
     }
 
     private function bptUpdate(){
-        if(!file_exists('update.lock') || filemtime('update.lock')+60 < time()){
+        if(!file_exists('update.lock') || filemtime('update.lock')+300 < time()){
             touch('update.lock');
             $res = file_get_contents("https://dl.bptlib.ir/update.php?ver=$this->version");
             if($res !== '[]'){
@@ -1348,7 +1378,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $this->logger('error', "BPT catchFields method used\nfield parameter not found");
             throw new exception('field parameter not found');
         }
-        if ($field === 'chat_id' || $field === 'from_chat_id'){
+        if ($field === 'chat_id' || $field === 'from_chat_id') {
             if (isset($this->update->message)) return $this->update->message->chat->id;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->id;
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
@@ -1356,21 +1386,21 @@ CREATE TABLE IF NOT EXISTS `users` (
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->id;
             else return false;
         }
-        elseif ($field === 'user_id'){
+        elseif ($field === 'user_id') {
             if (isset($this->update->message)) return $this->update->message->from->id;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->id;
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->id;
+            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->id;
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->id;
             else return false;
         }
-        elseif ($field === 'message_id'){
+        elseif ($field === 'message_id') {
             if (isset($this->update->message)) return $this->update->message->message_id;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->message_id;
             elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->message_id;
             else return false;
         }
-        elseif ($field === 'file_id'){
+        elseif ($field === 'file_id') {
             if (isset($this->update->message)) $type = 'message';
             elseif (isset($this->update->edited_message)) $type = 'edited_message';
             else return false;
@@ -1385,30 +1415,90 @@ CREATE TABLE IF NOT EXISTS `users` (
             elseif (isset($this->update->$type->voice)) return $this->update->$type->voice->file_id;
             else return false;
         }
-        elseif ($field === 'callback_query_id'){
+        elseif ($field === 'callback_query_id') {
             if (isset($this->update->callback_query)) return $this->update->callback_query->id;
             else return false;
         }
-        elseif ($field === 'shipping_query_id'){
+        elseif ($field === 'shipping_query_id') {
             if (isset($this->update->shipping_query)) return $this->update->shipping_query->id;
             else return false;
         }
-        elseif ($field === 'pre_checkout_query_id'){
+        elseif ($field === 'pre_checkout_query_id') {
             if (isset($this->update->pre_checkout_query)) return $this->update->pre_checkout_query->id;
             else return false;
         }
-        elseif ($field === 'inline_query_id'){
+        elseif ($field === 'inline_query_id') {
             if (isset($this->update->inline_query)) return $this->update->inline_query->id;
             else return false;
         }
-        elseif ($field === 'type'){
+        elseif ($field === 'type') {
             if (isset($this->update->message)) return $this->update->message->chat->type;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->type;
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->chat_type;
             elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->type;
             else return false;
         }
-        elseif ($field === 'action') return 'typing';
+        elseif ($field === 'action') {
+            return 'typing';
+        }
+        elseif ($field === 'name') {
+            if (isset($this->update->message)) return $this->update->message->from->first_name;
+            elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->first_name;
+            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->first_name;
+            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->first_name;
+            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->first_name;
+            else return false;
+        }
+        elseif ($field === 'last_name') {
+            if (isset($this->update->message)) return $this->update->message->from->last_name ?? '';
+            elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->last_name ?? '';
+            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->last_name ?? '';
+            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->last_name ?? '';
+            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->last_name ?? '';
+            else return false;
+        }
+        elseif ($field === 'username') {
+            if (isset($this->update->message)) return $this->update->message->from->username ?? '';
+            elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->username ?? '';
+            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->username ?? '';
+            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->username ?? '';
+            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->username ?? '';
+            else return false;
+        }
+        elseif ($field === 'group_name') {
+            if (isset($this->update->message)) return $this->update->message->chat->first_name;
+            elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->first_name;
+            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->first_name;
+            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->first_name;
+            else return false;
+        }
+        elseif ($field === 'group_username') {
+            if (isset($this->update->message)) return $this->update->message->chat->username;
+            elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->username;
+            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->username;
+            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->username;
+            else return false;
+        }
+        elseif ($field === 'update_type'){
+            if (isset($this->update->message)) return 'message';
+            elseif (isset($this->update->edited_message)) return 'edited_message';
+            elseif (isset($this->update->inline_query)) return 'inline_query';
+            elseif (isset($this->update->callback_query)) return 'callback_query';
+            elseif (isset($this->update->chat_join_request)) return 'chat_join_request';
+            elseif (isset($this->update->my_chat_member)) return 'my_chat_member';
+            elseif (isset($this->update->chat_member)) return 'chat_member';
+            elseif (isset($this->update->channel_post)) return 'channel_post';
+            elseif (isset($this->update->edited_channel_post)) return 'edited_channel_post';
+            elseif (isset($this->update->chosen_inline_result)) return 'chosen_inline_result';
+            elseif (isset($this->update->shipping_query)) return 'shipping_query';
+            elseif (isset($this->update->pre_checkout_query)) return 'pre_checkout_query';
+            elseif (isset($this->update->poll)) return 'poll';
+            elseif (isset($this->update->poll_answer)) return 'poll_answer';
+            else return false;
+        }
+        elseif ($field === 'url'){
+            return 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        }
         else return false;
     }
 
@@ -2411,7 +2501,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * check user phone is submitted , if not receive it
      *
-     * NOTE : send button_text parameter instead of old btext parameter(support of old style will remove from version 2.01)
+     * NOTE : send button_text parameter instead of old btext parameter(support of old style will remove from version 2.02)
      *
      * text parameter have default value in persian language
      *
@@ -2570,9 +2660,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all users(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.01)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.01)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2626,9 +2716,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all normal groups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.01)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.01)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2682,9 +2772,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all super groups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.01)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.01)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2738,9 +2828,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all groups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.01)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.01)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2797,9 +2887,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all include users , groups , supergroups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.01)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.01)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2857,96 +2947,6 @@ CREATE TABLE IF NOT EXISTS `users` (
         else {
             $this->logger('warning', 'Your database is disable , so you cant use forward2all method');
             return false;
-        }
-    }
-
-    /**
-     * DEPRECATED! will remove in version 2.01
-     */
-    public function buildBot($array){
-        if(!is_dir('bots')) mkdir('bots');
-        if(isset($array['token'])){
-            $token = $array['token'];
-        } else {
-            $this->logger('error',"BPT buildBot function used\ntoken parameter not found");
-            throw new exception('token parameter not found');
-        }
-        if(isset($array['admin'])){
-            $admin = $array['admin'];
-        } else {
-            $this->logger('error',"BPT buildBot function used\nadmin parameter not found");
-            throw new exception('admin parameter not found');
-        }
-        if(isset($array['type'])){
-            $type = $array['type'];
-        } else {
-            $this->logger('error',"BPT buildBot function used\ntype parameter not found");
-            throw new exception('type parameter not found');
-        }
-        $chat_id = $array['chat_id'] ?? $this->catchFields(['field'=>'chat_id']);
-        $error_text = $array['error_text'] ?? 'توکن ربات نامعتبر است.';
-        $exist_text = $array['exist_text'] ?? 'خطا : این ربات قبلا نصب گردیده است.';
-        $done_text = $array['done_text'] ?? 'ربات شما با موفقیت نصب گردید.';
-        $result = json_decode(file_get_contents('https://api.telegram.org/bot'.$token.'/getMe'), true);
-        if($result['ok'] !== true) return $this->sendMessage(['text'=>$error_text,'chat_id'=>$chat_id]);
-        $username = $result['result']['username'];
-        if(file_exists("bots/$username/index.php")) return $this->sendMessage(['text'=>$exist_text,'chat_id'=>$chat_id]);
-        if($type === 'NUM')    $path = 'https://bpt-proto.ir/BPT/source/shomare/src.php';
-        elseif($type === 'PM') $path = 'https://bpt-proto.ir/BPT/source/pm/src.php';
-        else{
-            $this->logger('error',"BPT buildBot function used\ntype parameter has wrong data");
-            throw new exception('type parameter is wrong');
-        }
-        $config = str_replace(['[ADMIN]','[TOKEN]'], [$admin,$token], file_get_contents($path));
-        mkdir("bots/$username");
-        file_put_contents("bots/$username/index.php",$config);
-        $site = explode('/',$_SERVER['SCRIPT_URI']);
-        $site = str_replace(end($site),null,$_SERVER['SCRIPT_URI']);
-        $site = str_replace('http://','https://',$site);
-        $this->setWebhook(['url'=>$site.'bots/'.$username.'/index.php','token'=>$token]);
-        return $this->sendMessage(['text'=>$done_text,'chat_id'=>$chat_id]);
-    }
-
-    /**
-     * DEPRECATED! will remove in version 2.01
-     */
-    public function imges($array) {
-        if(isset($array['type'])){
-            $type = $array['type'];
-        } else {
-            $this->logger('error',"BPT imges function used\ntype parameter not found");
-            throw new exception('type parameter not found');
-        }
-        if(isset($array['done_text'])){
-            $done_text = $array['done_text'];
-        } else {
-            if($type === 'CAPTCHA') $done_text = 'لطفا کد کپچا را ارسال کنید.';
-            elseif($type === 'Changer') $done_text = 'عکس شما با موفقیت تغییر رنگ داده شد.';
-        }
-        if($type === 'CAPTCHA'){
-            $model = $array['model'] ?? 1;
-            $res = json_decode(file_get_contents("https://bpt-proto.ir/BPT/source/imges/index.php?type=CAPTCHA&Model=$model"),true)['results'];
-            return $this->sendPhoto(['photo'=>$res,'caption'=>$done_text]);
-        }
-        elseif($type === 'Changer'){
-            if(isset($array['link'])){
-                $link = $array['link'];
-            } else {
-                $this->logger('error',"BPT imges function used\nlink parameter not found");
-                throw new exception('link parameter not found');
-            }
-            if(isset($array['color'])){
-                $color = $array['color'];
-            } else {
-                $this->logger('error',"BPT imges function used\ncolor parameter not found");
-                throw new exception('color parameter not found');
-            }
-            $res = json_decode(file_get_contents("https://bpt-proto.ir/BPT/source/imges/index.php?type=Changer&link=$link&color=$color"),true)['results'];
-            return $this->sendPhoto(['photo'=>$res,'caption'=>$done_text]);
-        }
-        else{
-            $this->logger('error',"BPT imges function used\ntype is wrong");
-            throw new exception('type is wrong');
         }
     }
 
