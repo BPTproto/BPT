@@ -1,10 +1,10 @@
 - 2.01
     - fix reported bugs
-    - Upgraded to Telegram API version `5.6`
+    - Upgraded to Telegram API version 5.6
     - `imges` and `buildbot` method removed
-    - from now , You could send array or object to telegram parameters
+    - from now, You could send an array or object to telegram parameters
       - `$this->send(['text'=>$update]);`
-    - new fields added to `catchFields` method  [Doc](https://bptlib.ir/doc/methods/en/catchFields)
+    - new fields added to `catchFields` method [Doc](https://bptlib.ir/doc/methods/en/catchFields)
       - `name`
       - `last_name`
       - `username`
@@ -12,9 +12,9 @@
       - `group_username`
       - `update_type`
       - `url` (url of this file)
-    - `url` parameter of `setWebhook` method became optional and its default value is current file url
-    - telegram request handler changed , it will increase request speed
-    - from now on you could use telegram methods that not exist in library(useful when telegram updated and library doesn't)
+    - `url` parameter of the `setWebhook` method became optional and its default value is current file url
+    - telegram request handler changed, it will increase request speed
+    - from now on you could use telegram methods that do not exist in the library(useful when the telegram is updated and the library doesn't)
     
 - 2.02
     - fix reported bugs
@@ -25,13 +25,13 @@
       - `setMyDefaultAdministratorRights` [Doc](https://bptlib.ir/doc/methods/en/setMyDefaultAdministratorRights)
       - `getMyDefaultAdministratorRights` [Doc](https://bptlib.ir/doc/methods/en/getMyDefaultAdministratorRights)
       - `answerWebAppQuery` [Doc](https://bptlib.ir/doc/methods/en/answerWebAppQuery)
-    - from now on , if logger was on , it will show process duration in MS
-    - a new parameter added to `isToken` method with `verify` name [Doc](https://bptlib.ir/doc/methods/en/isToken)
-    - two new method added
+    - from now on, if the logger was on, it will show process duration in MS
+    - a new parameter was added to the `isToken` method with `verify` name [Doc](https://bptlib.ir/doc/methods/en/isToken)
+    - two new methods added
       - `modeEscape` [Doc](https://bptlib.ir/doc/methods/en/modeEscape)
       - `isJoined` [Doc](https://bptlib.ir/doc/methods/en/isJoined)
-    - `objectToArrays` will remove in 2.03 version
+    - `objectToArrays` will remove in the 2.03 version
     - some parameters name from `checkPhone` and `forward` methods changed
-    - a new parameter added to `forward` methods with `forward` name
-    - from now on , library has separate update for bug fixing.
-    - Warning : from version 2.03 , requirement php version will increase to 7.4 and from version 2.04 or 2.05 it will increase to 8.0
+    - a new parameter added to `forward` methods with a `forward` name
+    - from now on, the library has a separate update for bug fixing.
+    - *Warning: from version 2.03, the requirement PHP version will increase to 7.4 and from version 2.04 or 2.05 it will increase to 8.0*
