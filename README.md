@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/Version-2.01-blue?style=for-the-badge&logo=V"> <img src="https://img.shields.io/badge/php-+7-green?style=for-the-badge&logo=php"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey">
+<img src="https://img.shields.io/badge/Version-2.02-blue?style=for-the-badge&logo=V"> <img src="https://img.shields.io/badge/php-+7-green?style=for-the-badge&logo=php"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey">
 
 ## Table of Contents
 - [Introduction](#introduction) 
@@ -97,3 +97,4 @@ Yes, Of coure. Just contact us.
 - [You can download latest version of BPT here](https://dl.bptlib.ir/BPT.php).<br>
 - [You can download latest version of BPT base here](https://dl.bptlib.ir/base.php).<br>
 - [You can see all of BPT vesrion here](https://dl.bptlib.ir/BPT).
+- [Change logs](https://github.com/BPTproto/BPT/blob/main/change_log.md).
