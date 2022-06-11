@@ -60,7 +60,7 @@ Yes, Of coure. Just contact us.
 **If your question isn't here , feel free to ask** <br>
 
 ## Whats the advantage
-- Support for all Telegram methods (API version: 5.5)
+- Support for all Telegram methods (API version: 6.0)
 - Many alices for telegram methods (simple syntax)
 - Set many parameters by default for telegram methods (chat_id in sendMessage, etc.)
 - You can call the telegram methods as you wish (sendMessage, send_message, sendMESSAGE, ...)
