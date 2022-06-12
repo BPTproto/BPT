@@ -1,19 +1,23 @@
 <?php
 /** ----------- Check Included ---------- */
-if(basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
-    die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
+if (!in_array(__FILE__,get_included_files())){
+    endPage();
 }
 
 /** --------- Check Php version --------- */
 if(PHP_MAJOR_VERSION === 5){
     $newline = PHP_SAPI !== 'cli' ? '<br>' . PHP_EOL : PHP_EOL;
-    die("You can't run this library on php version lower then 7.0$newline supported versions: php 7.0+$newline recommended version: php 7.4$newline");
+    die("You can't run this library on php version lower then 7.0$newline supported versions: php 7.0+$newline recommended version: php 8.0$newline");
+}
+
+function endPage(){
+    die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
 }
 
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 5.6
+ * BOT API version : 6.0
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
@@ -145,6 +149,22 @@ if(PHP_MAJOR_VERSION === 5){
  * @method deleteCommands($array = [])
  * @method getMyCommands($array = [])
  * @method getCommands($array = [])
+ * @method setChatMenuButton($array = [])
+ * @method setMenuButton($array = [])
+ * @method setMenu($array = [])
+ * @method setButton($array = [])
+ * @method getChatMenuButton($array = [])
+ * @method getMenuButton($array = [])
+ * @method getMenu($array = [])
+ * @method getButton($array = [])
+ * @method setMyDefaultAdministratorRights($array = [])
+ * @method setMyDefaultAdminRights($array = [])
+ * @method setMyDefaultRights($array = [])
+ * @method setDefaultRights($array = [])
+ * @method getMyDefaultAdministratorRights($array = [])
+ * @method getMyDefaultAdminRights($array = [])
+ * @method getMyDefaultRights($array = [])
+ * @method getDefaultRights($array = [])
  * @method editMessageText($array)
  * @method editText($array)
  * @method editMessageCaption($array)
@@ -176,6 +196,9 @@ if(PHP_MAJOR_VERSION === 5){
  * @method setStickerThumb($array)
  * @method answerInlineQuery($array = [])
  * @method answerInline($array = [])
+ * @method answerWebAppQuery($array)
+ * @method answerWebApp($array)
+ * @method answerWeb($array)
  * @method sendInvoice($array)
  * @method invoice($array)
  * @method answerShippingQuery($array)
@@ -195,9 +218,7 @@ if(PHP_MAJOR_VERSION === 5){
  * @link https://bpt-proto.ir
  */
 class BPT {
-    private $version = 2.01;
-
-    private $bot_id;
+    private $version = 2.020;
 
     private $token;
 
@@ -210,68 +231,71 @@ class BPT {
 
     public $db;
 
+    public $bot_id;
+
     private $curl_handler = null;
 
     private $web_answered = false;
 
     public function __construct (array $settings) {
+        $settings['logger'] = $settings['logger'] ?? true;
+        $settings['log_size'] = $settings['log_size'] ?? false;
+        $settings['auto_update'] = $settings['auto_update'] ?? true;
+        $settings['max_connection'] = $settings['max_connection'] ?? 40;
+        $settings['certificate'] = $settings['certificate'] ?? null;
+        $settings['base_url'] = $settings['base_url'] ?? 'https://api.telegram.org/bot';
+        $settings['down_url'] = $settings['down_url'] ?? 'https://api.telegram.org/file/bot';
+        $settings['forgot_time'] = isset($settings['forgot_time']) && is_numeric($settings['forgot_time']) ? $settings['forgot_time'] : 100;
+        $settings['receive'] = $settings['receive'] ?? 'webhook';
+        $settings['handler'] = $settings['handler'] ?? true;
+        $settings['allowed_updates'] = $settings['allowed_updates'] ?? ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
+        $settings['security'] = $settings['security'] ?? false;
+        $settings['secure_folder'] = $settings['secure_folder'] ?? false;
+        $settings['array_update'] = $settings['array_update'] ?? false;
+        $settings['split_update'] = $settings['split_update'] ?? true;
+        $settings['multi'] = $settings['multi'] ?? false;
+        $settings['debug'] = $settings['debug'] ?? false;
+        $settings['telegram_verify'] = $settings['telegram_verify'] ?? true;
+        $this->settings = $settings;
+        if ($settings['logger']) {
+            $log_size = $settings['log_size'];
+            if ($log_size !== false) {
+                $log_size = is_numeric($log_size) ? round($log_size, 1) : 10;
+                if (file_exists('BPT.log')) {
+                    if (!(filesize('BPT.log') > $log_size * 1024 * 1024)) {
+                        define('LOG', fopen('BPT.log', 'a'));
+                    }
+                    else {
+                        define('LOG', fopen('BPT.log', 'w'));
+                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
+                    }
+                }
+                else {
+                    define('LOG', fopen('BPT.log', 'a'));
+                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
+                }
+            }
+            else {
+                if (file_exists('BPT.log')) {
+                    if (!(filesize('BPT.log') > 10 * 1024 * 1024)) {
+                        define('LOG', fopen('BPT.log', 'a'));
+                    }
+                    else {
+                        define('LOG', fopen('BPT.log', 'w'));
+                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
+                    }
+                }
+                else {
+                    define('LOG', fopen('BPT.log', 'a'));
+                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
+                }
+            }
+        }
+
         if (isset($settings['token'])) {
             if ($this->isToken(['token' => $settings['token']])) {
                 $this->token = $settings['token'];
                 $this->bot_id = explode(':', $settings['token'])[0];
-                $settings['auto_update'] = $settings['auto_update'] ?? true;
-                $settings['max_connection'] = $settings['max_connection'] ?? 40;
-                $settings['certificate'] = $settings['certificate'] ?? null;
-                $settings['base_url'] = $settings['base_url'] ?? 'https://api.telegram.org/bot';
-                $settings['down_url'] = $settings['down_url'] ?? 'https://api.telegram.org/file/bot';
-                $settings['forgot_time'] = isset($settings['forgot_time']) && is_numeric($settings['forgot_time']) ? $settings['forgot_time'] : 100;
-                $settings['receive'] = $settings['receive'] ?? 'webhook';
-                $settings['handler'] = $settings['handler'] ?? true;
-                $settings['allowed_updates'] = $settings['allowed_updates'] ?? ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
-                $settings['security'] = $settings['security'] ?? false;
-                $settings['secure_folder'] = $settings['secure_folder'] ?? false;
-                $settings['array_update'] = $settings['array_update'] ?? false;
-                $settings['split_update'] = $settings['split_update'] ?? true;
-                $settings['multi'] = $settings['multi'] ?? false;
-                $settings['debug'] = $settings['debug'] ?? false;
-                $settings['telegram_verify'] = $settings['telegram_verify'] ?? true;
-                $settings['logger'] = $settings['logger'] ?? true;
-                $settings['log_size'] = $settings['log_size'] ?? false;
-                $this->settings = $settings;
-                if ($settings['logger']) {
-                    $logsize = $settings['log_size'];
-                    if ($logsize !== false) {
-                        $logsize = is_numeric($logsize) ? round($logsize, 1) : 10;
-                        if (file_exists('BPT.log')) {
-                            if (!(filesize('BPT.log') > $logsize * 1024 * 1024)) {
-                                define('LOG', fopen('BPT.log', 'a'));
-                            }
-                            else {
-                                define('LOG', fopen('BPT.log', 'w'));
-                                $this->logger('', "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nChannel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $logsize MB\n");
-                            }
-                        }
-                        else {
-                            define('LOG', fopen('BPT.log', 'a'));
-                            $this->logger('', "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nChannel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $logsize MB\n");
-                        }
-                    }
-                    else {
-                        if (file_exists('BPT.log')) {
-                            if (!(filesize('BPT.log') > 10 * 1024 * 1024)) {
-                                define('LOG', fopen('BPT.log', 'a'));
-                            }
-                            else {
-                                define('LOG', fopen('BPT.log', 'w'));
-                                $this->logger('', "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nChannel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n");
-                            }
-                        }
-                        else {
-                            define('LOG', fopen('BPT.log', 'a'));
-                            $this->logger('', "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @Master_Devloper\nChannel : @BPT_Proto\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n");
-                        }
-                    }
-                }
                 if (!$settings['debug']) {
                     if ($settings['security']) {
                         ini_set('magic_quotes_gpc', 'off');
@@ -336,13 +360,13 @@ class BPT {
                         if ($check->num_rows < 3) {
                             $db->query("
 CREATE TABLE IF NOT EXISTS `chats` (
-    `id` bigint() NOT NULL,
+    `id` bigint(20) NOT NULL,
     `type` enum('group','supergroup','channel') NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `private` (
-    `id` bigint() NOT NULL,
+    `id` bigint(20) NOT NULL,
     `last_active` int(11) NOT NULL DEFAULT 0,
     `phone_number` varchar(16) DEFAULT NULL,
     `step` varchar(32) DEFAULT NULL,
@@ -351,8 +375,8 @@ CREATE TABLE IF NOT EXISTS `private` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `users` (
-    `id` bigint() NOT NULL,
-    `gid` bigint() NOT NULL,
+    `id` bigint(20) NOT NULL,
+    `gid` bigint(20) NOT NULL,
     `last_active` int(11) NOT NULL DEFAULT 0,
     `step` varchar(32) DEFAULT NULL,
     `value` text DEFAULT NULL,
@@ -407,7 +431,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                                     if ($res['ok'] === true) {
                                         $this->logger('info', 'webhook was set successfully');
                                         touch('BPT-M.look');
-                                        die('webhook was setted');
+                                        die('webhook was set');
                                     }
                                     else {
                                         $this->logger('error', "there is some problem with setWebhook , telegram response :\n" . json_encode($res));
@@ -445,14 +469,14 @@ CREATE TABLE IF NOT EXISTS `users` (
                             }
                             elseif ($_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR']) {
                                 $this->logger('warning', 'not authorized access denied');
-                                die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
+                                endPage();
                             }
                             else {
                                 $input = json_decode(file_get_contents("php://input"), true);
                                 $ip = $input['ip'];
                                 if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
                                     $this->logger('warning', 'not authorized access denied');
-                                    die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
+                                    endPage();
                                 }
                                 $updates = $input['update'];
                             }
@@ -464,14 +488,14 @@ CREATE TABLE IF NOT EXISTS `users` (
                                 $ip = explode('-', $up)[0];
                                 if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
                                     $this->logger('warning', 'not authorized access denied');
-                                    die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
+                                    endPage();
                                 }
                                 $updates = file_get_contents($up);
                                 unlink($up);
                             }
                             else {
-                                $this->logger('error', 'not authorized access denied');
-                                die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
+                                $this->logger('warning', 'not authorized access denied');
+                                endPage();
                             }
                         }
                     }
@@ -510,8 +534,8 @@ CREATE TABLE IF NOT EXISTS `users` (
                         else {
                             if ($settings['telegram_verify']) {
                                 if (!$this->isTelegram(['ip' => $_SERVER['REMOTE_ADDR']])) {
-                                    $this->logger('warning', 'not authorized access denied');
-                                    die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
+                                    $this->logger('warning', 'not authorized access denied. IP : '.$_SERVER['REMOTE_ADDR']);
+                                    endPage();
                                 }
                             }
                             $updates = file_get_contents("php://input");
@@ -520,6 +544,52 @@ CREATE TABLE IF NOT EXISTS `users` (
                     $update = json_decode($updates, $settings['array_update']);
                     if ($update) {
                         $this->update = json_decode($updates);
+                        if ($settings['array_update']) {
+                            if((isset($update['message']) && isset($update['message']['text']))||(isset($update['edited_message']) && isset($update['edited_message']['text']))){
+                                if (isset($update['message'])) $type = 'message';
+                                else $type = 'edited_message';
+
+                                $text = &$update[$type]['text'];
+                                if ($settings['security']){
+                                    $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                                }
+                                if (strpos($text,'/') === 0){
+                                    preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/',$text,$result);
+                                    if (!empty($result[1])){
+                                        $update[$type]['commend'] = $result[1];
+                                    }
+                                    if (!empty($result[2])){
+                                        $update[$type]['commend_username'] = $result[2];
+                                    }
+                                    if (!empty($result[3])){
+                                        $update[$type]['commend_payload'] = $result[3];
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))){
+                                if (isset($update->message)) $type = 'message';
+                                else $type = 'edited_message';
+
+                                $text = &$update->$type->text;
+                                if ($settings['security']){
+                                    $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                                }
+                                if (strpos($text,'/') === 0){
+                                    preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/',$text,$result);
+                                    if (!empty($result[1])){
+                                        $update->$type->commend = $result[1];
+                                    }
+                                    if (!empty($result[2])){
+                                        $update->$type->commend_username = $result[2];
+                                    }
+                                    if (!empty($result[3])){
+                                        $update->$type->commend_payload = $result[3];
+                                    }
+                                }
+                            }
+                        }
                         $this->logger('', "BPT update received");
                         if ($settings['handler']) {
                             if ($settings['split_update']) {
@@ -528,23 +598,15 @@ CREATE TABLE IF NOT EXISTS `users` (
                                 $callback_query = method_exists($this, 'callback_query');
                                 $edited_message = method_exists($this, 'edited_message');
                                 $something_else = method_exists($this, 'something_else');
-                                $all = method_exists($this, 'all');
                             }
                             else {
                                 $all = method_exists($this, 'all');
                             }
-                            if ($settings['split_update'] || !$all) {
-                                if (!$settings['split_update'] && !$all) {
-                                    $this->logger('warning', " If you want use the library with out split update , you most define `all` method in handler");
-                                }
+                            if ($settings['split_update']) {
                                 if ($settings['array_update']) {
                                     if (isset($update['message']) && $message_update === true) {
-                                        $message = $update['message'];
-                                        if ($settings['security']) {
-                                            $message['text'] = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($message['text'])))));
-                                        }
-                                        $this->users($message, 'message');
-                                        $this->message($message);
+                                        $this->users($update['message'], 'message');
+                                        $this->message($update['message']);
                                     }
                                     elseif (isset($update['callback_query']) && $callback_query === true) {
                                         $this->users($update['callback_query'], 'callback');
@@ -564,12 +626,8 @@ CREATE TABLE IF NOT EXISTS `users` (
                                 }
                                 else {
                                     if (isset($update->message) && $message_update === true) {
-                                        $message = $update->message;
-                                        if ($settings['security'] && isset($message->text)) {
-                                            $message->text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($message->text)))));
-                                        }
-                                        $this->users($message, 'message');
-                                        $this->message($message);
+                                        $this->users($update->message, 'message');
+                                        $this->message($update->message);
                                     }
                                     elseif (isset($update->callback_query) && $callback_query === true) {
                                         $this->users($update->callback_query, 'callback');
@@ -591,6 +649,9 @@ CREATE TABLE IF NOT EXISTS `users` (
                             elseif ($all === true) {
                                 $this->all($update);
                             }
+                            else{
+                                $this->logger('warning', " If you want use the library with out split update , you most define `all` method in handler");
+                            }
                         }
                     }
                 }
@@ -611,6 +672,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                             }
                             $this->deleteWebhook();
                             $last_update = 0;
+                            file_put_contents('getUpdate.lock', 0);
                         }
                         if ($settings['split_update']) {
                             $message_update = method_exists($this, 'message');
@@ -623,13 +685,9 @@ CREATE TABLE IF NOT EXISTS `users` (
                             $all = method_exists($this, 'all');
                         }
                         while (true){
-                            $updates = $this->getUpdates(['allowed_updates' => json_encode($settings['allowed_updates']), 'offset' => $last_update, 'return_array' => $settings['array_update']]);
-                            if ($settings['array_update']) {
-                                $updates = $updates['result'];
-                            }
-                            else {
-                                $updates = $updates->result;
-                            }
+                            if (!file_exists('getUpdate.lock')) exit();
+                            $updates = $this->getUpdates(['allowed_updates' => $settings['allowed_updates'], 'offset' => $last_update, 'return_array' => $settings['array_update']]);
+                            $updates = $updates->result ?? $updates['result'];
                             foreach ($updates as $update) {
                                 if ($settings['array_update']) {
                                     $this->update = json_decode(json_encode($update));
@@ -718,8 +776,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     }
 
     public function __destruct() {
-        if(is_resource(LOG)) {
-            $this->logger('',"BPT Done");
+        if(defined('LOG') && is_resource(LOG)) {
+            $estimated = (microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'])*1000;
+            $this->logger('',"BPT Done in $estimated ms");
         }
         if ($this->curl_handler){
             curl_close($this->curl_handler);
@@ -728,7 +787,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 
     public function __call ($action, $data) {
         if (isset($data[0])) $data = $data[0];
-        else $data = [];
         $req_action = str_replace('_', '', strtolower($action));
         $action = $this->methodsAction($req_action);
         if (!empty($action)) {
@@ -739,20 +797,13 @@ CREATE TABLE IF NOT EXISTS `users` (
                         $data[$default] = $this->catchFields(['field' => $default]);
                     }
                 }
-                elseif (isset($update->$key)) {
+                elseif (isset($update->$key) || $key === 'other') {
                     foreach ($default as $def) {
                         if (!isset($data[$def])){
                             $data[$def] = $this->catchFields(['field' => $def]);
                         }
                     }
                     break;
-                }
-                elseif ($key === 'other'){
-                    foreach ($default as $def) {
-                        if (!isset($data[$def])){
-                            $data[$def] = $this->catchFields(['field' => $def]);
-                        }
-                    }
                 }
             }
             if ($this->settings['debug']) {
@@ -793,6 +844,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $this->logger('warning',"$req_action methods not found , but its called anyway");
             $action = $req_action;
         }
+
         if (isset($data['answer'])) {
             if (!$this->web_answered) {
                 if ($this->settings['multi'] === true) {
@@ -809,6 +861,10 @@ CREATE TABLE IF NOT EXISTS `users` (
                     unset($data['return_array']);
                 }
                 foreach ($data as $key=>&$value){
+                    if (!isset($value)){
+                        unset($data[$key]);
+                        continue;
+                    }
                     if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
                         $value = json_encode($value);
                     }
@@ -826,25 +882,33 @@ CREATE TABLE IF NOT EXISTS `users` (
             }
         }
         else {
-            if (isset($data['token'])) {
+            if (isset($data['token']) && $data['token'] != $this->token) {
                 $token = $data['token'];
                 unset($data['token']);
+                $curl_handler = curl_init("{$this->settings['base_url']}$token/");
+                curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl_handler, CURLOPT_SSL_VERIFYPEER, false);
             }
             else{
                 $token = $this->token;
-            }
-
-            if (!isset($this->curl_handler)){
-                $this->curl_handler = curl_init("{$this->settings['base_url']}$token/");
-                curl_setopt($this->curl_handler, CURLOPT_RETURNTRANSFER, true);
+                if (!isset($this->curl_handler)){
+                    $this->curl_handler = curl_init("{$this->settings['base_url']}$token/");
+                    curl_setopt($this->curl_handler, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($this->curl_handler, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($this->curl_handler, CURLOPT_TCP_KEEPALIVE, 1);
+                }
+                $curl_handler = $this->curl_handler;
             }
 
             if (isset($data['forgot'])) {
-                curl_setopt($this->curl_handler, CURLOPT_TIMEOUT_MS, $this->settings['forgot_time']);
+                curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, $this->settings['forgot_time']);
                 unset($data['forgot']);
             }
+            elseif ($action === 'getUpdates'){
+                curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 5000);
+            }
             else{
-                curl_setopt($this->curl_handler, CURLOPT_TIMEOUT_MS, 300);
+                curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 300);
             }
 
             if (isset($data['return_array'])) {
@@ -860,190 +924,218 @@ CREATE TABLE IF NOT EXISTS `users` (
                     $value = json_encode($value);
                 }
             }
+
             $data['method'] = $action;
-            curl_setopt($this->curl_handler, CURLOPT_POSTFIELDS, $data);
-            return json_decode(curl_exec($this->curl_handler), $return_array);
+            curl_setopt($curl_handler, CURLOPT_POSTFIELDS, $data);
+            $result = curl_exec($curl_handler);
+            if (curl_errno($curl_handler)) {
+                $this->logger('warning',curl_error($curl_handler));
+            }
+
+            if ($token != $this->token) {
+                curl_close($curl_handler);
+            }
+            return json_decode($result, $return_array);
         }
     }
 
     private function methodsAction($input){
         return [
-                'getupdates'                      =>'getUpdates',
-                'getup'                           =>'getUpdates',
-                'updates'                         =>'getUpdates',
-                'setwebhook'                      =>'setWebhook',
-                'setweb'                          =>'setWebhook',
-                'webhook'                         =>'setWebhook',
-                'deletewebhook'                   =>'deleteWebhook',
-                'deleteweb'                       =>'deleteWebhook',
-                'delweb'                          =>'deleteWebhook',
-                'getwebhookinfo'                  =>'getWebhookInfo',
-                'getweb'                          =>'getWebhookInfo',
-                'getme'                           =>'getMe',
-                'me'                              =>'getMe',
-                'logout'                          =>'logOut',
-                'close'                           =>'close',
-                'sendmessage'                     =>'sendMessage',
-                'send'                            =>'sendMessage',
-                'forwardmessage'                  =>'forwardMessage',
-                'forward'                         =>'forwardMessage',
-                'copymessage'                     =>'copyMessage',
-                'copy'                            =>'copyMessage',
-                'sendphoto'                       =>'sendPhoto',
-                'photo'                           =>'sendPhoto',
-                'sendaudio'                       =>'sendAudio',
-                'audio'                           =>'sendAudio',
-                'senddocument'                    =>'sendDocument',
-                'senddoc'                         =>'sendDocument',
-                'document'                        =>'sendDocument',
-                'doc'                             =>'sendDocument',
-                'sendvideo'                       =>'sendVideo',
-                'video'                           =>'sendVideo',
-                'sendanimation'                   =>'sendAnimation',
-                'animation'                       =>'sendAnimation',
-                'sendgif'                         =>'sendAnimation',
-                'gif'                             =>'sendAnimation',
-                'sendvoice'                       =>'sendVoice',
-                'voice'                           =>'sendVoice',
-                'sendvideonote'                   =>'sendVideoNote',
-                'videonote'                       =>'sendVideoNote',
-                'sendmediagroup'                  =>'sendMediaGroup',
-                'mediagroup'                      =>'sendMediaGroup',
-                'media'                           =>'sendMediaGroup',
-                'sendlocation'                    =>'sendLocation',
-                'sendloc'                         =>'sendLocation',
-                'location'                        =>'sendLocation',
-                'loc'                             =>'sendLocation',
-                'editmessagelivelocation'         =>'editMessageLiveLocation',
-                'editliveloc'                     =>'editMessageLiveLocation',
-                'stopmessagelivelocation'         =>'stopMessageLiveLocation',
-                'stopliveloc'                     =>'stopMessageLiveLocation',
-                'sendvenue'                       =>'sendVenue',
-                'venue'                           =>'sendVenue',
-                'sendcontact'                     =>'sendContact',
-                'contact'                         =>'sendContact',
-                'sendpoll'                        =>'sendPoll',
-                'poll'                            =>'sendPoll',
-                'senddice'                        =>'sendDice',
-                'dice'                            =>'sendDice',
-                'sendchataction'                  =>'sendChatAction',
-                'chataction'                      =>'sendChatAction',
-                'action'                          =>'sendChatAction',
-                'getuserprofilephotos'            =>'getUserProfilePhotos',
-                'userphotos'                      =>'getUserProfilePhotos',
-                'getfile'                         =>'getFile',
-                'file'                            =>'getFile',
-                'banchatmember'                   =>'banChatMember',
-                'ban'                             =>'banChatMember',
-                'kickchatmember'                  =>'banChatMember',
-                'kick'                            =>'unbanChatMember',
-                'unbanchatmember'                 =>'unbanChatMember',
-                'unban'                           =>'unbanChatMember',
-                'restrictchatmember'              =>'restrictChatMember',
-                'restrict'                        =>'restrictChatMember',
-                'promotechatmember'               =>'promoteChatMember',
-                'promote'                         =>'promoteChatMember',
-                'setchatadministratorcustomtitle' =>'setChatAdministratorCustomTitle',
-                'customtitle'                     =>'setChatAdministratorCustomTitle',
-                'banchatsenderchat'               =>'banChatSenderChat',
-                'banSender'                       =>'banChatSenderChat',
-                'unbanchatsenderchat'             =>'unbanChatSenderChat',
-                'unbanSender'                     =>'unbanChatSenderChat',
-                'setchatpermissions'              =>'setChatPermissions',
-                'permissions'                     =>'setChatPermissions',
-                'exportchatinvitelink'            =>'exportChatInviteLink',
-                'link'                            =>'exportChatInviteLink',
-                'createchatinvitelink'            =>'createChatInviteLink',
-                'crlink'                          =>'createChatInviteLink',
-                'editchatinvitelink'              =>'editChatInviteLink',
-                'edlink'                          =>'editChatInviteLink',
-                'revokechatinvitelink'            =>'revokeChatInviteLink',
-                'relink'                          =>'revokeChatInviteLink',
-                'approvechatjoinrequest'          =>'approveChatJoinRequest',
-                'acceptjoin'                      =>'approveChatJoinRequest',
-                'declinechatjoinrequest'          =>'declineChatJoinRequest',
-                'denyjoin'                        =>'declineChatJoinRequest',
-                'setchatphoto'                    =>'setChatPhoto',
-                'deletechatphoto'                 =>'deleteChatPhoto',
-                'setchattitle'                    =>'setChatTitle',
-                'title'                           =>'setChatTitle',
-                'setchatdescription'              =>'setChatDescription',
-                'description'                     =>'setChatDescription',
-                'pinchatmessage'                  =>'pinChatMessage',
-                'pin'                             =>'pinChatMessage',
-                'unpinchatmessage'                =>'unpinChatMessage',
-                'unpin'                           =>'unpinChatMessage',
-                'unpinallchatmessages'            =>'unpinAllChatMessages',
-                'unpinall'                        =>'unpinAllChatMessages',
-                'leavechat'                       =>'leaveChat',
-                'leave'                           =>'leaveChat',
-                'getchat'                         =>'getChat',
-                'chat'                            =>'getChat',
-                'getchatadministrators'           =>'getChatAdministrators',
-                'admins'                          =>'getChatAdministrators',
-                'getchatmembercount'              =>'getChatMembersCount',
-                'getchatmemberscount'             =>'getChatMembersCount',
-                'memberscount'                    =>'getChatMembersCount',
-                'getchatmember'                   =>'getChatMember',
-                'member'                          =>'getChatMember',
-                'setchatstickerset'               =>'setChatStickerSet',
-                'setsticker'                      =>'setChatStickerSet',
-                'deletechatstickerset'            =>'deleteChatStickerSet',
-                'delsticker'                      =>'deleteChatStickerSet',
-                'answercallbackquery'             =>'answerCallbackQuery',
-                'answer'                          =>'answerCallbackQuery',
-                'setmycommands'                   =>'setMyCommands',
-                'setcommands'                     =>'setMyCommands',
-                'deletemycommands'                =>'deleteMyCommands',
-                'deletecommands'                  =>'deleteMyCommands',
-                'getmycommands'                   =>'getMyCommands',
-                'getcommands'                     =>'getMyCommands',
-                'editmessagetext'                 =>'editMessageText',
-                'edittext'                        =>'editMessageText',
-                'editmessagecaption'              =>'editMessageCaption',
-                'editcap'                         =>'editMessageCaption',
-                'editcaption'                     =>'editMessageCaption',
-                'editmessagemedia'                =>'editMessageMedia',
-                'editmedia'                       =>'editMessageMedia',
-                'editmessagereplymarkup'          =>'editMessageReplyMarkup',
-                'editreply'                       =>'editMessageReplyMarkup',
-                'editkeyboard'                    =>'editMessageReplyMarkup',
-                'stoppoll'                        =>'stopPoll',
-                'deletemessage'                   =>'deleteMessage',
-                'del'                             =>'deleteMessage',
-                'sendsticker'                     =>'sendSticker',
-                'sticker'                         =>'sendSticker',
-                'getstickerset'                   =>'getStickerSet',
-                'uploadstickerfile'               =>'uploadStickerFile',
-                'uploadsticker'                   =>'uploadStickerFile',
-                'createnewstickerset'             =>'createNewStickerSet',
-                'createsticker'                   =>'createNewStickerSet',
-                'addstickertoset'                 =>'addStickerToSet',
-                'addsticker'                      =>'addStickerToSet',
-                'setstickerpositioninset'         =>'setStickerPositionInSet',
-                'setstickerposition'              =>'setStickerPositionInSet',
-                'setstickerpos'                   =>'setStickerPositionInSet',
-                'deletestickerfromset'            =>'deleteStickerFromSet',
-                'deletesticker'                   =>'deleteStickerFromSet',
-                'setstickersetthumb'              =>'setStickerSetThumb',
-                'setstickerthumb'                 =>'setStickerSetThumb',
-                'answerinlinequery'               =>'answerInlineQuery',
-                'answerinline'                    =>'answerInlineQuery',
-                'sendinvoice'                     =>'sendInvoice',
-                'invoice'                         =>'sendInvoice',
-                'answershippingquery'             =>'answerShippingQuery',
-                'answershipping'                  =>'answerShippingQuery',
-                'answerprecheckoutquery'          =>'answerPreCheckoutQuery',
-                'answerprecheckout'               =>'answerPreCheckoutQuery',
-                'answerprecheck'                  =>'answerPreCheckoutQuery',
-                'setpassportdataerrors'           =>'setPassportDataErrors',
-                'setpassport'                     =>'setPassportDataErrors',
-                'sendgame'                        =>'sendGame',
-                'game'                            =>'sendGame',
-                'setgamescore'                    =>'setGameScore',
-                'gamescore'                       =>'setGameScore',
-                'getgamehighscores'               =>'getGameHighScores',
-                'getgamehigh'                     =>'getGameHighScores'
+                'getupdates'                      => 'getUpdates',
+                'getup'                           => 'getUpdates',
+                'updates'                         => 'getUpdates',
+                'setwebhook'                      => 'setWebhook',
+                'setweb'                          => 'setWebhook',
+                'webhook'                         => 'setWebhook',
+                'deletewebhook'                   => 'deleteWebhook',
+                'deleteweb'                       => 'deleteWebhook',
+                'delweb'                          => 'deleteWebhook',
+                'getwebhookinfo'                  => 'getWebhookInfo',
+                'getweb'                          => 'getWebhookInfo',
+                'getme'                           => 'getMe',
+                'me'                              => 'getMe',
+                'logout'                          => 'logOut',
+                'close'                           => 'close',
+                'sendmessage'                     => 'sendMessage',
+                'send'                            => 'sendMessage',
+                'forwardmessage'                  => 'forwardMessage',
+                'forward'                         => 'forwardMessage',
+                'copymessage'                     => 'copyMessage',
+                'copy'                            => 'copyMessage',
+                'sendphoto'                       => 'sendPhoto',
+                'photo'                           => 'sendPhoto',
+                'sendaudio'                       => 'sendAudio',
+                'audio'                           => 'sendAudio',
+                'senddocument'                    => 'sendDocument',
+                'senddoc'                         => 'sendDocument',
+                'document'                        => 'sendDocument',
+                'doc'                             => 'sendDocument',
+                'sendvideo'                       => 'sendVideo',
+                'video'                           => 'sendVideo',
+                'sendanimation'                   => 'sendAnimation',
+                'animation'                       => 'sendAnimation',
+                'sendgif'                         => 'sendAnimation',
+                'gif'                             => 'sendAnimation',
+                'sendvoice'                       => 'sendVoice',
+                'voice'                           => 'sendVoice',
+                'sendvideonote'                   => 'sendVideoNote',
+                'videonote'                       => 'sendVideoNote',
+                'sendmediagroup'                  => 'sendMediaGroup',
+                'mediagroup'                      => 'sendMediaGroup',
+                'media'                           => 'sendMediaGroup',
+                'sendlocation'                    => 'sendLocation',
+                'sendloc'                         => 'sendLocation',
+                'location'                        => 'sendLocation',
+                'loc'                             => 'sendLocation',
+                'editmessagelivelocation'         => 'editMessageLiveLocation',
+                'editliveloc'                     => 'editMessageLiveLocation',
+                'stopmessagelivelocation'         => 'stopMessageLiveLocation',
+                'stopliveloc'                     => 'stopMessageLiveLocation',
+                'sendvenue'                       => 'sendVenue',
+                'venue'                           => 'sendVenue',
+                'sendcontact'                     => 'sendContact',
+                'contact'                         => 'sendContact',
+                'sendpoll'                        => 'sendPoll',
+                'poll'                            => 'sendPoll',
+                'senddice'                        => 'sendDice',
+                'dice'                            => 'sendDice',
+                'sendchataction'                  => 'sendChatAction',
+                'chataction'                      => 'sendChatAction',
+                'action'                          => 'sendChatAction',
+                'getuserprofilephotos'            => 'getUserProfilePhotos',
+                'userphotos'                      => 'getUserProfilePhotos',
+                'getfile'                         => 'getFile',
+                'file'                            => 'getFile',
+                'banchatmember'                   => 'banChatMember',
+                'ban'                             => 'banChatMember',
+                'kickchatmember'                  => 'banChatMember',
+                'kick'                            => 'unbanChatMember',
+                'unbanchatmember'                 => 'unbanChatMember',
+                'unban'                           => 'unbanChatMember',
+                'restrictchatmember'              => 'restrictChatMember',
+                'restrict'                        => 'restrictChatMember',
+                'promotechatmember'               => 'promoteChatMember',
+                'promote'                         => 'promoteChatMember',
+                'setchatadministratorcustomtitle' => 'setChatAdministratorCustomTitle',
+                'customtitle'                     => 'setChatAdministratorCustomTitle',
+                'banchatsenderchat'               => 'banChatSenderChat',
+                'banSender'                       => 'banChatSenderChat',
+                'unbanchatsenderchat'             => 'unbanChatSenderChat',
+                'unbanSender'                     => 'unbanChatSenderChat',
+                'setchatpermissions'              => 'setChatPermissions',
+                'permissions'                     => 'setChatPermissions',
+                'exportchatinvitelink'            => 'exportChatInviteLink',
+                'link'                            => 'exportChatInviteLink',
+                'createchatinvitelink'            => 'createChatInviteLink',
+                'crlink'                          => 'createChatInviteLink',
+                'editchatinvitelink'              => 'editChatInviteLink',
+                'edlink'                          => 'editChatInviteLink',
+                'revokechatinvitelink'            => 'revokeChatInviteLink',
+                'relink'                          => 'revokeChatInviteLink',
+                'approvechatjoinrequest'          => 'approveChatJoinRequest',
+                'acceptjoin'                      => 'approveChatJoinRequest',
+                'declinechatjoinrequest'          => 'declineChatJoinRequest',
+                'denyjoin'                        => 'declineChatJoinRequest',
+                'setchatphoto'                    => 'setChatPhoto',
+                'deletechatphoto'                 => 'deleteChatPhoto',
+                'setchattitle'                    => 'setChatTitle',
+                'title'                           => 'setChatTitle',
+                'setchatdescription'              => 'setChatDescription',
+                'description'                     => 'setChatDescription',
+                'pinchatmessage'                  => 'pinChatMessage',
+                'pin'                             => 'pinChatMessage',
+                'unpinchatmessage'                => 'unpinChatMessage',
+                'unpin'                           => 'unpinChatMessage',
+                'unpinallchatmessages'            => 'unpinAllChatMessages',
+                'unpinall'                        => 'unpinAllChatMessages',
+                'leavechat'                       => 'leaveChat',
+                'leave'                           => 'leaveChat',
+                'getchat'                         => 'getChat',
+                'chat'                            => 'getChat',
+                'getchatadministrators'           => 'getChatAdministrators',
+                'admins'                          => 'getChatAdministrators',
+                'getchatmembercount'              => 'getChatMembersCount',
+                'getchatmemberscount'             => 'getChatMembersCount',
+                'memberscount'                    => 'getChatMembersCount',
+                'getchatmember'                   => 'getChatMember',
+                'member'                          => 'getChatMember',
+                'setchatstickerset'               => 'setChatStickerSet',
+                'setsticker'                      => 'setChatStickerSet',
+                'deletechatstickerset'            => 'deleteChatStickerSet',
+                'delsticker'                      => 'deleteChatStickerSet',
+                'answercallbackquery'             => 'answerCallbackQuery',
+                'answer'                          => 'answerCallbackQuery',
+                'setmycommands'                   => 'setMyCommands',
+                'setcommands'                     => 'setMyCommands',
+                'deletemycommands'                => 'deleteMyCommands',
+                'deletecommands'                  => 'deleteMyCommands',
+                'getmycommands'                   => 'getMyCommands',
+                'getcommands'                     => 'getMyCommands',
+                'setchatmenubutton'               => 'setChatMenuButton',
+                'setmenubutton'                   => 'setChatMenuButton',
+                'setmenu'                         => 'setChatMenuButton',
+                'setbutton'                       => 'setChatMenuButton',
+                'getchatmenubutton'               => 'getChatMenuButton',
+                'getmenubutton'                   => 'getChatMenuButton',
+                'getmenu'                         => 'getChatMenuButton',
+                'getbutton'                       => 'getChatMenuButton',
+                'setmydefaultadministratorrights' => 'setMyDefaultAdministratorRights',
+                'setmydefaultadminrights'         => 'setMyDefaultAdministratorRights',
+                'setmydefaultrights'              => 'setMyDefaultAdministratorRights',
+                'setdefaultrights'                => 'setMyDefaultAdministratorRights',
+                'getmydefaultadministratorrights' => 'getMyDefaultAdministratorRights',
+                'getmydefaultadminrights'         => 'getMyDefaultAdministratorRights',
+                'getmydefaultrights'              => 'getMyDefaultAdministratorRights',
+                'getdefaultrights'                => 'getMyDefaultAdministratorRights',
+                'editmessagetext'                 => 'editMessageText',
+                'edittext'                        => 'editMessageText',
+                'editmessagecaption'              => 'editMessageCaption',
+                'editcap'                         => 'editMessageCaption',
+                'editcaption'                     => 'editMessageCaption',
+                'editmessagemedia'                => 'editMessageMedia',
+                'editmedia'                       => 'editMessageMedia',
+                'editmessagereplymarkup'          => 'editMessageReplyMarkup',
+                'editreply'                       => 'editMessageReplyMarkup',
+                'editkeyboard'                    => 'editMessageReplyMarkup',
+                'stoppoll'                        => 'stopPoll',
+                'deletemessage'                   => 'deleteMessage',
+                'del'                             => 'deleteMessage',
+                'sendsticker'                     => 'sendSticker',
+                'sticker'                         => 'sendSticker',
+                'getstickerset'                   => 'getStickerSet',
+                'uploadstickerfile'               => 'uploadStickerFile',
+                'uploadsticker'                   => 'uploadStickerFile',
+                'createnewstickerset'             => 'createNewStickerSet',
+                'createsticker'                   => 'createNewStickerSet',
+                'addstickertoset'                 => 'addStickerToSet',
+                'addsticker'                      => 'addStickerToSet',
+                'setstickerpositioninset'         => 'setStickerPositionInSet',
+                'setstickerposition'              => 'setStickerPositionInSet',
+                'setstickerpos'                   => 'setStickerPositionInSet',
+                'deletestickerfromset'            => 'deleteStickerFromSet',
+                'deletesticker'                   => 'deleteStickerFromSet',
+                'setstickersetthumb'              => 'setStickerSetThumb',
+                'setstickerthumb'                 => 'setStickerSetThumb',
+                'answerinlinequery'               => 'answerInlineQuery',
+                'answerinline'                    => 'answerInlineQuery',
+                'answerwebappquery'               => 'answerWebAppQuery',
+                'answerwebapp'                    => 'answerWebAppQuery',
+                'answerweb'                       => 'answerWebAppQuery',
+                'sendinvoice'                     => 'sendInvoice',
+                'invoice'                         => 'sendInvoice',
+                'answershippingquery'             => 'answerShippingQuery',
+                'answershipping'                  => 'answerShippingQuery',
+                'answerprecheckoutquery'          => 'answerPreCheckoutQuery',
+                'answerprecheckout'               => 'answerPreCheckoutQuery',
+                'answerprecheck'                  => 'answerPreCheckoutQuery',
+                'setpassportdataerrors'           => 'setPassportDataErrors',
+                'setpassport'                     => 'setPassportDataErrors',
+                'sendgame'                        => 'sendGame',
+                'game'                            => 'sendGame',
+                'setgamescore'                    => 'setGameScore',
+                'gamescore'                       => 'setGameScore',
+                'getgamehighscores'               => 'getGameHighScores',
+                'getgamehigh'                     => 'getGameHighScores'
             ][$input]??'';
     }
 
@@ -1110,6 +1202,10 @@ CREATE TABLE IF NOT EXISTS `users` (
                 'setMyCommands'                   => [],
                 'deleteMyCommands'                => [],
                 'getMyCommands'                   => [],
+                'setChatMenuButton'               => [],
+                'getChatMenuButton'               => [],
+                'setMyDefaultAdministratorRights' => [],
+                'getMyDefaultAdministratorRights' => [],
                 'editMessageText'                 => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
                 'editMessageCaption'              => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
                 'editMessageMedia'                => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
@@ -1126,6 +1222,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 'setStickerSetThumb'              => ['user_id'],
                 'answerInlineQuery'               => ['inline_query_id'],
                 'sendInvoice'                     => ['chat_id'],
+                'answerWebAppQuery'               => [],
                 'answerShippingQuery'             => ['shipping_query_id'],
                 'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
                 'setPassportDataErrors'           => ['user_id'],
@@ -1155,12 +1252,12 @@ CREATE TABLE IF NOT EXISTS `users` (
                 'sendVoice'                       => ['voice'],
                 'sendVideoNote'                   => ['video_note'],
                 'sendMediaGroup'                  => ['media'],
-                'sendLocation'                    => ['latitude','longitude'],
-                'editMessageLiveLocation'         => ['latitude','longitude'],
+                'sendLocation'                    => ['latitude', 'longitude'],
+                'editMessageLiveLocation'         => ['latitude', 'longitude'],
                 'stopMessageLiveLocation'         => [],
-                'sendVenue'                       => ['latitude','longitude','title','address'],
-                'sendContact'                     => ['phone_number','first_name'],
-                'sendPoll'                        => ['question','options'],
+                'sendVenue'                       => ['latitude', 'longitude', 'title', 'address'],
+                'sendContact'                     => ['phone_number', 'first_name'],
+                'sendPoll'                        => ['question', 'options'],
                 'sendDice'                        => [],
                 'sendChatAction'                  => [],
                 'getUserProfilePhotos'            => [],
@@ -1198,6 +1295,10 @@ CREATE TABLE IF NOT EXISTS `users` (
                 'setMyCommands'                   => ['commands'],
                 'deleteMyCommands'                => [],
                 'getMyCommands'                   => [],
+                'setChatMenuButton'               => [],
+                'getChatMenuButton'               => [],
+                'setMyDefaultAdministratorRights' => [],
+                'getMyDefaultAdministratorRights' => [],
                 'editMessageText'                 => ['text',],
                 'editMessageCaption'              => [],
                 'editMessageMedia'                => ['media',],
@@ -1213,6 +1314,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 'deleteStickerFromSet'            => ['sticker'],
                 'setStickerSetThumb'              => ['name'],
                 'answerInlineQuery'               => ['results'],
+                'answerwebappquery'               => ['web_app_query_id','result'],
                 'sendInvoice'                     => ['title','description','payload','provider_token','currency','prices'],
                 'answerShippingQuery'             => ['ok'],
                 'answerPreCheckoutQuery'          => ['ok'],
@@ -1261,24 +1363,16 @@ CREATE TABLE IF NOT EXISTS `users` (
         }
     }
 
-    private function users($update, $a) {
+    private function users($update, $update_type) {
         if(!empty($this->db)){
             if($this->settings['db']['type'] === 'json'){
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                if($a === 'message' || $a === 'edit') {
-                    if ($this->settings['array_update']){
-                        $type = $update['chat']['type'];
-                        $id = $update['chat']['id'];
-                        $user_id = $update['from']['id'];
-                        if (isset($update['left_chat_member'])) $left = $update['left_chat_member'];
-                        elseif (isset($update['new_chat_members'])) $news = $update['new_chat_members'];
-                    }else{
-                        $type = $update->chat->type;
-                        $id = $update->chat->id;
-                        $user_id = $update->from->id;
-                        if (isset($update->left_chat_member)) $left = $update->left_chat_member;
-                        elseif (isset($update->new_chat_members)) $news = $update->new_chat_members;
-                    }
+                if($update_type === 'message' || $update_type === 'edit') {
+                    $type = $update->chat->type ?? $update['chat']['type'];
+                    $id = $update->chat->id ?? $update['chat']['id'];
+                    $user_id = $update->from->id ?? $update['from']['id'];
+                    $left = $update->left_chat_member ?? $update['left_chat_member'] ?? null;
+                    $news = $update->new_chat_members ?? $update['new_chat_members'] ?? null;
                     if(!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
                     if ($type !== 'private'){
                         if (isset($left)){
@@ -1297,15 +1391,15 @@ CREATE TABLE IF NOT EXISTS `users` (
                     }
                     else $BPT_DB[$type][$id]['last_active'] = time();
                 }
-                elseif($a === 'inline') {
-                    $id = $update['from']['id'] ?? $update->from->id;
+                elseif($update_type === 'inline') {
+                    $id = $update->from->id ?? $update['from']['id'];
                     if(!isset($BPT_DB['private'][$id])) $BPT_DB['private'][$id] = ['last_active'=>time()];
                     else $BPT_DB['private'][$id]['last_active'] = time();
                 }
-                elseif($a === 'callback') {
-                    $type = $update['message']['chat']['type'] ?? $update->message->chat->type;
-                    $id = $update['message']['chat']['id'] ?? $update->message->chat->id;
-                    $user_id = $update['from']['id'] ?? $update->from->id;
+                elseif($update_type === 'callback') {
+                    $type = $update->message->chat->type ?? $update['message']['chat']['type'];
+                    $id = $update->message->chat->id ?? $update['message']['chat']['id'];
+                    $user_id = $update->from->id ?? $update['from']['id'];
                     if(!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
                     if ($type !== 'private'){
                         if (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
@@ -1316,44 +1410,44 @@ CREATE TABLE IF NOT EXISTS `users` (
                 file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
             }
             elseif($this->settings['db']['type'] === 'sql'){
-                if($a === 'message' || $a === 'edit') {
-                    $type = $update['chat']['type'] ?? $update->chat->type;
-                    $id = $update['chat']['id'] ?? $update->chat->id;
-                    $user_id = $update['from']['id'] ?? $update->from->id;
+                if($update_type === 'message' || $update_type === 'edit') {
+                    $type = $update->chat->type ?? $update['chat']['type'];
+                    $id = $update->chat->id ?? $update['chat']['id'];
+                    $user_id = $update->from->id ?? $update['from']['id'];
                     if ($type === 'private'){
-                        $info = $this->db->query("select * from `private` where `id` = $user_id")->num_rows;
+                        $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
                         if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
-                        else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $user_id");
+                        else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $user_id limit 1");
                     }else{
-                        $info = $this->db->query("select * from `chats` where `id` = $id")->num_rows;
+                        $info = $this->db->query("select `id` from `chats` where `id` = $id limit 1")->num_rows;
                         if ($info < 1) $this->db->query("INSERT INTO `chats`(`id`,`type`) VALUES ($id,'$type')");
                         else{
                             $time = time();
-                            $info = $this->db->query("select * from `users` where `id` = $id and `gid` = $id")->num_rows;
+                            $info = $this->db->query("select `id` from `users` where `id` = $id and `gid` = $id limit 1")->num_rows;
                             if ($info < 1) $this->db->query("INSERT INTO `users`(`id`,`gid`,`last_active`) VALUES ($id,'$type',$time)");
-                            else $this->db->query("update `users` set `last_active` = $time where `id` = $user_id and `gid` = $id");
+                            else $this->db->query("update `users` set `last_active` = $time where `id` = $user_id and `gid` = $id limit 1");
                         }
                     }
                 }
-                elseif($a === 'inline') {
-                    $id = $update['from']['id'] ?? $update->from->id;
-                    $info = $this->db->query("select * from `private` where `id` = $id")->num_rows;
+                elseif($update_type === 'inline') {
+                    $id = $update->from->id ?? $update['from']['id'];
+                    $info = $this->db->query("select `id` from `private` where `id` = $id limit 1")->num_rows;
                     if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($id)");
-                    else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $id");
+                    else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $id limit 1");
                 }
-                elseif($a === 'callback') {
-                    $type = $update['message']['chat']['type'] ?? $update->message->chat->type;
-                    $id = $update['message']['chat']['id'] ?? $update->message->chat->id;
-                    $user_id = $update['from']['id'] ?? $update->from->id;
+                elseif($update_type === 'callback') {
+                    $type = $update->message->chat->type ?? $update['message']['chat']['type'];
+                    $id = $update->message->chat->id ?? $update['message']['chat']['id'];
+                    $user_id = $update->from->id ?? $update['from']['id'];
                     if ($type === 'private'){
-                        $info = $this->db->query("select * from `private` where `id` = $user_id")->num_rows;
+                        $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
                         if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
-                        else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $user_id");
+                        else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $user_id limit 1");
                     }
                     else{
-                        $info = $this->db->query("select * from `chats` where `id` = $id")->num_rows;
+                        $info = $this->db->query("select `id` from `chats` where `id` = $id limit 1")->num_rows;
                         if ($info < 1) $this->db->query("INSERT INTO `chats`(`id`,`type`) VALUES ($id,'$type')");
-                        else $this->db->query("update `users` set `last_active` = ".time()." where `id` = $user_id and `gid` = $id");
+                        else $this->db->query("update `users` set `last_active` = ".time()." where `id` = $user_id and `gid` = $id limit 1");
                     }
                 }
             }
@@ -1378,7 +1472,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $this->logger('error', "BPT catchFields method used\nfield parameter not found");
             throw new exception('field parameter not found');
         }
-        if ($field === 'chat_id' || $field === 'from_chat_id') {
+        if ($field === 'chat_id' || $field === 'from_chat_id'){
             if (isset($this->update->message)) return $this->update->message->chat->id;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->id;
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
@@ -1386,21 +1480,21 @@ CREATE TABLE IF NOT EXISTS `users` (
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->id;
             else return false;
         }
-        elseif ($field === 'user_id') {
+        elseif ($field === 'user_id'){
             if (isset($this->update->message)) return $this->update->message->from->id;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->id;
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->id;
+            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->id;
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->id;
             else return false;
         }
-        elseif ($field === 'message_id') {
+        elseif ($field === 'message_id'){
             if (isset($this->update->message)) return $this->update->message->message_id;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->message_id;
             elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->message_id;
             else return false;
         }
-        elseif ($field === 'file_id') {
+        elseif ($field === 'file_id'){
             if (isset($this->update->message)) $type = 'message';
             elseif (isset($this->update->edited_message)) $type = 'edited_message';
             else return false;
@@ -1415,33 +1509,33 @@ CREATE TABLE IF NOT EXISTS `users` (
             elseif (isset($this->update->$type->voice)) return $this->update->$type->voice->file_id;
             else return false;
         }
-        elseif ($field === 'callback_query_id') {
+        elseif ($field === 'callback_query_id'){
             if (isset($this->update->callback_query)) return $this->update->callback_query->id;
             else return false;
         }
-        elseif ($field === 'shipping_query_id') {
+        elseif ($field === 'shipping_query_id'){
             if (isset($this->update->shipping_query)) return $this->update->shipping_query->id;
             else return false;
         }
-        elseif ($field === 'pre_checkout_query_id') {
+        elseif ($field === 'pre_checkout_query_id'){
             if (isset($this->update->pre_checkout_query)) return $this->update->pre_checkout_query->id;
             else return false;
         }
-        elseif ($field === 'inline_query_id') {
+        elseif ($field === 'inline_query_id'){
             if (isset($this->update->inline_query)) return $this->update->inline_query->id;
             else return false;
         }
-        elseif ($field === 'type') {
+        elseif ($field === 'type'){
             if (isset($this->update->message)) return $this->update->message->chat->type;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->type;
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->chat_type;
             elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->type;
             else return false;
         }
-        elseif ($field === 'action') {
+        elseif ($field === 'action'){
             return 'typing';
         }
-        elseif ($field === 'name') {
+        elseif ($field === 'name'){
             if (isset($this->update->message)) return $this->update->message->from->first_name;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->first_name;
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->first_name;
@@ -1449,7 +1543,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->first_name;
             else return false;
         }
-        elseif ($field === 'last_name') {
+        elseif ($field === 'last_name'){
             if (isset($this->update->message)) return $this->update->message->from->last_name ?? '';
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->last_name ?? '';
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->last_name ?? '';
@@ -1457,7 +1551,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->last_name ?? '';
             else return false;
         }
-        elseif ($field === 'username') {
+        elseif ($field === 'username'){
             if (isset($this->update->message)) return $this->update->message->from->username ?? '';
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->username ?? '';
             elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->username ?? '';
@@ -1465,14 +1559,14 @@ CREATE TABLE IF NOT EXISTS `users` (
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->username ?? '';
             else return false;
         }
-        elseif ($field === 'group_name') {
+        elseif ($field === 'group_name'){
             if (isset($this->update->message)) return $this->update->message->chat->first_name;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->first_name;
             elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->first_name;
             elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->first_name;
             else return false;
         }
-        elseif ($field === 'group_username') {
+        elseif ($field === 'group_username'){
             if (isset($this->update->message)) return $this->update->message->chat->username;
             elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->username;
             elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->username;
@@ -1589,12 +1683,17 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * Check the given token format
      *
+     * if you want to verify token with telegram , you should set verify parameter => true
+     * in that case , if token was right , you will receive getMe result , otherwise you will receive false
+     *
+     * verify parameter has default value => false
+     *
      * e.g. => $this->isToken(['token'=>'123123123:abcabcabcabc']);
-     * @param array $array e.g. => ['token'=>'123123123:abcabcabcabc']
-     * @return bool
+     * @param array $array e.g. => ['token'=>'123123123:abcabcabcabc','verify'=>false]
+     * @return bool|array
      * @throws exception
      */
-    public function isToken (array $array): bool {
+    public function isToken (array $array) {
         if (isset($array['token'])) {
             $token = $array['token'];
         }
@@ -1602,7 +1701,18 @@ CREATE TABLE IF NOT EXISTS `users` (
             $this->logger('error', "BPT isToken method used\ntoken parameter not found");
             throw new exception('token parameter not found');
         }
-        return preg_match('/^(\d{8,10}):[\w\-]{35}$/', $token);
+        $verify = $array['verify'] ?? false;
+        if (preg_match('/^(\d{8,10}):[\w\-]{35}$/', $token)) {
+            if ($verify){
+                $res = $this->me(['token'=>$token]);
+                if ($res['ok']) {
+                    return $res['result'];
+                }
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -1622,6 +1732,87 @@ CREATE TABLE IF NOT EXISTS `users` (
             throw new exception('username parameter not found');
         }
         return strpos($username, '__') === false && preg_match('/^@?([a-zA-Z])(\w{4,31})$/', $username);
+    }
+
+    /**
+     * check user joined in channels or not
+     *
+     * this method only return true or false, if user join in all channels true, and if user not joined in one channel false
+     *
+     * this method does not care about not founded channel and count them as joined channel
+     *
+     * ids parameter can be array for multi channels or can be string for one channel
+     *
+     * user_id parameter have default value => generated by catchFields method
+     *
+     * NOTE : each channel will decrease speed a little(because of request count)
+     *
+     * e.g. => $this->isJoined(['ids'=>['BPT_CH','-1005465465454']]);
+     *
+     * e.g. => $this->isJoined(['user_id'=>'442109602','ids'=>'BPT_CH']);
+     *
+     * @param array $array e.g. => ['user_id'=>'442109602','ids'=>'BPT_CH']
+     * @return bool
+     * @throws exception
+     */
+    public function isJoined (array $array): bool {
+        if (isset($array['ids'])) {
+            $ids = $array['ids'];
+            if (is_string($ids) || is_numeric($ids)) {
+                $ids = [$ids];
+            }
+        }
+        else {
+            $this->logger('error', "BPT jChecker function used\nids parameter not found");
+            throw new exception('ids parameter not found');
+        }
+        $user_id = $array['user_id'] ?? $this->catchFields(['field' => 'user_id']);
+        foreach ($ids as $id) {
+            $check = $this->getChatMember(['chat_id' => $id, 'user_id' => $user_id]);
+            if (isset($check['result'])) {
+                $check = $check['result']['status'];
+                if ($check === 'left' || $check === 'kicked'){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Escape text for different parse_modes
+     *
+     * type parameter can be : `html` , `markdown` , `markdown2` , default : `html`
+     *
+     * e.g. => $this->modeEscape(['text'=>'hello men! *I* Have nothing anymore']);
+     * @param array $array e.g. => ['text'=>'hello men! *I* Have nothing anymore','mode'=>'markdown2']
+     * @return string|bool
+     * @throws exception
+     */
+    public function modeEscape (array $array) {
+        if (isset($array['text'])) {
+            $text = $array['text'];
+        }
+        else {
+            $this->logger('error', "BPT modeEscape method used\ntext parameter not found");
+            throw new exception('text parameter not found');
+        }
+        $mode = isset($array['mode']) ? strtolower($array['mode']) : 'html';
+
+        switch ($mode) {
+            case 'html':
+                return str_replace(['&', '<', '>',], ["&amp;", "&lt;", "&gt;",], $text);
+            case 'markdown':
+                return str_replace(["\\", '_', '*', '`', '['], ["\\\\", "\\_", "\\*", "\\`", "\\[",], $text);
+            case 'markdown2':
+                return str_replace(
+                    ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!','\\'],
+                    ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!','\\\\'],
+                    $text);
+            default:
+                $this->logger('error', "BPT modeEscape method used\ntype is wrong");
+                return false;
+        }
     }
 
     /**
@@ -1676,6 +1867,8 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * Convert datetime or timestamp to array
      *
+     * Its calculated different between given time and now
+     *
      * e.g. => $this->time2string(['datetime'=>1636913656]);
      * @param array $array e.g. => ['datetime'=>1636913656]
      * @return bool|array
@@ -1709,6 +1902,10 @@ CREATE TABLE IF NOT EXISTS `users` (
     }
 
     /**
+     * DEPRECATED! will remove in version 2.03
+     *
+     * use '(object) $array' instead
+     *
      * Convert object to array
      *
      * e.g. => $this->objectToArrays(['object'=>$this_is_object]);
@@ -1831,9 +2028,15 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * convert all of files in selected path to zip and then save it in dest path
      *
-     * NOTE : this will not zip folders and subFiles , maybe added in feature updates
+     * if you want to add the main folder to the zip file , set self `param` true
      *
-     * e.g. => $this->zip(['path'=>'xFolder','dest'=>'yFolder/xFile.zip']);
+     * if you want to add all of file and sub files in main folder(ignore subfolders) set sub_folder `param` false
+     *
+     * self parameter have default value => true
+     *
+     * sub parameter have default value => true
+     *
+     * e.g. => $this->zip(['path'=>'xFolder','dest'=>'yFolder/xFile.zip','self'=>false,'sub_folder'=>true);
      * @param array $array e.g. => ['path'=>'xFolder','dest'=>'yFolder/xFile.zip']
      * @return bool
      * @throws exception
@@ -1854,19 +2057,50 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT zip function used\ndest parameter not found");
                 throw new exception('dest parameter not found');
             }
-            $rootPath = realpath($path);
-            $Zip = new ZipArchive();
-            $Zip->open($dest, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootPath), RecursiveIteratorIterator::LEAVES_ONLY);
-            $root_len = strlen($rootPath) + 1;
-            foreach ($files as $file) {
-                if (!$file->isDir()) {
-                    $filePath = $file->getRealPath();
-                    $Zip->addFile($filePath, substr($filePath, $root_len));
+            $self = $array['self'] ?? true;
+            $sub_folder = $array['sub_folder'] ?? true;
+
+            if (file_exists($dest)) unlink($dest);
+
+            $path = realpath($path);
+            $zip = new ZipArchive();
+            $zip->open($dest, ZipArchive::CREATE);
+
+            if (is_dir($path)){
+                if ($self){
+                    $dirs = explode('\\',$path);
+                    $dir_count = count($dirs);
+                    $main_dir = $dirs[$dir_count-1];
+
+                    $path = '';
+                    for ($i=0; $i < $dir_count - 1; $i++) {
+                        $path .= '\\' . $dirs[$i];
+                    }
+                    $path = substr($path, 1);
+                    $zip->addEmptyDir($main_dir);
+                }
+
+                $it = new RecursiveDirectoryIterator($path,RecursiveDirectoryIterator::SKIP_DOTS);
+                $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
+                foreach ($files as $file) {
+                    if ($file->isFile()){
+                        if ($sub_folder){
+                            $zip->addFile($file, str_replace($path . '\\', '', $file));
+                        }
+                        else{
+                            $zip->addFile($file, basename($file));
+                        }
+                    }
+                    elseif ($file->isDir() && $sub_folder) {
+                        $zip->addEmptyDir(str_replace($path . '\\', '', $file . '\\'));
+                    }
                 }
             }
-            $Zip->close();
-            return true;
+            else{
+                $zip->addFile($path, basename($path));
+            }
+
+            return $zip->close();
         }
         else {
             $this->logger('error', "BPT zip function used\nzip extension is not found , It may not be installed or enabled");
@@ -1924,7 +2158,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $rate = ['B', 'KB', 'MB', 'GB', 'TB'];
                 while ($size > 1024){
                     $size = $size / 1024;
-                    $o ++;
+                    $o++;
                 }
                 if ($o !== 0) {
                     $size = round($size, 2);
@@ -2039,12 +2273,13 @@ CREATE TABLE IF NOT EXISTS `users` (
             throw new exception('ids parameter not found');
         }
         $user_id = $array['user_id'] ?? $this->catchFields(['field' => 'user_id']);
+
         $result = [];
         foreach ($ids as $id) {
             $check = $this->getChatMember(['chat_id' => $id, 'user_id' => $user_id]);
             if (isset($check['result'])) {
                 $check = $check['result']['status'];
-                $result[$id] = $check === 'member' || $check === 'administrator' || $check === 'creator';
+                $result[$id] = $check !== 'left' && $check !== 'kicked';
             }
             else {
                 $result[$id] = null;
@@ -2423,7 +2658,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 foreach ($check as $row) {
                     $res[$row['type'] . 's'] = $row['count'];
                 }
-                $res['users'] = $this->db->query('select * from `private`')->num_rows;
+                $res['users'] = $this->db->query('select count(*) as `cnt` from `private`')->fetch_object()->cnt;
                 return $res;
             }
             else return false;
@@ -2476,14 +2711,14 @@ CREATE TABLE IF NOT EXISTS `users` (
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 if ($type === 'private') {
-                    $check = $this->db->query("select * from `private` where `id` = $chat_id");
+                    $check = $this->db->query("select * from `private` where `id` = $chat_id limit 1");
                     if ($check->num_rows > 0) {
                         return $check->fetch_array();
                     }
                     else return false;
                 }
                 else {
-                    $check = $this->db->query("select * from `chats` where `id` = $chat_id");
+                    $check = $this->db->query("select * from `chats` where `id` = $chat_id limit 1");
                     if ($check->num_rows > 0) {
                         return $check->fetch_array();
                     }
@@ -2501,7 +2736,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * check user phone is submitted , if not receive it
      *
-     * NOTE : send button_text parameter instead of old btext parameter(support of old style will remove from version 2.02)
+     * NOTE : send button_text parameter instead of old btext parameter(support of old style will remove from version 2.03)
      *
      * text parameter have default value in persian language
      *
@@ -2607,7 +2842,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                         }
                     }
                     elseif ($this->settings['db']['type'] === 'sql') {
-                        $info = $this->db->query("select * from `private` where `id` = $id")->fetch_object();
+                        $info = $this->db->query("select `phone_number` from `private` where `id` = $id limit 1")->fetch_object();
                         if (isset($info->phone_number)) {
                             if (is_array($phones)) {
                                 $phone = $info->phone_number;
@@ -2616,7 +2851,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                                         return 1;
                                     }
                                 }
-                                $this->db->query("update `users` set `phone_number` = null where `id` = $id");
+                                $this->db->query("update `users` set `phone_number` = null where `id` = $id limit 1");
                                 $this->sendMessage(['chat_id' => $id, 'text' => $text, 'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]])]);
                                 return 0;
                             }
@@ -2626,13 +2861,13 @@ CREATE TABLE IF NOT EXISTS `users` (
                             if (isset($this->update->message->contact)) {
                                 $phone = $this->update->message->contact->phone_number;
                                 if (is_string($phones)) {
-                                    $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id");
+                                    $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id limit 1");
                                     return 3;
                                 }
                                 else {
                                     foreach ($phones as $range) {
                                         if (is_string($range) && strpos($phone, $range) === 0) {
-                                            $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id");
+                                            $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id limit 1");
                                             return 3;
                                         }
                                     }
@@ -2660,9 +2895,11 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all users(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.03)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.03)
+     *
+     * if forward parameter has true value , the sended message will have sender name(forwarded) otherwise will have not(copied)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2691,17 +2928,26 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2users function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
+
+            if (isset($array['forward'])) {
+                $forward = $array['forward'];
+            }
+            else {
+                $forward = true;
+            }
+            $method = $forward ? 'forwardMessage' : 'copyMessage';
+
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 foreach ($BPT_DB['private'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
                 foreach ($BPT_DB as $id) {
-                    $this->forwardMessage(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
@@ -2716,9 +2962,11 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all normal groups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.03)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.03)
+     *
+     * if forward parameter has true value , the sended message will have sender name(forwarded) otherwise will have not(copied)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2747,17 +2995,26 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2groups function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
+
+            if (isset($array['forward'])) {
+                $forward = $array['forward'];
+            }
+            else {
+                $forward = true;
+            }
+            $method = $forward ? 'forwardMessage' : 'copyMessage';
+
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 foreach ($BPT_DB['groups'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
                 foreach ($BPT_DB as $id) {
-                    $this->forwardMessage(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
@@ -2772,9 +3029,11 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all super groups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.03)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.03)
+     *
+     * if forward parameter has true value , the sended message will have sender name(forwarded) otherwise will have not(copied)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2803,17 +3062,26 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2supergroups function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
+
+            if (isset($array['forward'])) {
+                $forward = $array['forward'];
+            }
+            else {
+                $forward = true;
+            }
+            $method = $forward ? 'forwardMessage' : 'copyMessage';
+
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 foreach ($BPT_DB['supergroup'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup'")->fetch_all(MYSQLI_ASSOC);
                 foreach ($BPT_DB as $id) {
-                    $this->forwardMessage(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
@@ -2828,9 +3096,11 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all groups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.03)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.03)
+     *
+     * if forward parameter has true value , the sended message will have sender name(forwarded) otherwise will have not(copied)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2859,20 +3129,29 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2gps function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
+
+            if (isset($array['forward'])) {
+                $forward = $array['forward'];
+            }
+            else {
+                $forward = true;
+            }
+            $method = $forward ? 'forwardMessage' : 'copyMessage';
+
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 foreach ($BPT_DB['groups'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 foreach ($BPT_DB['supergroup'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
                 foreach ($BPT_DB as $id) {
-                    $this->forwardMessage(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
@@ -2887,9 +3166,11 @@ CREATE TABLE IF NOT EXISTS `users` (
     /**
      * forward a message to all include users , groups , supergroups(receive data from database)
      *
-     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.02)
+     * NOTE : send chat_id parameter instead of old chatid parameter(support of old style will remove from version 2.03)
      *
-     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.02)
+     * NOTE : send message_id parameter instead of old msgid parameter(support of old style will remove from version 2.03)
+     *
+     * if forward parameter has true value , the sended message will have sender name(forwarded) otherwise will have not(copied)
      *
      * for now this method cannot work fine on large amount of targets
      *
@@ -2918,27 +3199,36 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2all function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
+
+            if (isset($array['forward'])) {
+                $forward = $array['forward'];
+            }
+            else {
+                $forward = true;
+            }
+            $method = $forward ? 'forwardMessage' : 'copyMessage';
+
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 foreach ($BPT_DB['private'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 foreach ($BPT_DB['groups'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 foreach ($BPT_DB['supergroup'] as $id => $x) {
-                    $this->forwardMessage(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
                 foreach ($BPT_DB as $id) {
-                    $this->forwardMessage(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
                 foreach ($BPT_DB as $id) {
-                    $this->forwardMessage(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
