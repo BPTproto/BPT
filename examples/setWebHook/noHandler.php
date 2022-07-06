@@ -92,112 +92,112 @@ if (isset($BPT->update->message->text)) {
         if ($user->step !== 'main') {
             $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
         }
-        $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-        $this->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
+        $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+        $BPT->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
     }
     else {
         if ($user->step === 'main') {
             switch ($text) {
                 case $set_webhook_button:
                     $db->query("UPDATE `users` SET `step` = 'set_webhook' WHERE `id` = $user_id limit 1");
-                    $keyboard = $this->eKey(['keyboard'=>$back_keyboard]);
-                    $this->send(['text'=>$set_webhook_text,'reply_markup' => $keyboard,'answer'=>true]);
+                    $keyboard = $BPT->eKey(['keyboard'=>$back_keyboard]);
+                    $BPT->send(['text'=>$set_webhook_text,'reply_markup' => $keyboard,'answer'=>true]);
                     break;
                 case $delete_webhook_button:
                     $db->query("UPDATE `users` SET `step` = 'delete_webhook' WHERE `id` = $user_id limit 1");
-                    $keyboard = $this->eKey(['keyboard'=>$back_keyboard]);
-                    $this->send(['text'=>$delete_webhook_text,'reply_markup' => $keyboard,'answer'=>true]);
+                    $keyboard = $BPT->eKey(['keyboard'=>$back_keyboard]);
+                    $BPT->send(['text'=>$delete_webhook_text,'reply_markup' => $keyboard,'answer'=>true]);
                     break;
                 case $clear_pending_button:
                     $db->query("UPDATE `users` SET `step` = 'clear_pending' WHERE `id` = $user_id limit 1");
-                    $keyboard = $this->eKey(['keyboard'=>$back_keyboard]);
-                    $this->send(['text'=>$clear_pending_text,'reply_markup' => $keyboard,'answer'=>true]);
+                    $keyboard = $BPT->eKey(['keyboard'=>$back_keyboard]);
+                    $BPT->send(['text'=>$clear_pending_text,'reply_markup' => $keyboard,'answer'=>true]);
                     break;
                 case $webhook_info_button:
                     $db->query("UPDATE `users` SET `step` = 'webhook_info' WHERE `id` = $user_id limit 1");
-                    $keyboard = $this->eKey(['keyboard'=>$back_keyboard]);
-                    $this->send(['text'=>$webhook_info_text,'reply_markup' => $keyboard,'answer'=>true]);
+                    $keyboard = $BPT->eKey(['keyboard'=>$back_keyboard]);
+                    $BPT->send(['text'=>$webhook_info_text,'reply_markup' => $keyboard,'answer'=>true]);
                     break;
             }
         }
         elseif ($user->step === 'set_webhook'){
             if ($text === $back_button) {
                 $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                $this->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
+                $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                $BPT->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
             }
             else {
                 if (filter_var($text,FILTER_VALIDATE_URL) && strpos($text,'https://') === 0) {
                     $query = $db->prepare("UPDATE `users` SET `step` = 'set_webhook_token' , `value` = ? WHERE `id` = $user_id limit 1");
                     $query->bind_param("s", $text);
                     $query->execute();
-                    $this->send(['text'=>$set_webhook_token_text,'answer'=>true]);
+                    $BPT->send(['text'=>$set_webhook_token_text,'answer'=>true]);
                 }
                 else {
-                    $this->send(['text'=>$set_webhook_url_wrong_text,'answer'=>true]);
+                    $BPT->send(['text'=>$set_webhook_url_wrong_text,'answer'=>true]);
                 }
             }
         }
         elseif ($user->step === 'set_webhook_token'){
             if ($text === $back_button) {
                 $db->query("UPDATE `users` SET `step` = 'set_webhook' , `value`='' WHERE `id` = $user_id limit 1");
-                $keyboard = $this->eKey(['keyboard'=>$back_keyboard]);
-                $this->send(['text'=>$set_webhook_text,'reply_markup' => $keyboard,'answer'=>true]);
+                $keyboard = $BPT->eKey(['keyboard'=>$back_keyboard]);
+                $BPT->send(['text'=>$set_webhook_text,'reply_markup' => $keyboard,'answer'=>true]);
             }
             else {
-                if ($this->isToken(['token'=>$text,'verify'=>true])) {
-                    $res = $this->setWebhook([
+                if ($BPT->isToken(['token'=>$text,'verify'=>true])) {
+                    $res = $BPT->setWebhook([
                         'token'=>$text,
                         'url' => $user->value
                     ]);
                     if ($res['ok']) {
                         $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                        $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                        $this->send(['text'=>$done_text,'reply_markup' => $keyboard,'answer'=>true]);
+                        $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                        $BPT->send(['text'=>$done_text,'reply_markup' => $keyboard,'answer'=>true]);
                     }
                     else {
-                        $this->send(['text'=>$something_went_wrong_text,'answer'=>true]);
+                        $BPT->send(['text'=>$something_went_wrong_text,'answer'=>true]);
                     }
                 }
                 else {
-                    $this->send(['text'=>$token_not_right_text,'answer'=>true]);
+                    $BPT->send(['text'=>$token_not_right_text,'answer'=>true]);
                 }
             }
         }
         elseif ($user->step === 'delete_webhook'){
             if ($text === $back_button) {
                 $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                $this->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
+                $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                $BPT->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
             }
             else {
-                if ($this->isToken(['token'=>$text,'verify'=>true])) {
-                    if ($this->delWeb(['token'=>$text])['ok']) {
+                if ($BPT->isToken(['token'=>$text,'verify'=>true])) {
+                    if ($BPT->delWeb(['token'=>$text])['ok']) {
                         $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                        $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                        $this->send(['text'=>$done_text,'reply_markup' => $keyboard]);
+                        $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                        $BPT->send(['text'=>$done_text,'reply_markup' => $keyboard]);
                     }
                     else {
-                        $this->send(['text'=>$something_went_wrong_text,'answer'=>true]);
+                        $BPT->send(['text'=>$something_went_wrong_text,'answer'=>true]);
                     }
                 }
                 else {
-                    $this->send(['text'=>$token_not_right_text,'answer'=>true]);
+                    $BPT->send(['text'=>$token_not_right_text,'answer'=>true]);
                 }
             }
         }
         elseif ($user->step === 'clear_pending'){
             if ($text === $back_button) {
                 $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                $this->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
+                $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                $BPT->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
             }
             else {
-                if ($this->isToken(['token'=>$text,'verify'=>true])) {
-                    $info = $this->getWebhookInfo(['token'=>$text]);
+                if ($BPT->isToken(['token'=>$text,'verify'=>true])) {
+                    $info = $BPT->getWebhookInfo(['token'=>$text]);
                     if ($info['ok']) {
                         $info = $info['result'];
-                        $res = $this->setWebhook([
+                        $res = $BPT->setWebhook([
                             'token'=>$text,
                             'url' => $info['url'],
                             'max_connections' => $info['max_connections'],
@@ -205,31 +205,31 @@ if (isset($BPT->update->message->text)) {
                         ]);
                         if ($res['ok']) {
                             $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                            $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                            $this->send(['text'=>$clear_pending_done_text . $info['pending_update_count'],'reply_markup' => $keyboard,'answer'=>true]);
+                            $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                            $BPT->send(['text'=>$clear_pending_done_text . $info['pending_update_count'],'reply_markup' => $keyboard,'answer'=>true]);
                         }
                         else {
-                            $this->send(['text'=>$something_went_wrong_text,'answer'=>true]);
+                            $BPT->send(['text'=>$something_went_wrong_text,'answer'=>true]);
                         }
                     }
                     else {
-                        $this->send(['text'=>$something_went_wrong_text,'answer'=>true]);
+                        $BPT->send(['text'=>$something_went_wrong_text,'answer'=>true]);
                     }
                 }
                 else {
-                    $this->send(['text'=>$token_not_right_text,'answer'=>true]);
+                    $BPT->send(['text'=>$token_not_right_text,'answer'=>true]);
                 }
             }
         }
         elseif ($user->step === 'webhook_info'){
             if ($text === $back_button) {
                 $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                $this->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
+                $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                $BPT->send(['text'=>$start_text,'reply_markup' => $keyboard,'answer'=>true]);
             }
             else {
-                if ($this->isToken(['token'=>$text,'verify'=>true])) {
-                    $info = $this->getWebhookInfo(['token'=>$text]);
+                if ($BPT->isToken(['token'=>$text,'verify'=>true])) {
+                    $info = $BPT->getWebhookInfo(['token'=>$text]);
                     if ($info['ok']) {
                         $info = $info['result'];
                         $url = $info['url'];
@@ -245,15 +245,15 @@ if (isset($BPT->update->message->text)) {
                                 $webhook_info_date_text . " : " . date('Y/m/d H:i:s',$info['last_error_date']) ."\n";
                         }
                         $db->query("UPDATE `users` SET `step` = 'main' WHERE `id` = $user_id limit 1");
-                        $keyboard = $this->eKey(['keyboard'=>$start_keyboard]);
-                        $this->send(['text'=>$main_text,'reply_markup' => $keyboard,'answer'=>true]);
+                        $keyboard = $BPT->eKey(['keyboard'=>$start_keyboard]);
+                        $BPT->send(['text'=>$main_text,'reply_markup' => $keyboard,'answer'=>true]);
                     }
                     else {
-                        $this->send(['text'=>$something_went_wrong_text,'answer'=>true]);
+                        $BPT->send(['text'=>$something_went_wrong_text,'answer'=>true]);
                     }
                 }
                 else {
-                    $this->send(['text'=>$token_not_right_text,'answer'=>true]);
+                    $BPT->send(['text'=>$token_not_right_text,'answer'=>true]);
                 }
             }
         }
