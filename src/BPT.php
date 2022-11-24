@@ -5,9 +5,9 @@ if (!in_array(__FILE__,get_included_files())){
 }
 
 /** --------- Check Php version --------- */
-if(PHP_MAJOR_VERSION === 5){
+if(PHP_MAJOR_VERSION === 5 || (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION < 4)){
     $newline = PHP_SAPI !== 'cli' ? '<br>' . PHP_EOL : PHP_EOL;
-    die("You can't run this library on php version lower then 7.0$newline supported versions: php 7.0+$newline recommended version: php 8.0$newline");
+    die("You can't run this library on php version lower then 7.4$newline supported versions: php 7.4+$newline recommended version: php 8.0$newline");
 }
 
 function endPage(){
@@ -17,7 +17,7 @@ function endPage(){
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 6.0
+ * BOT API version : 6.3
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
@@ -214,15 +214,30 @@ function endPage(){
  * @method gameScore($array)
  * @method getGameHighScores($array = [])
  * @method getGameHigh($array = [])
- *
- * @link https://bpt-proto.ir
+ * @method getForumTopicIconStickers($array)
+ * @method getForumTopicStickers($array)
+ * @method createForumTopic($array)
+ * @method createTopic($array)
+ * @method editForumTopic($array)
+ * @method editTopic($array)
+ * @method closeForumTopic($array)
+ * @method closeTopic($array)
+ * @method reopenForumTopic($array)
+ * @method reopenTopic($array)
+ * @method deleteForumTopic($array)
+ * @method deleteTopic($array)
+ * @method unpinAllForumTopicMessages($array)
+ * @method unpinTopicMessages($array)
+ * @method getCustomEmojiStickers($array)
+ * @method getCustom($array = [])
+ * @link https://bptlib.ir
  */
 class BPT {
-    private $version = 2.020;
+    private $version = 2.030;
 
     private $token;
 
-    private $settings;
+    private array $settings;
 
     /**
      * telegram update will saved in this var as object , does not effected by array_update option
@@ -235,7 +250,7 @@ class BPT {
 
     private $curl_handler = null;
 
-    private $web_answered = false;
+    private bool $web_answered = false;
 
     public function __construct (array $settings) {
         $settings['logger'] = $settings['logger'] ?? true;
@@ -255,6 +270,8 @@ class BPT {
         $settings['split_update'] = $settings['split_update'] ?? true;
         $settings['multi'] = $settings['multi'] ?? false;
         $settings['debug'] = $settings['debug'] ?? false;
+        $settings['cloudFlare'] = $settings['cloudFlare'] ?? true;
+        $settings['arvanCloud'] = $settings['arvanCloud'] ?? true;
         $settings['telegram_verify'] = $settings['telegram_verify'] ?? true;
         $this->settings = $settings;
         if ($settings['logger']) {
@@ -267,12 +284,12 @@ class BPT {
                     }
                     else {
                         define('LOG', fopen('BPT.log', 'w'));
-                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
+                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
                     }
                 }
                 else {
                     define('LOG', fopen('BPT.log', 'a'));
-                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
+                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
                 }
             }
             else {
@@ -282,12 +299,12 @@ class BPT {
                     }
                     else {
                         define('LOG', fopen('BPT.log', 'w'));
-                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
+                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
                     }
                 }
                 else {
                     define('LOG', fopen('BPT.log', 'a'));
-                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bpt-proto.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
+                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
                 }
             }
         }
@@ -939,408 +956,439 @@ CREATE TABLE IF NOT EXISTS `users` (
         }
     }
 
-    private function methodsAction($input){
+    private function methodsAction($input): string {
         return [
-                'getupdates'                      => 'getUpdates',
-                'getup'                           => 'getUpdates',
-                'updates'                         => 'getUpdates',
-                'setwebhook'                      => 'setWebhook',
-                'setweb'                          => 'setWebhook',
-                'webhook'                         => 'setWebhook',
-                'deletewebhook'                   => 'deleteWebhook',
-                'deleteweb'                       => 'deleteWebhook',
-                'delweb'                          => 'deleteWebhook',
-                'getwebhookinfo'                  => 'getWebhookInfo',
-                'getweb'                          => 'getWebhookInfo',
-                'getme'                           => 'getMe',
-                'me'                              => 'getMe',
-                'logout'                          => 'logOut',
-                'close'                           => 'close',
-                'sendmessage'                     => 'sendMessage',
-                'send'                            => 'sendMessage',
-                'forwardmessage'                  => 'forwardMessage',
-                'forward'                         => 'forwardMessage',
-                'copymessage'                     => 'copyMessage',
-                'copy'                            => 'copyMessage',
-                'sendphoto'                       => 'sendPhoto',
-                'photo'                           => 'sendPhoto',
-                'sendaudio'                       => 'sendAudio',
-                'audio'                           => 'sendAudio',
-                'senddocument'                    => 'sendDocument',
-                'senddoc'                         => 'sendDocument',
-                'document'                        => 'sendDocument',
-                'doc'                             => 'sendDocument',
-                'sendvideo'                       => 'sendVideo',
-                'video'                           => 'sendVideo',
-                'sendanimation'                   => 'sendAnimation',
-                'animation'                       => 'sendAnimation',
-                'sendgif'                         => 'sendAnimation',
-                'gif'                             => 'sendAnimation',
-                'sendvoice'                       => 'sendVoice',
-                'voice'                           => 'sendVoice',
-                'sendvideonote'                   => 'sendVideoNote',
-                'videonote'                       => 'sendVideoNote',
-                'sendmediagroup'                  => 'sendMediaGroup',
-                'mediagroup'                      => 'sendMediaGroup',
-                'media'                           => 'sendMediaGroup',
-                'sendlocation'                    => 'sendLocation',
-                'sendloc'                         => 'sendLocation',
-                'location'                        => 'sendLocation',
-                'loc'                             => 'sendLocation',
-                'editmessagelivelocation'         => 'editMessageLiveLocation',
-                'editliveloc'                     => 'editMessageLiveLocation',
-                'stopmessagelivelocation'         => 'stopMessageLiveLocation',
-                'stopliveloc'                     => 'stopMessageLiveLocation',
-                'sendvenue'                       => 'sendVenue',
-                'venue'                           => 'sendVenue',
-                'sendcontact'                     => 'sendContact',
-                'contact'                         => 'sendContact',
-                'sendpoll'                        => 'sendPoll',
-                'poll'                            => 'sendPoll',
-                'senddice'                        => 'sendDice',
-                'dice'                            => 'sendDice',
-                'sendchataction'                  => 'sendChatAction',
-                'chataction'                      => 'sendChatAction',
-                'action'                          => 'sendChatAction',
-                'getuserprofilephotos'            => 'getUserProfilePhotos',
-                'userphotos'                      => 'getUserProfilePhotos',
-                'getfile'                         => 'getFile',
-                'file'                            => 'getFile',
-                'banchatmember'                   => 'banChatMember',
-                'ban'                             => 'banChatMember',
-                'kickchatmember'                  => 'banChatMember',
-                'kick'                            => 'unbanChatMember',
-                'unbanchatmember'                 => 'unbanChatMember',
-                'unban'                           => 'unbanChatMember',
-                'restrictchatmember'              => 'restrictChatMember',
-                'restrict'                        => 'restrictChatMember',
-                'promotechatmember'               => 'promoteChatMember',
-                'promote'                         => 'promoteChatMember',
-                'setchatadministratorcustomtitle' => 'setChatAdministratorCustomTitle',
-                'customtitle'                     => 'setChatAdministratorCustomTitle',
-                'banchatsenderchat'               => 'banChatSenderChat',
-                'banSender'                       => 'banChatSenderChat',
-                'unbanchatsenderchat'             => 'unbanChatSenderChat',
-                'unbanSender'                     => 'unbanChatSenderChat',
-                'setchatpermissions'              => 'setChatPermissions',
-                'permissions'                     => 'setChatPermissions',
-                'exportchatinvitelink'            => 'exportChatInviteLink',
-                'link'                            => 'exportChatInviteLink',
-                'createchatinvitelink'            => 'createChatInviteLink',
-                'crlink'                          => 'createChatInviteLink',
-                'editchatinvitelink'              => 'editChatInviteLink',
-                'edlink'                          => 'editChatInviteLink',
-                'revokechatinvitelink'            => 'revokeChatInviteLink',
-                'relink'                          => 'revokeChatInviteLink',
-                'approvechatjoinrequest'          => 'approveChatJoinRequest',
-                'acceptjoin'                      => 'approveChatJoinRequest',
-                'declinechatjoinrequest'          => 'declineChatJoinRequest',
-                'denyjoin'                        => 'declineChatJoinRequest',
-                'setchatphoto'                    => 'setChatPhoto',
-                'deletechatphoto'                 => 'deleteChatPhoto',
-                'setchattitle'                    => 'setChatTitle',
-                'title'                           => 'setChatTitle',
-                'setchatdescription'              => 'setChatDescription',
-                'description'                     => 'setChatDescription',
-                'pinchatmessage'                  => 'pinChatMessage',
-                'pin'                             => 'pinChatMessage',
-                'unpinchatmessage'                => 'unpinChatMessage',
-                'unpin'                           => 'unpinChatMessage',
-                'unpinallchatmessages'            => 'unpinAllChatMessages',
-                'unpinall'                        => 'unpinAllChatMessages',
-                'leavechat'                       => 'leaveChat',
-                'leave'                           => 'leaveChat',
-                'getchat'                         => 'getChat',
-                'chat'                            => 'getChat',
-                'getchatadministrators'           => 'getChatAdministrators',
-                'admins'                          => 'getChatAdministrators',
-                'getchatmembercount'              => 'getChatMembersCount',
-                'getchatmemberscount'             => 'getChatMembersCount',
-                'memberscount'                    => 'getChatMembersCount',
-                'getchatmember'                   => 'getChatMember',
-                'member'                          => 'getChatMember',
-                'setchatstickerset'               => 'setChatStickerSet',
-                'setsticker'                      => 'setChatStickerSet',
-                'deletechatstickerset'            => 'deleteChatStickerSet',
-                'delsticker'                      => 'deleteChatStickerSet',
-                'answercallbackquery'             => 'answerCallbackQuery',
-                'answer'                          => 'answerCallbackQuery',
-                'setmycommands'                   => 'setMyCommands',
-                'setcommands'                     => 'setMyCommands',
-                'deletemycommands'                => 'deleteMyCommands',
-                'deletecommands'                  => 'deleteMyCommands',
-                'getmycommands'                   => 'getMyCommands',
-                'getcommands'                     => 'getMyCommands',
-                'setchatmenubutton'               => 'setChatMenuButton',
-                'setmenubutton'                   => 'setChatMenuButton',
-                'setmenu'                         => 'setChatMenuButton',
-                'setbutton'                       => 'setChatMenuButton',
-                'getchatmenubutton'               => 'getChatMenuButton',
-                'getmenubutton'                   => 'getChatMenuButton',
-                'getmenu'                         => 'getChatMenuButton',
-                'getbutton'                       => 'getChatMenuButton',
-                'setmydefaultadministratorrights' => 'setMyDefaultAdministratorRights',
-                'setmydefaultadminrights'         => 'setMyDefaultAdministratorRights',
-                'setmydefaultrights'              => 'setMyDefaultAdministratorRights',
-                'setdefaultrights'                => 'setMyDefaultAdministratorRights',
-                'getmydefaultadministratorrights' => 'getMyDefaultAdministratorRights',
-                'getmydefaultadminrights'         => 'getMyDefaultAdministratorRights',
-                'getmydefaultrights'              => 'getMyDefaultAdministratorRights',
-                'getdefaultrights'                => 'getMyDefaultAdministratorRights',
-                'editmessagetext'                 => 'editMessageText',
-                'edittext'                        => 'editMessageText',
-                'editmessagecaption'              => 'editMessageCaption',
-                'editcap'                         => 'editMessageCaption',
-                'editcaption'                     => 'editMessageCaption',
-                'editmessagemedia'                => 'editMessageMedia',
-                'editmedia'                       => 'editMessageMedia',
-                'editmessagereplymarkup'          => 'editMessageReplyMarkup',
-                'editreply'                       => 'editMessageReplyMarkup',
-                'editkeyboard'                    => 'editMessageReplyMarkup',
-                'stoppoll'                        => 'stopPoll',
-                'deletemessage'                   => 'deleteMessage',
-                'del'                             => 'deleteMessage',
-                'sendsticker'                     => 'sendSticker',
-                'sticker'                         => 'sendSticker',
-                'getstickerset'                   => 'getStickerSet',
-                'uploadstickerfile'               => 'uploadStickerFile',
-                'uploadsticker'                   => 'uploadStickerFile',
-                'createnewstickerset'             => 'createNewStickerSet',
-                'createsticker'                   => 'createNewStickerSet',
-                'addstickertoset'                 => 'addStickerToSet',
-                'addsticker'                      => 'addStickerToSet',
-                'setstickerpositioninset'         => 'setStickerPositionInSet',
-                'setstickerposition'              => 'setStickerPositionInSet',
-                'setstickerpos'                   => 'setStickerPositionInSet',
-                'deletestickerfromset'            => 'deleteStickerFromSet',
-                'deletesticker'                   => 'deleteStickerFromSet',
-                'setstickersetthumb'              => 'setStickerSetThumb',
-                'setstickerthumb'                 => 'setStickerSetThumb',
-                'answerinlinequery'               => 'answerInlineQuery',
-                'answerinline'                    => 'answerInlineQuery',
-                'answerwebappquery'               => 'answerWebAppQuery',
-                'answerwebapp'                    => 'answerWebAppQuery',
-                'answerweb'                       => 'answerWebAppQuery',
-                'sendinvoice'                     => 'sendInvoice',
-                'invoice'                         => 'sendInvoice',
-                'answershippingquery'             => 'answerShippingQuery',
-                'answershipping'                  => 'answerShippingQuery',
-                'answerprecheckoutquery'          => 'answerPreCheckoutQuery',
-                'answerprecheckout'               => 'answerPreCheckoutQuery',
-                'answerprecheck'                  => 'answerPreCheckoutQuery',
-                'setpassportdataerrors'           => 'setPassportDataErrors',
-                'setpassport'                     => 'setPassportDataErrors',
-                'sendgame'                        => 'sendGame',
-                'game'                            => 'sendGame',
-                'setgamescore'                    => 'setGameScore',
-                'gamescore'                       => 'setGameScore',
-                'getgamehighscores'               => 'getGameHighScores',
-                'getgamehigh'                     => 'getGameHighScores'
-            ][$input]??'';
+                   'getupdates'                      => 'getUpdates',
+                   'getup'                           => 'getUpdates',
+                   'updates'                         => 'getUpdates',
+                   'setwebhook'                      => 'setWebhook',
+                   'setweb'                          => 'setWebhook',
+                   'webhook'                         => 'setWebhook',
+                   'deletewebhook'                   => 'deleteWebhook',
+                   'deleteweb'                       => 'deleteWebhook',
+                   'delweb'                          => 'deleteWebhook',
+                   'getwebhookinfo'                  => 'getWebhookInfo',
+                   'getweb'                          => 'getWebhookInfo',
+                   'getme'                           => 'getMe',
+                   'me'                              => 'getMe',
+                   'logout'                          => 'logOut',
+                   'close'                           => 'close',
+                   'sendmessage'                     => 'sendMessage',
+                   'send'                            => 'sendMessage',
+                   'forwardmessage'                  => 'forwardMessage',
+                   'forward'                         => 'forwardMessage',
+                   'copymessage'                     => 'copyMessage',
+                   'copy'                            => 'copyMessage',
+                   'sendphoto'                       => 'sendPhoto',
+                   'photo'                           => 'sendPhoto',
+                   'sendaudio'                       => 'sendAudio',
+                   'audio'                           => 'sendAudio',
+                   'senddocument'                    => 'sendDocument',
+                   'senddoc'                         => 'sendDocument',
+                   'document'                        => 'sendDocument',
+                   'doc'                             => 'sendDocument',
+                   'sendvideo'                       => 'sendVideo',
+                   'video'                           => 'sendVideo',
+                   'sendanimation'                   => 'sendAnimation',
+                   'animation'                       => 'sendAnimation',
+                   'sendgif'                         => 'sendAnimation',
+                   'gif'                             => 'sendAnimation',
+                   'sendvoice'                       => 'sendVoice',
+                   'voice'                           => 'sendVoice',
+                   'sendvideonote'                   => 'sendVideoNote',
+                   'videonote'                       => 'sendVideoNote',
+                   'sendmediagroup'                  => 'sendMediaGroup',
+                   'mediagroup'                      => 'sendMediaGroup',
+                   'media'                           => 'sendMediaGroup',
+                   'sendlocation'                    => 'sendLocation',
+                   'sendloc'                         => 'sendLocation',
+                   'location'                        => 'sendLocation',
+                   'loc'                             => 'sendLocation',
+                   'editmessagelivelocation'         => 'editMessageLiveLocation',
+                   'editliveloc'                     => 'editMessageLiveLocation',
+                   'stopmessagelivelocation'         => 'stopMessageLiveLocation',
+                   'stopliveloc'                     => 'stopMessageLiveLocation',
+                   'sendvenue'                       => 'sendVenue',
+                   'venue'                           => 'sendVenue',
+                   'sendcontact'                     => 'sendContact',
+                   'contact'                         => 'sendContact',
+                   'sendpoll'                        => 'sendPoll',
+                   'poll'                            => 'sendPoll',
+                   'senddice'                        => 'sendDice',
+                   'dice'                            => 'sendDice',
+                   'sendchataction'                  => 'sendChatAction',
+                   'chataction'                      => 'sendChatAction',
+                   'action'                          => 'sendChatAction',
+                   'getuserprofilephotos'            => 'getUserProfilePhotos',
+                   'userphotos'                      => 'getUserProfilePhotos',
+                   'getfile'                         => 'getFile',
+                   'file'                            => 'getFile',
+                   'banchatmember'                   => 'banChatMember',
+                   'ban'                             => 'banChatMember',
+                   'kickchatmember'                  => 'banChatMember',
+                   'kick'                            => 'unbanChatMember',
+                   'unbanchatmember'                 => 'unbanChatMember',
+                   'unban'                           => 'unbanChatMember',
+                   'restrictchatmember'              => 'restrictChatMember',
+                   'restrict'                        => 'restrictChatMember',
+                   'promotechatmember'               => 'promoteChatMember',
+                   'promote'                         => 'promoteChatMember',
+                   'setchatadministratorcustomtitle' => 'setChatAdministratorCustomTitle',
+                   'customtitle'                     => 'setChatAdministratorCustomTitle',
+                   'banchatsenderchat'               => 'banChatSenderChat',
+                   'banSender'                       => 'banChatSenderChat',
+                   'unbanchatsenderchat'             => 'unbanChatSenderChat',
+                   'unbanSender'                     => 'unbanChatSenderChat',
+                   'setchatpermissions'              => 'setChatPermissions',
+                   'permissions'                     => 'setChatPermissions',
+                   'exportchatinvitelink'            => 'exportChatInviteLink',
+                   'link'                            => 'exportChatInviteLink',
+                   'createchatinvitelink'            => 'createChatInviteLink',
+                   'crlink'                          => 'createChatInviteLink',
+                   'editchatinvitelink'              => 'editChatInviteLink',
+                   'edlink'                          => 'editChatInviteLink',
+                   'revokechatinvitelink'            => 'revokeChatInviteLink',
+                   'relink'                          => 'revokeChatInviteLink',
+                   'approvechatjoinrequest'          => 'approveChatJoinRequest',
+                   'acceptjoin'                      => 'approveChatJoinRequest',
+                   'declinechatjoinrequest'          => 'declineChatJoinRequest',
+                   'denyjoin'                        => 'declineChatJoinRequest',
+                   'setchatphoto'                    => 'setChatPhoto',
+                   'deletechatphoto'                 => 'deleteChatPhoto',
+                   'setchattitle'                    => 'setChatTitle',
+                   'title'                           => 'setChatTitle',
+                   'setchatdescription'              => 'setChatDescription',
+                   'description'                     => 'setChatDescription',
+                   'pinchatmessage'                  => 'pinChatMessage',
+                   'pin'                             => 'pinChatMessage',
+                   'unpinchatmessage'                => 'unpinChatMessage',
+                   'unpin'                           => 'unpinChatMessage',
+                   'unpinallchatmessages'            => 'unpinAllChatMessages',
+                   'unpinall'                        => 'unpinAllChatMessages',
+                   'leavechat'                       => 'leaveChat',
+                   'leave'                           => 'leaveChat',
+                   'getchat'                         => 'getChat',
+                   'chat'                            => 'getChat',
+                   'getchatadministrators'           => 'getChatAdministrators',
+                   'admins'                          => 'getChatAdministrators',
+                   'getchatmembercount'              => 'getChatMembersCount',
+                   'getchatmemberscount'             => 'getChatMembersCount',
+                   'memberscount'                    => 'getChatMembersCount',
+                   'getchatmember'                   => 'getChatMember',
+                   'member'                          => 'getChatMember',
+                   'setchatstickerset'               => 'setChatStickerSet',
+                   'setsticker'                      => 'setChatStickerSet',
+                   'deletechatstickerset'            => 'deleteChatStickerSet',
+                   'delsticker'                      => 'deleteChatStickerSet',
+                   'getforumtopiciconstickers'       => 'getForumTopicIconStickers',
+                   'getforumtopicstickers'           => 'getForumTopicIconStickers',
+                   'createforumtopic'                => 'createForumTopic',
+                   'createtopic'                     => 'createForumTopic',
+                   'editforumtopic'                  => 'editForumTopic',
+                   'edittopic'                       => 'editForumTopic',
+                   'closeforumtopic'                 => 'closeForumTopic',
+                   'closetopic'                      => 'closeForumTopic',
+                   'reopenforumtopic'                => 'reopenForumTopic',
+                   'reopentopic'                     => 'reopenForumTopic',
+                   'deleteforumtopic'                => 'deleteForumTopic',
+                   'deletetopic'                     => 'deleteForumTopic',
+                   'unpinallforumtopicmessages'      => 'unpinAllForumTopicMessages',
+                   'unpintopicmessages'              => 'unpinAllForumTopicMessages',
+                   'answercallbackquery'             => 'answerCallbackQuery',
+                   'answer'                          => 'answerCallbackQuery',
+                   'setmycommands'                   => 'setMyCommands',
+                   'setcommands'                     => 'setMyCommands',
+                   'deletemycommands'                => 'deleteMyCommands',
+                   'deletecommands'                  => 'deleteMyCommands',
+                   'getmycommands'                   => 'getMyCommands',
+                   'getcommands'                     => 'getMyCommands',
+                   'setchatmenubutton'               => 'setChatMenuButton',
+                   'setmenubutton'                   => 'setChatMenuButton',
+                   'setmenu'                         => 'setChatMenuButton',
+                   'setbutton'                       => 'setChatMenuButton',
+                   'getchatmenubutton'               => 'getChatMenuButton',
+                   'getmenubutton'                   => 'getChatMenuButton',
+                   'getmenu'                         => 'getChatMenuButton',
+                   'getbutton'                       => 'getChatMenuButton',
+                   'setmydefaultadministratorrights' => 'setMyDefaultAdministratorRights',
+                   'setmydefaultadminrights'         => 'setMyDefaultAdministratorRights',
+                   'setmydefaultrights'              => 'setMyDefaultAdministratorRights',
+                   'setdefaultrights'                => 'setMyDefaultAdministratorRights',
+                   'getmydefaultadministratorrights' => 'getMyDefaultAdministratorRights',
+                   'getmydefaultadminrights'         => 'getMyDefaultAdministratorRights',
+                   'getmydefaultrights'              => 'getMyDefaultAdministratorRights',
+                   'getdefaultrights'                => 'getMyDefaultAdministratorRights',
+                   'editmessagetext'                 => 'editMessageText',
+                   'edittext'                        => 'editMessageText',
+                   'editmessagecaption'              => 'editMessageCaption',
+                   'editcap'                         => 'editMessageCaption',
+                   'editcaption'                     => 'editMessageCaption',
+                   'editmessagemedia'                => 'editMessageMedia',
+                   'editmedia'                       => 'editMessageMedia',
+                   'editmessagereplymarkup'          => 'editMessageReplyMarkup',
+                   'editreply'                       => 'editMessageReplyMarkup',
+                   'editkeyboard'                    => 'editMessageReplyMarkup',
+                   'stoppoll'                        => 'stopPoll',
+                   'deletemessage'                   => 'deleteMessage',
+                   'del'                             => 'deleteMessage',
+                   'sendsticker'                     => 'sendSticker',
+                   'sticker'                         => 'sendSticker',
+                   'getstickerset'                   => 'getStickerSet',
+                   'uploadstickerfile'               => 'uploadStickerFile',
+                   'uploadsticker'                   => 'uploadStickerFile',
+                   'getcustomemojistickers'          => 'getCustomEmojiStickers',
+                   'getcustom'                       => 'getCustomEmojiStickers',
+                   'createnewstickerset'             => 'createNewStickerSet',
+                   'createsticker'                   => 'createNewStickerSet',
+                   'addstickertoset'                 => 'addStickerToSet',
+                   'addsticker'                      => 'addStickerToSet',
+                   'setstickerpositioninset'         => 'setStickerPositionInSet',
+                   'setstickerposition'              => 'setStickerPositionInSet',
+                   'setstickerpos'                   => 'setStickerPositionInSet',
+                   'deletestickerfromset'            => 'deleteStickerFromSet',
+                   'deletesticker'                   => 'deleteStickerFromSet',
+                   'setstickersetthumb'              => 'setStickerSetThumb',
+                   'setstickerthumb'                 => 'setStickerSetThumb',
+                   'answerinlinequery'               => 'answerInlineQuery',
+                   'answerinline'                    => 'answerInlineQuery',
+                   'answerwebappquery'               => 'answerWebAppQuery',
+                   'answerwebapp'                    => 'answerWebAppQuery',
+                   'answerweb'                       => 'answerWebAppQuery',
+                   'sendinvoice'                     => 'sendInvoice',
+                   'invoice'                         => 'sendInvoice',
+                   'createinvoicelink'               => 'createInvoiceLink',
+                   'createinvoice'                   => 'createInvoiceLink',
+                   'answershippingquery'             => 'answerShippingQuery',
+                   'answershipping'                  => 'answerShippingQuery',
+                   'answerprecheckoutquery'          => 'answerPreCheckoutQuery',
+                   'answerprecheckout'               => 'answerPreCheckoutQuery',
+                   'answerprecheck'                  => 'answerPreCheckoutQuery',
+                   'setpassportdataerrors'           => 'setPassportDataErrors',
+                   'setpassport'                     => 'setPassportDataErrors',
+                   'sendgame'                        => 'sendGame',
+                   'game'                            => 'sendGame',
+                   'setgamescore'                    => 'setGameScore',
+                   'gamescore'                       => 'setGameScore',
+                   'getgamehighscores'               => 'getGameHighScores',
+                   'getgamehigh'                     => 'getGameHighScores'
+               ][$input] ?? '';
     }
 
     private function methodsDefault($input){
         return [
-                'getUpdates'                      => [],
-                'setWebhook'                      => ['url'],
-                'deleteWebhook'                   => [],
-                'getWebhookInfo'                  => [],
-                'getMe'                           => [],
-                'logOut'                          => [],
-                'close'                           => [],
-                'sendMessage'                     => ['chat_id'],
-                'forwardMessage'                  => ['from_chat_id','message_id'],
-                'copyMessage'                     => ['from_chat_id','message_id'],
-                'sendPhoto'                       => ['chat_id'],
-                'sendAudio'                       => ['chat_id'],
-                'sendDocument'                    => ['chat_id'],
-                'sendVideo'                       => ['chat_id'],
-                'sendAnimation'                   => ['chat_id'],
-                'sendVoice'                       => ['chat_id'],
-                'sendVideoNote'                   => ['chat_id'],
-                'sendMediaGroup'                  => ['chat_id'],
-                'sendLocation'                    => ['chat_id'],
-                'editMessageLiveLocation'         => [],
-                'stopMessageLiveLocation'         => [],
-                'sendVenue'                       => [],
-                'sendContact'                     => ['chat_id'],
-                'sendPoll'                        => ['chat_id'],
-                'sendDice'                        => ['chat_id'],
-                'sendChatAction'                  => ['chat_id','action'],
-                'getUserProfilePhotos'            => ['user_id'],
-                'getFile'                         => ['file_id'],
-                'banChatMember'                   => ['chat_id','user_id'],
-                'kickChatMember'                  => ['chat_id','user_id'],
-                'unbanChatMember'                 => ['chat_id','user_id'],
-                'restrictChatMember'              => ['chat_id','user_id'],
-                'promoteChatMember'               => ['chat_id','user_id'],
-                'setChatAdministratorCustomTitle' => ['chat_id','user_id'],
-                'banChatSenderChat'               => ['chat_id'],
-                'unbanChatSenderChat'             => ['chat_id'],
-                'setChatPermissions'              => ['chat_id'],
-                'exportChatInviteLink'            => ['chat_id'],
-                'createChatInviteLink'            => ['chat_id'],
-                'editChatInviteLink'              => ['chat_id'],
-                'revokeChatInviteLink'            => ['chat_id'],
-                'approveChatJoinRequest'          => ['chat_id','user_id'],
-                'declineChatJoinRequest'          => ['chat_id','user_id'],
-                'setChatPhoto'                    => ['chat_id'],
-                'deleteChatPhoto'                 => ['chat_id'],
-                'setChatTitle'                    => ['chat_id'],
-                'setChatDescription'              => ['chat_id'],
-                'pinChatMessage'                  => ['chat_id'],
-                'unpinChatMessage'                => ['chat_id'],
-                'unpinAllChatMessages'            => ['chat_id'],
-                'leaveChat'                       => ['chat_id'],
-                'getChat'                         => ['chat_id'],
-                'getChatAdministrators'           => ['chat_id'],
-                'getChatMembersCount'             => ['chat_id'],
-                'getChatMember'                   => ['chat_id','user_id'],
-                'setChatStickerSet'               => ['chat_id'],
-                'deleteChatStickerSet'            => ['chat_id'],
-                'answerCallbackQuery'             => ['callback_query_id'],
-                'setMyCommands'                   => [],
-                'deleteMyCommands'                => [],
-                'getMyCommands'                   => [],
-                'setChatMenuButton'               => [],
-                'getChatMenuButton'               => [],
-                'setMyDefaultAdministratorRights' => [],
-                'getMyDefaultAdministratorRights' => [],
-                'editMessageText'                 => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                'editMessageCaption'              => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                'editMessageMedia'                => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                'editMessageReplyMarkup'          => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                'stopPoll'                        => ['chat_id','message_id'],
-                'deleteMessage'                   => ['chat_id','message_id'],
-                'sendSticker'                     => ['chat_id'],
-                'getStickerSet'                   => [],
-                'uploadStickerFile'               => ['user_id'],
-                'createNewStickerSet'             => ['user_id'],
-                'addStickerToSet'                 => ['user_id'],
-                'setStickerPositionInSet'         => [],
-                'deleteStickerFromSet'            => [],
-                'setStickerSetThumb'              => ['user_id'],
-                'answerInlineQuery'               => ['inline_query_id'],
-                'sendInvoice'                     => ['chat_id'],
-                'answerWebAppQuery'               => [],
-                'answerShippingQuery'             => ['shipping_query_id'],
-                'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
-                'setPassportDataErrors'           => ['user_id'],
-                'sendGame'                        => ['chat_id'],
-                'setGameScore'                    => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                'getGameHighScores'               => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']]
-            ][$input]??[];
+                   'getUpdates'                      => [],
+                   'setWebhook'                      => ['url'],
+                   'deleteWebhook'                   => [],
+                   'getWebhookInfo'                  => [],
+                   'getMe'                           => [],
+                   'logOut'                          => [],
+                   'close'                           => [],
+                   'sendMessage'                     => ['chat_id'],
+                   'forwardMessage'                  => ['from_chat_id','message_id'],
+                   'copyMessage'                     => ['from_chat_id','message_id'],
+                   'sendPhoto'                       => ['chat_id'],
+                   'sendAudio'                       => ['chat_id'],
+                   'sendDocument'                    => ['chat_id'],
+                   'sendVideo'                       => ['chat_id'],
+                   'sendAnimation'                   => ['chat_id'],
+                   'sendVoice'                       => ['chat_id'],
+                   'sendVideoNote'                   => ['chat_id'],
+                   'sendMediaGroup'                  => ['chat_id'],
+                   'sendLocation'                    => ['chat_id'],
+                   'editMessageLiveLocation'         => [],
+                   'stopMessageLiveLocation'         => [],
+                   'sendVenue'                       => [],
+                   'sendContact'                     => ['chat_id'],
+                   'sendPoll'                        => ['chat_id'],
+                   'sendDice'                        => ['chat_id'],
+                   'sendChatAction'                  => ['chat_id','action'],
+                   'getUserProfilePhotos'            => ['user_id'],
+                   'getFile'                         => ['file_id'],
+                   'banChatMember'                   => ['chat_id','user_id'],
+                   'kickChatMember'                  => ['chat_id','user_id'],
+                   'unbanChatMember'                 => ['chat_id','user_id'],
+                   'restrictChatMember'              => ['chat_id','user_id'],
+                   'promoteChatMember'               => ['chat_id','user_id'],
+                   'setChatAdministratorCustomTitle' => ['chat_id','user_id'],
+                   'banChatSenderChat'               => ['chat_id'],
+                   'unbanChatSenderChat'             => ['chat_id'],
+                   'setChatPermissions'              => ['chat_id'],
+                   'exportChatInviteLink'            => ['chat_id'],
+                   'createChatInviteLink'            => ['chat_id'],
+                   'editChatInviteLink'              => ['chat_id'],
+                   'revokeChatInviteLink'            => ['chat_id'],
+                   'approveChatJoinRequest'          => ['chat_id','user_id'],
+                   'declineChatJoinRequest'          => ['chat_id','user_id'],
+                   'setChatPhoto'                    => ['chat_id'],
+                   'deleteChatPhoto'                 => ['chat_id'],
+                   'setChatTitle'                    => ['chat_id'],
+                   'setChatDescription'              => ['chat_id'],
+                   'pinChatMessage'                  => ['chat_id'],
+                   'unpinChatMessage'                => ['chat_id'],
+                   'unpinAllChatMessages'            => ['chat_id'],
+                   'leaveChat'                       => ['chat_id'],
+                   'getChat'                         => ['chat_id'],
+                   'getChatAdministrators'           => ['chat_id'],
+                   'getChatMembersCount'             => ['chat_id'],
+                   'getChatMember'                   => ['chat_id','user_id'],
+                   'setChatStickerSet'               => ['chat_id'],
+                   'deleteChatStickerSet'            => ['chat_id'],
+                   'answerCallbackQuery'             => ['callback_query_id'],
+                   'setMyCommands'                   => [],
+                   'deleteMyCommands'                => [],
+                   'getMyCommands'                   => [],
+                   'setChatMenuButton'               => [],
+                   'getChatMenuButton'               => [],
+                   'setMyDefaultAdministratorRights' => [],
+                   'getMyDefaultAdministratorRights' => [],
+                   'editMessageText'                 => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                   'editMessageCaption'              => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                   'editMessageMedia'                => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                   'editMessageReplyMarkup'          => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                   'stopPoll'                        => ['chat_id','message_id'],
+                   'deleteMessage'                   => ['chat_id','message_id'],
+                   'sendSticker'                     => ['chat_id'],
+                   'getStickerSet'                   => [],
+                   'uploadStickerFile'               => ['user_id'],
+                   'createNewStickerSet'             => ['user_id'],
+                   'addStickerToSet'                 => ['user_id'],
+                   'setStickerPositionInSet'         => [],
+                   'deleteStickerFromSet'            => [],
+                   'setStickerSetThumb'              => ['user_id'],
+                   'answerInlineQuery'               => ['inline_query_id'],
+                   'sendInvoice'                     => ['chat_id'],
+                   'answerWebAppQuery'               => [],
+                   'answerShippingQuery'             => ['shipping_query_id'],
+                   'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
+                   'setPassportDataErrors'           => ['user_id'],
+                   'sendGame'                        => ['chat_id'],
+                   'setGameScore'                    => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                   'getGameHighScores'               => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+                   'createForumTopic'                => ['chat_id'],
+                   'editForumTopic'                  => ['chat_id'],
+                   'closeForumTopic'                 => ['chat_id'],
+                   'reopenForumTopic'                => ['chat_id'],
+                   'deleteForumTopic'                => ['chat_id'],
+                   'unpinAllForumTopicMessages'      => ['chat_id']
+               ][$input]??[];
     }
 
     private function methodsRequire($input){
         return [
-                'getUpdates'                      => [],
-                'setWebhook'                      => [],
-                'deleteWebhook'                   => [],
-                'getWebhookInfo'                  => [],
-                'getMe'                           => [],
-                'logOut'                          => [],
-                'close'                           => [],
-                'sendMessage'                     => ['text'],
-                'forwardMessage'                  => ['chat_id'],
-                'copyMessage'                     => ['chat_id'],
-                'sendPhoto'                       => ['photo'],
-                'sendAudio'                       => ['audio'],
-                'sendDocument'                    => ['document'],
-                'sendVideo'                       => ['video'],
-                'sendAnimation'                   => ['animation'],
-                'sendVoice'                       => ['voice'],
-                'sendVideoNote'                   => ['video_note'],
-                'sendMediaGroup'                  => ['media'],
-                'sendLocation'                    => ['latitude', 'longitude'],
-                'editMessageLiveLocation'         => ['latitude', 'longitude'],
-                'stopMessageLiveLocation'         => [],
-                'sendVenue'                       => ['latitude', 'longitude', 'title', 'address'],
-                'sendContact'                     => ['phone_number', 'first_name'],
-                'sendPoll'                        => ['question', 'options'],
-                'sendDice'                        => [],
-                'sendChatAction'                  => [],
-                'getUserProfilePhotos'            => [],
-                'getFile'                         => [],
-                'banChatMember'                   => [],
-                'kickChatMember'                  => [],
-                'unbanChatMember'                 => [],
-                'restrictChatMember'              => ['permissions'],
-                'promoteChatMember'               => [],
-                'setChatAdministratorCustomTitle' => ['custom_title'],
-                'banChatSenderChat'               => ['sender_chat_id'],
-                'unbanChatSenderChat'             => ['sender_chat_id'],
-                'setChatPermissions'              => ['permissions'],
-                'exportChatInviteLink'            => [],
-                'createChatInviteLink'            => [],
-                'editChatInviteLink'              => ['invite_link'],
-                'revokeChatInviteLink'            => ['invite_link'],
-                'approveChatJoinRequest'          => [],
-                'declineChatJoinRequest'          => [],
-                'setChatPhoto'                    => ['photo'],
-                'deleteChatPhoto'                 => [],
-                'setChatTitle'                    => ['title'],
-                'setChatDescription'              => [],
-                'pinChatMessage'                  => [],
-                'unpinChatMessage'                => [],
-                'unpinAllChatMessages'            => [],
-                'leaveChat'                       => [],
-                'getChat'                         => [],
-                'getChatAdministrators'           => [],
-                'getChatMembersCount'             => [],
-                'getChatMember'                   => [],
-                'setChatStickerSet'               => ['sticker_set_name'],
-                'deleteChatStickerSet'            => [],
-                'answerCallbackQuery'             => [],
-                'setMyCommands'                   => ['commands'],
-                'deleteMyCommands'                => [],
-                'getMyCommands'                   => [],
-                'setChatMenuButton'               => [],
-                'getChatMenuButton'               => [],
-                'setMyDefaultAdministratorRights' => [],
-                'getMyDefaultAdministratorRights' => [],
-                'editMessageText'                 => ['text',],
-                'editMessageCaption'              => [],
-                'editMessageMedia'                => ['media',],
-                'editMessageReplyMarkup'          => [],
-                'stopPoll'                        => [],
-                'deleteMessage'                   => [],
-                'sendSticker'                     => ['sticker'],
-                'getStickerSet'                   => ['name'],
-                'uploadStickerFile'               => ['png_sticker'],
-                'createNewStickerSet'             => ['name','title','emojis'],
-                'addStickerToSet'                 => ['name','emojis'],
-                'setStickerPositionInSet'         => ['position','sticker'],
-                'deleteStickerFromSet'            => ['sticker'],
-                'setStickerSetThumb'              => ['name'],
-                'answerInlineQuery'               => ['results'],
-                'answerwebappquery'               => ['web_app_query_id','result'],
-                'sendInvoice'                     => ['title','description','payload','provider_token','currency','prices'],
-                'answerShippingQuery'             => ['ok'],
-                'answerPreCheckoutQuery'          => ['ok'],
-                'setPassportDataErrors'           => ['errors'],
-                'sendGame'                        => ['game_short_name'],
-                'setGameScore'                    => ['score'],
-                'getGameHighScores'               => []
-            ][$input]??[];
+                   'getUpdates'                      => [],
+                   'setWebhook'                      => [],
+                   'deleteWebhook'                   => [],
+                   'getWebhookInfo'                  => [],
+                   'getMe'                           => [],
+                   'logOut'                          => [],
+                   'close'                           => [],
+                   'sendMessage'                     => ['text'],
+                   'forwardMessage'                  => ['chat_id'],
+                   'copyMessage'                     => ['chat_id'],
+                   'sendPhoto'                       => ['photo'],
+                   'sendAudio'                       => ['audio'],
+                   'sendDocument'                    => ['document'],
+                   'sendVideo'                       => ['video'],
+                   'sendAnimation'                   => ['animation'],
+                   'sendVoice'                       => ['voice'],
+                   'sendVideoNote'                   => ['video_note'],
+                   'sendMediaGroup'                  => ['media'],
+                   'sendLocation'                    => ['latitude', 'longitude'],
+                   'editMessageLiveLocation'         => ['latitude', 'longitude'],
+                   'stopMessageLiveLocation'         => [],
+                   'sendVenue'                       => ['latitude', 'longitude', 'title', 'address'],
+                   'sendContact'                     => ['phone_number', 'first_name'],
+                   'sendPoll'                        => ['question', 'options'],
+                   'sendDice'                        => [],
+                   'sendChatAction'                  => [],
+                   'getUserProfilePhotos'            => [],
+                   'getFile'                         => [],
+                   'banChatMember'                   => [],
+                   'kickChatMember'                  => [],
+                   'unbanChatMember'                 => [],
+                   'restrictChatMember'              => ['permissions'],
+                   'promoteChatMember'               => [],
+                   'setChatAdministratorCustomTitle' => ['custom_title'],
+                   'banChatSenderChat'               => ['sender_chat_id'],
+                   'unbanChatSenderChat'             => ['sender_chat_id'],
+                   'setChatPermissions'              => ['permissions'],
+                   'exportChatInviteLink'            => [],
+                   'createChatInviteLink'            => [],
+                   'editChatInviteLink'              => ['invite_link'],
+                   'revokeChatInviteLink'            => ['invite_link'],
+                   'approveChatJoinRequest'          => [],
+                   'declineChatJoinRequest'          => [],
+                   'setChatPhoto'                    => ['photo'],
+                   'deleteChatPhoto'                 => [],
+                   'setChatTitle'                    => ['title'],
+                   'setChatDescription'              => [],
+                   'pinChatMessage'                  => [],
+                   'unpinChatMessage'                => [],
+                   'unpinAllChatMessages'            => [],
+                   'leaveChat'                       => [],
+                   'getChat'                         => [],
+                   'getChatAdministrators'           => [],
+                   'getChatMembersCount'             => [],
+                   'getChatMember'                   => [],
+                   'setChatStickerSet'               => ['sticker_set_name'],
+                   'deleteChatStickerSet'            => [],
+                   'answerCallbackQuery'             => [],
+                   'setMyCommands'                   => ['commands'],
+                   'deleteMyCommands'                => [],
+                   'getMyCommands'                   => [],
+                   'setChatMenuButton'               => [],
+                   'getChatMenuButton'               => [],
+                   'setMyDefaultAdministratorRights' => [],
+                   'getMyDefaultAdministratorRights' => [],
+                   'editMessageText'                 => ['text',],
+                   'editMessageCaption'              => [],
+                   'editMessageMedia'                => ['media',],
+                   'editMessageReplyMarkup'          => [],
+                   'stopPoll'                        => [],
+                   'deleteMessage'                   => [],
+                   'sendSticker'                     => ['sticker'],
+                   'getStickerSet'                   => ['name'],
+                   'uploadStickerFile'               => ['png_sticker'],
+                   'createNewStickerSet'             => ['name','title','emojis'],
+                   'addStickerToSet'                 => ['name','emojis'],
+                   'setStickerPositionInSet'         => ['position','sticker'],
+                   'deleteStickerFromSet'            => ['sticker'],
+                   'setStickerSetThumb'              => ['name'],
+                   'answerInlineQuery'               => ['results'],
+                   'answerwebappquery'               => ['web_app_query_id','result'],
+                   'sendInvoice'                     => ['title','description','payload','provider_token','currency','prices'],
+                   'answerShippingQuery'             => ['ok'],
+                   'answerPreCheckoutQuery'          => ['ok'],
+                   'setPassportDataErrors'           => ['errors'],
+                   'sendGame'                        => ['game_short_name'],
+                   'setGameScore'                    => ['score'],
+                   'getGameHighScores'               => [],
+                   'createForumTopic'                => ['name'],
+                   'editForumTopic'                  => ['name'],
+                   'closeForumTopic'                 => [],
+                   'reopenForumTopic'                => [],
+                   'deleteForumTopic'                => [],
+                   'unpinAllForumTopicMessages'      => [],
+                   'getCustomEmojiStickers'          => ['custom_emoji_ids']
+               ][$input]??[];
     }
 
-    private function methodsFile($input){
+    private function methodsFile($input): array {
         return [
-                'sendPhoto'           => ['photo'],
-                'sendAudio'           => ['audio', 'thumb'],
-                'sendDocument'        => ['document', 'thumb'],
-                'sendVideo'           => ['video', 'thumb'],
-                'sendAnimation'       => ['animation', 'thumb'],
-                'sendVoice'           => ['voice', 'thumb'],
-                'sendVideoNote'       => ['video_note', 'thumb'],
-                'setChatPhoto'        => ['photo'],
-                'sendSticker'         => ['sticker'],
-                'uploadStickerFile'   => ['png_sticker'],
-                'createNewStickerSet' => ['png_sticker', 'tgs_sticker'],
-                'addStickerToSet'     => ['png_sticker', 'tgs_sticker'],
-                'setStickerSetThumb'  => ['thumb'],
-            ][$input]??[];
+                   'sendPhoto'           => ['photo'],
+                   'sendAudio'           => ['audio', 'thumb'],
+                   'sendDocument'        => ['document', 'thumb'],
+                   'sendVideo'           => ['video', 'thumb'],
+                   'sendAnimation'       => ['animation', 'thumb'],
+                   'sendVoice'           => ['voice', 'thumb'],
+                   'sendVideoNote'       => ['video_note', 'thumb'],
+                   'setChatPhoto'        => ['photo'],
+                   'sendSticker'         => ['sticker'],
+                   'uploadStickerFile'   => ['png_sticker'],
+                   'createNewStickerSet' => ['png_sticker', 'tgs_sticker'],
+                   'addStickerToSet'     => ['png_sticker', 'tgs_sticker'],
+                   'setStickerSetThumb'  => ['thumb'],
+               ][$input]??[];
     }
 
     private function bptUpdate(){
@@ -1368,11 +1416,20 @@ CREATE TABLE IF NOT EXISTS `users` (
             if($this->settings['db']['type'] === 'json'){
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 if($update_type === 'message' || $update_type === 'edit') {
-                    $type = $update->chat->type ?? $update['chat']['type'];
-                    $id = $update->chat->id ?? $update['chat']['id'];
-                    $user_id = $update->from->id ?? $update['from']['id'];
-                    $left = $update->left_chat_member ?? $update['left_chat_member'] ?? null;
-                    $news = $update->new_chat_members ?? $update['new_chat_members'] ?? null;
+                    if ($this->settings['array_update']){
+                        $type = $update['chat']['type'];
+                        $id = $update['chat']['id'];
+                        $user_id = $update['from']['id'];
+                        if (isset($update['left_chat_member'])) $left = $update['left_chat_member'];
+                        elseif (isset($update['new_chat_members'])) $news = $update['new_chat_members'];
+                    }
+                    else{
+                        $type = $update->chat->type;
+                        $id = $update->chat->id;
+                        $user_id = $update->from->id;
+                        if (isset($update->left_chat_member)) $left = $update->left_chat_member;
+                        elseif (isset($update->new_chat_members)) $news = $update->new_chat_members;
+                    }
                     if(!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
                     if ($type !== 'private'){
                         if (isset($left)){
@@ -1392,14 +1449,21 @@ CREATE TABLE IF NOT EXISTS `users` (
                     else $BPT_DB[$type][$id]['last_active'] = time();
                 }
                 elseif($update_type === 'inline') {
-                    $id = $update->from->id ?? $update['from']['id'];
+                    $id = $this->settings['array_update'] ? $update['from']['id'] : $update->from->id;
                     if(!isset($BPT_DB['private'][$id])) $BPT_DB['private'][$id] = ['last_active'=>time()];
                     else $BPT_DB['private'][$id]['last_active'] = time();
                 }
                 elseif($update_type === 'callback') {
-                    $type = $update->message->chat->type ?? $update['message']['chat']['type'];
-                    $id = $update->message->chat->id ?? $update['message']['chat']['id'];
-                    $user_id = $update->from->id ?? $update['from']['id'];
+                    if ($this->settings['array_update']){
+                        $type = $update['message']['chat']['type'];
+                        $id = $update['message']['chat']['id'];
+                        $user_id = $update['message']['from']['id'];
+                    }
+                    else{
+                        $type = $update->message->chat->type;
+                        $id = $update->message->chat->id;
+                        $user_id = $update->message->from->id;
+                    }
                     if(!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
                     if ($type !== 'private'){
                         if (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
@@ -1411,9 +1475,16 @@ CREATE TABLE IF NOT EXISTS `users` (
             }
             elseif($this->settings['db']['type'] === 'sql'){
                 if($update_type === 'message' || $update_type === 'edit') {
-                    $type = $update->chat->type ?? $update['chat']['type'];
-                    $id = $update->chat->id ?? $update['chat']['id'];
-                    $user_id = $update->from->id ?? $update['from']['id'];
+                    if ($this->settings['array_update']){
+                        $type = $update['chat']['type'];
+                        $id = $update['chat']['id'];
+                        $user_id = $update['from']['id'];
+                    }
+                    else{
+                        $type = $update->chat->type;
+                        $id = $update->chat->id;
+                        $user_id = $update->from->id;
+                    }
                     if ($type === 'private'){
                         $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
                         if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
@@ -1430,15 +1501,22 @@ CREATE TABLE IF NOT EXISTS `users` (
                     }
                 }
                 elseif($update_type === 'inline') {
-                    $id = $update->from->id ?? $update['from']['id'];
+                    $id = $this->settings['array_update'] ? $update['from']['id'] : $update->from->id;
                     $info = $this->db->query("select `id` from `private` where `id` = $id limit 1")->num_rows;
                     if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($id)");
                     else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $id limit 1");
                 }
                 elseif($update_type === 'callback') {
-                    $type = $update->message->chat->type ?? $update['message']['chat']['type'];
-                    $id = $update->message->chat->id ?? $update['message']['chat']['id'];
-                    $user_id = $update->from->id ?? $update['from']['id'];
+                    if ($this->settings['array_update']){
+                        $type = $update['message']['chat']['type'];
+                        $id = $update['message']['chat']['id'];
+                        $user_id = $update['message']['from']['id'];
+                    }
+                    else{
+                        $type = $update->message->chat->type;
+                        $id = $update->message->chat->id;
+                        $user_id = $update->message->from->id;
+                    }
                     if ($type === 'private'){
                         $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
                         if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
@@ -1646,8 +1724,11 @@ CREATE TABLE IF NOT EXISTS `users` (
             $this->logger('error', "BPT isTelegram method used\nip parameter not found");
             throw new exception('ip parameter not found');
         }
-        if (isset($_SERVER['HTTP_CF_CONNECTING_IP']) && $this->isCloudFlare($ip)) {
+        if ($this->settings['cloudFlare'] && isset($_SERVER['HTTP_CF_CONNECTING_IP']) && $this->isCloudFlare($ip)) {
             $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+        }
+        elseif ($this->settings['arvanCloud'] && isset($_SERVER['HTTP_AR_REAL_IP']) && $this->isArvanCloud($ip)) {
+            $ip = $_SERVER['HTTP_AR_REAL_IP'];
         }
         if (!$this->ipInRange(['ip' => $ip, 'range' => '149.154.160.0/20']) && !$this->ipInRange(['ip' => $ip, 'range' => '91.108.4.0/22'])) {
             return false;
@@ -1674,6 +1755,31 @@ CREATE TABLE IF NOT EXISTS `users` (
         $cf_ips = ['173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18', '108.162.192.0/18', '190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17', '162.158.0.0/15', '104.16.0.0/12', '172.64.0.0/13', '131.0.72.0/22'];
         foreach ($cf_ips as $cf_ip) {
             if ($this->ipInRange(['ip' => $ip, 'range' => $cf_ip])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check the given IP is from ArvanCloud or not
+     *
+     * e.g. => $this->isArvanCloud(['ip'=>'192.168.1.1']);
+     * @param array $array e.g. => ['ip'=>'192.168.1.1']
+     * @return bool
+     * @throws exception
+     */
+    public function isArvanCloud (array $array): bool {
+        if (isset($array['ip'])) {
+            $ip = $array['ip'];
+        }
+        else {
+            $this->logger('error', "BPT isCloudFlare method used\nip parameter not found");
+            throw new exception('ip parameter not found');
+        }
+        $ar_ips = ['185.143.232.0/22', '92.114.16.80/28', '2.146.0.0/28', '46.224.2.32/29', '89.187.178.96/29', '195.181.173.128/29', '89.187.169.88/29', '188.229.116.16/29', '83.123.255.56/31', '164.138.128.28/31', '94.182.182.28/30', '185.17.115.176/30', '5.213.255.36/31', '138.128.139.144/29', '5.200.14.8/29', '188.122.68.224/29', '188.122.83.176/29', '213.179.217.16/29', '185.179.201.192/29', '43.239.139.192/29', '213.179.197.16/29', '213.179.201.192/29', '109.200.214.248/29', '138.128.141.16/29', '188.122.78.136/29', '213.179.211.32/29', '103.194.164.24/29', '185.50.105.136/29', '213.179.213.16/29', '162.244.52.120/29', '188.122.80.240/29', '109.200.195.64/29', '109.200.199.224/29', '185.228.238.0/28', '94.182.153.24/29', '94.101.182.0/27', '37.152.184.208/28', '78.39.156.192/28', '158.255.77.238/31', '81.12.28.16/29', '176.65.192.202/31', '2.144.3.128/28', '89.45.48.64/28', '37.32.16.0/27', '37.32.17.0/27', '37.32.18.0/27'];
+        foreach ($ar_ips as $ar_ip) {
+            if ($this->ipInRange(['ip' => $ip, 'range' => $ar_ip])) {
                 return true;
             }
         }
@@ -1841,7 +1947,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         if (is_dir($path)) {
             if (count(scandir($path)) > 2) {
                 if ($sub) {
-                    $it = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
+                    $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
                     $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
                     foreach ($files as $file) {
                         if ($file->isDir()) {
@@ -1899,39 +2005,6 @@ CREATE TABLE IF NOT EXISTS `users` (
             return count($string) > 1 ? $string : ['status' => 'now'];
         }
         else return false;
-    }
-
-    /**
-     * DEPRECATED! will remove in version 2.03
-     *
-     * use '(object) $array' instead
-     *
-     * Convert object to array
-     *
-     * e.g. => $this->objectToArrays(['object'=>$this_is_object]);
-     * @param array $array e.g. => ['object'=>$this_is_object]
-     * @return bool|array
-     * @throws exception
-     */
-    public function objectToArrays (array $array): array {
-        if (isset($array['object'])) {
-            $object = $array['object'];
-        }
-        else {
-            $this->logger('error', "BPT objectToArrays function used\nobject parameter not found");
-            throw new exception('object parameter not found');
-        }
-        if (!is_object($object) && !is_array($object)) {
-            return $object;
-        }
-        if (is_object($object)) {
-            $object = get_object_vars($object);
-        }
-        $res = [];
-        foreach ($object as $key => $value) {
-            $res[$key] = ['object' => $value];
-        }
-        return array_map([$this, 'objectToArrays'], $res);
     }
 
     /**
@@ -2080,7 +2153,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                     $zip->addEmptyDir($main_dir);
                 }
 
-                $it = new RecursiveDirectoryIterator($path,RecursiveDirectoryIterator::SKIP_DOTS);
+                $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
                 $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
                 foreach ($files as $file) {
                     if ($file->isFile()){
@@ -2323,7 +2396,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         if (pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
             $name = $name . '.json';
         }
-        return file_put_contents($name, gzcompress($data)) ? true : false;
+        return (bool) file_put_contents($name, gzcompress($data));
     }
 
     /**
@@ -2430,7 +2503,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 if (isset($array['type'])) {
                     $type = $array['type'];
-                    if ($type !== 'private' || $type !== 'group' || $type !== 'supergroup' || $type !== 'channel') {
+                    if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
                         $type = $this->catchFields(['field' => 'type']) ?? null;
                     }
                 }
@@ -2451,7 +2524,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 if (isset($BPT_DB[$type][$id])) {
                     $BPT_DB[$type][$id][$key] = $value;
-                    return file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB)) ? true : false;
+                    return (bool) file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
                 }
                 else {
                     $this->logger('error', "BPT dataSave function used\nid not found in BPT database");
@@ -2507,7 +2580,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 if (isset($array['type'])) {
                     $type = $array['type'];
-                    if ($type !== 'private' || $type !== 'group' || $type !== 'supergroup' || $type !== 'channel') {
+                    if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
                         $type = $this->catchFields(['field' => 'type']) ?? null;
                     }
                 }
@@ -2611,7 +2684,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 if (isset($BPT_DB[$type][$id])) {
                     if (isset($BPT_DB[$type][$id][$key])) {
                         unset($BPT_DB[$type][$id][$key]);
-                        return file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB)) ? true : false;
+                        return (bool) file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
                     }
                     else {
                         $this->logger('error', "BPT dataDel function used\nkey not found in BPT database");
@@ -2653,12 +2726,16 @@ CREATE TABLE IF NOT EXISTS `users` (
                 return ['users' => $BPT_users, 'groups' => $BPT_group, 'supergroups' => $BPT_sgroup, 'channels' => $BPT_channel];
             }
             elseif ($this->settings['db']['type'] === 'sql') {
-                $res = ['users' => 0, 'groups' => 0, 'supergroups' => 0, 'channels' => 0];
+                $res = [
+                    'users'       => $this->db->query('select count(*) as `cnt` from `private`')->fetch_object()->cnt,
+                    'groups'      => 0,
+                    'supergroups' => 0,
+                    'channels'    => 0
+                ];
                 $check = $this->db->query('select `type`,COUNT(`type`) as `count` from `chats` GROUP BY `type`')->fetch_all(MYSQLI_ASSOC);
                 foreach ($check as $row) {
                     $res[$row['type'] . 's'] = $row['count'];
                 }
-                $res['users'] = $this->db->query('select count(*) as `cnt` from `private`')->fetch_object()->cnt;
                 return $res;
             }
             else return false;
@@ -2683,47 +2760,31 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->statsHere();
      *
      * @param array $array e.g. => ['chat_id'=>'123456789','type'=>'private']
+     *
      * @return array|bool return false on failure and array on success
+     * @throws exception
      */
-    public function statsHere ($array = []) {
+    public function statsHere (array $array = []) {
         if(!empty($this->db)){
             if(isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
-
-            if (isset($array['chat_id'])) {
-                $chat_id = $array['chat_id'];
-            }
-            else {
-                $chat_id = $this->catchFields(['field' => 'chat_id']);
-            }
-            if (isset($array['type'])) {
-                $type = $array['type'];
-            }
-            else {
-                $type = $this->catchFields(['field' => 'type']) ?? null;
-            }
+            $chat_id = $array['chat_id'] ?? $this->catchFields(['field' => 'chat_id']);
+            $type = $array['type'] ?? $this->catchFields(['field' => 'type']) ?? null;
             $this->logger('', "BPT statsHere function used\n");
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                if (isset($BPT_DB[$type][$chat_id])) {
-                    return $BPT_DB[$type][$chat_id];
-                }
-                else return false;
+                return $BPT_DB[$type][$chat_id] ?? false;
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 if ($type === 'private') {
                     $check = $this->db->query("select * from `private` where `id` = $chat_id limit 1");
-                    if ($check->num_rows > 0) {
-                        return $check->fetch_array();
-                    }
-                    else return false;
                 }
                 else {
                     $check = $this->db->query("select * from `chats` where `id` = $chat_id limit 1");
-                    if ($check->num_rows > 0) {
-                        return $check->fetch_array();
-                    }
-                    else return false;
                 }
+                if ($check->num_rows > 0) {
+                    return $check->fetch_array();
+                }
+                else return false;
             }
             else return false;
         }
@@ -2760,6 +2821,7 @@ CREATE TABLE IF NOT EXISTS `users` (
      * 3 when new user have right range ,
      * 4 when new user have wrong range ,
      * false when database is off or it have wrong type
+     * @throws exception
      */
     public function checkPhone (array $array): int {
         if (!empty($this->db)) {
@@ -2928,13 +2990,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2users function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
-
-            if (isset($array['forward'])) {
-                $forward = $array['forward'];
-            }
-            else {
-                $forward = true;
-            }
+            $forward = $array['forward'] ?? true;
             $method = $forward ? 'forwardMessage' : 'copyMessage';
 
             if ($this->settings['db']['type'] === 'json') {
@@ -2951,12 +3007,11 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 return true;
             }
-            return false;
         }
         else {
             $this->logger('warning', 'Your database is disable , so you cant use forward2users method');
-            return false;
         }
+        return false;
     }
 
     /**
@@ -2995,13 +3050,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2groups function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
-
-            if (isset($array['forward'])) {
-                $forward = $array['forward'];
-            }
-            else {
-                $forward = true;
-            }
+            $forward = $array['forward'] ?? true;
             $method = $forward ? 'forwardMessage' : 'copyMessage';
 
             if ($this->settings['db']['type'] === 'json') {
@@ -3018,12 +3067,11 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 return true;
             }
-            return false;
         }
         else {
             $this->logger('warning', 'Your database is disable , so you cant use forward2groups method');
-            return false;
         }
+        return false;
     }
 
     /**
@@ -3062,13 +3110,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2supergroups function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
-
-            if (isset($array['forward'])) {
-                $forward = $array['forward'];
-            }
-            else {
-                $forward = true;
-            }
+            $forward = $array['forward'] ?? true;
             $method = $forward ? 'forwardMessage' : 'copyMessage';
 
             if ($this->settings['db']['type'] === 'json') {
@@ -3085,12 +3127,11 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 return true;
             }
-            return false;
         }
         else {
             $this->logger('warning', 'Your database is disable , so you cant use forward2supergroups method');
-            return false;
         }
+        return false;
     }
 
     /**
@@ -3129,13 +3170,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2gps function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
-
-            if (isset($array['forward'])) {
-                $forward = $array['forward'];
-            }
-            else {
-                $forward = true;
-            }
+            $forward = $array['forward'] ?? true;
             $method = $forward ? 'forwardMessage' : 'copyMessage';
 
             if ($this->settings['db']['type'] === 'json') {
@@ -3155,12 +3190,11 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 return true;
             }
-            return false;
         }
         else {
             $this->logger('warning', 'Your database is disable , so you cant use forward2gps method');
-            return false;
         }
+        return false;
     }
 
     /**
@@ -3199,13 +3233,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', "BPT forward2all function used\nmessage_id parameter not found");
                 throw new exception('message_id parameter not found');
             }
-
-            if (isset($array['forward'])) {
-                $forward = $array['forward'];
-            }
-            else {
-                $forward = true;
-            }
+            $forward = $array['forward'] ?? true;
             $method = $forward ? 'forwardMessage' : 'copyMessage';
 
             if ($this->settings['db']['type'] === 'json') {
@@ -3232,12 +3260,11 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 return true;
             }
-            return false;
         }
         else {
             $this->logger('warning', 'Your database is disable , so you cant use forward2all method');
-            return false;
         }
+        return false;
     }
 
     /**
@@ -3247,11 +3274,11 @@ CREATE TABLE IF NOT EXISTS `users` (
      *
      * NOTE : We try to make apis always online and always work, but sometimes that is not possible
      *
-     * e.g. => $this->api(['type'=>'pdf','option'=>['url'=>'https://bpt-proto.ir']]);
+     * e.g. => $this->api(['type'=>'pdf','option'=>['url'=>'https://bptlib.ir']]);
      *
      * e.g. => $this->api(['type'=>'dastan']);
      *
-     * @param array $array e.g. => ['type'=>'pdf','option'=>['url'=>'https://bpt-proto.ir']]
+     * @param array $array e.g. => ['type'=>'pdf','option'=>['url'=>'https://bptlib.ir']]
      * @return string|array|bool
      * @throws exception
      */

@@ -35,3 +35,8 @@
     - a new parameter added to `forward` methods with a `forward` name
     - from now on, the library has a separate update for bug fixing.
     - *Warning: from version 2.03, the requirement PHP version will increase to 7.4 and from version 2.04 or 2.05 it will increase to 8.0*
+- 2.03
+  - upgrade to `API v6.3`
+  - PHP minimum support upgraded to 7.4
+  - From now on you can turn off cloudFlare support with settings
+  - From now on you can set arvanCloud support

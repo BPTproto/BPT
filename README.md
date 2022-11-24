@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/Version-2.02-blue?style=for-the-badge&logo=V"> <img src="https://img.shields.io/badge/php-+7-green?style=for-the-badge&logo=php"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey">
+<img src="https://img.shields.io/badge/Version-2.030-blue?style=for-the-badge&logo=V"> <img src="https://img.shields.io/badge/php-+7.4-green?style=for-the-badge&logo=php"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey">
 
 ## Table of Contents
 - [Introduction](#introduction) 
