@@ -1,16 +1,14 @@
 <?php
-/** ----------- Check Included ---------- */
-if (!in_array(__FILE__,get_included_files())){
+
+if (!in_array(__FILE__, get_included_files())) {
     endPage();
 }
 
-/** --------- Check Php version --------- */
-if(PHP_MAJOR_VERSION === 5 || (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION < 4)){
+if (PHP_MAJOR_VERSION === 5 || (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION < 4)) {
     $newline = PHP_SAPI !== 'cli' ? '<br>' . PHP_EOL : PHP_EOL;
     die("You can't run this library on php version lower then 7.4$newline supported versions: php 7.4+$newline recommended version: php 8.0$newline");
 }
-
-function endPage(){
+function endPage () {
     die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
 }
 
@@ -89,7 +87,7 @@ function endPage(){
  * @method kickChatMember($array = []) DEPRECATED! use banChatMember instead
  * @method unbanChatMember($array = [])
  * @method unban($array = [])
- * @method kick($array = []) This is not alice with kickChatMember , will use unban method to kick user
+ * @method kick($array = []) This is not alice with kickChatMember, will use unban method to kick user
  * @method restrictChatMember($array)
  * @method restrict($array)
  * @method promoteChatMember($array)
@@ -233,23 +231,16 @@ function endPage(){
  * @link https://bptlib.ir
  */
 class BPT {
-    private $version = 2.030;
-
+    private float $version = 2.030;
     private $token;
-
     private array $settings;
-
     /**
-     * telegram update will saved in this var as object , does not effected by array_update option
+     * telegram update will save in this var as object , does not effected by array_update option
      */
     public $update;
-
     public $db;
-
     public $bot_id;
-
     private $curl_handler = null;
-
     private bool $web_answered = false;
 
     public function __construct (array $settings) {
@@ -284,12 +275,12 @@ class BPT {
                     }
                     else {
                         define('LOG', fopen('BPT.log', 'w'));
-                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
+                        fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
                     }
                 }
                 else {
                     define('LOG', fopen('BPT.log', 'a'));
-                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
+                    fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
                 }
             }
             else {
@@ -299,83 +290,93 @@ class BPT {
                     }
                     else {
                         define('LOG', fopen('BPT.log', 'w'));
-                        fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
+                        fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
                     }
                 }
                 else {
                     define('LOG', fopen('BPT.log', 'a'));
-                    fwrite(LOG,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
+                    fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
                 }
             }
         }
-
-        if (isset($settings['token'])) {
-            if ($this->isToken(['token' => $settings['token']])) {
-                $this->token = $settings['token'];
-                $this->bot_id = explode(':', $settings['token'])[0];
-                if (!$settings['debug']) {
-                    if ($settings['security']) {
-                        ini_set('magic_quotes_gpc', 'off');
-                        ini_set('sql.safe_mode', 'on');
-                        ini_set('max_execution_time', 30);
-                        ini_set('max_input_time', 30);
-                        ini_set('memory_limit', '20M');
-                        ini_set('post_max_size', '8K');
-                        ini_set('expose_php', 'off');
-                        ini_set('file_uploads', 'off');
-                        ini_set('display_errors', 0);
-                        ini_set('error_reporting', 0);
-                    }
-                    if ($settings['secure_folder']) {
-                        $address = explode('/', $_SERVER['REQUEST_URI']);
-                        unset($address[count($address) - 1]);
-                        $address = implode('/', $address) . '/BPT.php';
-                        $text = "ErrorDocument 404 $address\nErrorDocument 403 $address\n Options -Indexes\n  Order Deny,Allow\nDeny from all\nAllow from 127.0.0.1\n<Files *.php>\n    Order Allow,Deny\n    Allow from all\n</Files>";
-                        if (!file_exists('.htaccess') || filesize('.htaccess') != strlen($text)) {
-                            file_put_contents('.htaccess', $text);
-                        }
-                    }
+        if (!isset($settings['token'])) {
+            $this->logger('error', 'token not found');
+            throw new exception('token missing');
+        }
+        if (!$this->isToken(['token' => $settings['token']])) {
+            $this->logger('error', 'token format is not true');
+            throw new exception('token is not true');
+        }
+        $this->token = $settings['token'];
+        $this->bot_id = explode(':', $settings['token'])[0];
+        if (!$settings['debug']) {
+            if ($settings['security']) {
+                ini_set('magic_quotes_gpc', 'off');
+                ini_set('sql.safe_mode', 'on');
+                ini_set('max_execution_time', 30);
+                ini_set('max_input_time', 30);
+                ini_set('memory_limit', '20M');
+                ini_set('post_max_size', '8K');
+                ini_set('expose_php', 'off');
+                ini_set('file_uploads', 'off');
+                ini_set('display_errors', 0);
+                ini_set('error_reporting', 0);
+            }
+            if ($settings['secure_folder']) {
+                $address = explode('/', $_SERVER['REQUEST_URI']);
+                unset($address[count($address) - 1]);
+                $address = implode('/', $address) . '/BPT.php';
+                $text = "ErrorDocument 404 $address\nErrorDocument 403 $address\n Options -Indexes\n  Order Deny,Allow\nDeny from all\nAllow from 127.0.0.1\n<Files *.php>\n    Order Allow,Deny\n    Allow from all\n</Files>";
+                if (!file_exists('.htaccess') || filesize('.htaccess') != strlen($text)) {
+                    file_put_contents('.htaccess', $text);
                 }
-                if (!isset($settings['db'])) {
-                    if (!empty($settings['db'])) {
-                        $settings['db'] = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
-                        if (!file_exists($settings['db']['file_name'])) {
-                            file_put_contents($settings['db']['file_name'], json_encode(['private' => [], 'group' => [], 'supergroup' => [], 'channel' => []]));
-                        }
-                    }
-                    else $this->db = null;
+            }
+        }
+        if (!isset($settings['db'])) {
+            if (!empty($settings['db'])) {
+                $settings['db'] = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
+                if (!file_exists($settings['db']['file_name'])) {
+                    file_put_contents($settings['db']['file_name'], json_encode([
+                        'private'    => [],
+                        'group'      => [],
+                        'supergroup' => [],
+                        'channel'    => [],
+                    ]));
                 }
-                else {
-                    if (!isset($settings['db']['type'])) {
-                        $settings['db']['type'] = 'json';
-                    }
-                    if ($settings['db']['type'] === 'sql') {
-                        if (!isset($settings['db']['host'])) {
-                            $settings['db']['host'] = 'localhost';
-                        }
-                        if (!isset($settings['db']['port'])) {
-                            $settings['db']['port'] = 3306;
-                        }
-                        if (!isset($settings['db']['user'])) {
-                            $this->logger('error', 'db user parameter not found , sql type need user parameter');
-                            throw new exception('sql user parameter');
-                        }
-                        if (!isset($settings['db']['pass'])) {
-                            $this->logger('error', 'db pass parameter not found , sql type need pass parameter');
-                            throw new exception('sql pass parameter');
-                        }
-                        if (!isset($settings['db']['name'])) {
-                            $this->logger('error', 'db name parameter not found , sql type need name parameter');
-                            throw new exception('sql name parameter');
-                        }
-                        $db = new mysqli($settings['db']['host'], $settings['db']['user'], $settings['db']['pass'], $settings['db']['name'], $settings['db']['port']);
-                        if ($db->errno) {
-                            $this->logger('error', 'sql connection has problem , error : ' . $db->error);
-                            throw new exception('sql connection problem');
-                        }
-                        $check = $db->query("SELECT `TABLE_NAME` FROM `information_schema`.`tables` WHERE `table_schema` = '{$settings['db']['name']}' AND `table_name` in ('private','chats','users')");
-                        if ($check->num_rows < 3) {
-                            $db->query("
+            }
+            else $this->db = null;
+        }
+        else {
+            if (!isset($settings['db']['type'])) {
+                $settings['db']['type'] = 'json';
+            }
+            if ($settings['db']['type'] === 'sql') {
+                if (!isset($settings['db']['host'])) {
+                    $settings['db']['host'] = 'localhost';
+                }
+                if (!isset($settings['db']['port'])) {
+                    $settings['db']['port'] = 3306;
+                }
+                if (!isset($settings['db']['user'])) {
+                    $this->logger('error', 'db user parameter not found , sql type need user parameter');
+                    throw new exception('sql user parameter');
+                }
+                if (!isset($settings['db']['pass'])) {
+                    $this->logger('error', 'db pass parameter not found , sql type need pass parameter');
+                    throw new exception('sql pass parameter');
+                }
+                if (!isset($settings['db']['name'])) {
+                    $this->logger('error', 'db name parameter not found , sql type need name parameter');
+                    throw new exception('sql name parameter');
+                }
+                $db = new mysqli($settings['db']['host'], $settings['db']['user'], $settings['db']['pass'], $settings['db']['name'], $settings['db']['port']);
+                if ($db->errno) {
+                    $this->logger('error', 'sql connection has problem , error : ' . $db->error);
+                    throw new exception('sql connection problem');
+                }
+                $check = $db->query("SELECT `TABLE_NAME` FROM `information_schema`.`tables` WHERE `table_schema` = '{$settings['db']['name']}' AND `table_name` in ('private','chats','users')");
+                if ($check->num_rows < 3) {
+                    $db->query("
 CREATE TABLE IF NOT EXISTS `chats` (
     `id` bigint(20) NOT NULL,
     `type` enum('group','supergroup','channel') NOT NULL,
@@ -400,404 +401,422 @@ CREATE TABLE IF NOT EXISTS `users` (
     PRIMARY KEY (`id`,`gid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ");
-                        }
-                        $this->db = $db;
-                    }
-                    elseif ($settings['db']['type'] === 'json') {
-                        if (!isset($settings['db']['file_name'])) {
-                            $settings['db']['file_name'] = 'BPT-DB.json';
-                        }
-                        $this->db = $settings['db'];
-                        if (!file_exists($settings['db']['file_name'])) {
-                            file_put_contents($settings['db']['file_name'], json_encode(['private' => [], 'group' => [], 'supergroup' => [], 'channel' => []]));
-                        }
-                    }
-                    else {
-                        $this->logger('error', 'Wrong db type , it must be json or sql in lowercase');
-                        throw new exception('wrong db type');
-                    }
                 }
-                if ($this->settings['auto_update']) {
-                    $this->bptUpdate();
+                $this->db = $db;
+            }
+            elseif ($settings['db']['type'] === 'json') {
+                if (!isset($settings['db']['file_name'])) {
+                    $settings['db']['file_name'] = 'BPT-DB.json';
                 }
-                if($settings['receive'] === 'webhook'){
-                    if ($settings['multi']) {
-                        if (!file_exists('BPT-M.look')) {
-                            if (!file_exists('BPT-MC.look')) {
-                                if (file_exists('BPT.look')) {
-                                    unlink('BPT.look');
-                                }
-                                if (file_exists('getUpdate.lock')) {
-                                    unlink('getUpdate.lock');
-                                }
-                                if (empty($settings['certificate'])) {
-                                    $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-                                    $settings['certificate'] = null;
-                                }
-                                else {
-                                    $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-                                    if (file_exists($settings['certificate'])) {
-                                        $settings['certificate'] = new CURLFile($settings['certificate']);
-                                    }
-                                }
-                                $file = basename($_SERVER['REQUEST_URI']);
-                                $url2 = str_replace($file, 'receiver.php', $url);
-                                if (function_exists('exec') && !in_array('exec', array_map('trim', explode(', ', ini_get('disable_functions')))) && strtolower(ini_get('safe_mode')) != 1) {
-                                    file_put_contents('receiver.php', '<?php $BPT = file_get_contents("php://input");$id = json_decode($BPT, true)[\'update_id\'];file_put_contents("{$_SERVER[\'REMOTE_ADDR\']}-$id.update",$BPT);exec("php ' . $file . ' > /dev/null &");');
-                                    $res = $this->setWebhook(['url' => $url2, 'allowed_updates' => json_encode($settings['allowed_updates']), 'max_connections' => $settings['max_connection'], 'certificate' => $settings['certificate']]);
-                                    if ($res['ok'] === true) {
-                                        $this->logger('info', 'webhook was set successfully');
-                                        touch('BPT-M.look');
-                                        die('webhook was set');
-                                    }
-                                    else {
-                                        $this->logger('error', "there is some problem with setWebhook , telegram response :\n" . json_encode($res));
-                                        unlink('receiver.php');
-                                        print_r($res);
-                                        die();
-                                    }
-                                }
-                                else {
-                                    $url3 = str_replace($file, basename(__FILE__), $url);
-                                    $times = [];
-                                    for ($i = 0; $i < 10; $i ++) {
-                                        $ch = curl_init($url3);
-                                        curl_setopt_array($ch, [CURLOPT_POSTFIELDS => json_encode([]), CURLOPT_TIMEOUT_MS => 100, CURLOPT_NOBODY => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSL_VERIFYHOST => false, CURLOPT_CONNECTTIMEOUT_MS => 100, CURLOPT_HTTPHEADER => ['accept: application/json', 'content-type: application/json']]);
-                                        $start = microtime(true);
-                                        curl_exec($ch);
-                                        $times[] = ((microtime(true) - $start) * 1000);
-                                    }
-                                    $timeout = round(array_sum($times) / count($times));
-                                    $timeout = $timeout > 50 ? $timeout + 10 : 50;
-                                    file_put_contents('receiver.php', '<?php http_response_code(200);ignore_user_abort();$ch = curl_init(\'' . $url . '\');curl_setopt_array($ch, [CURLOPT_POSTFIELDS => json_encode([\'update\'=>file_get_contents(\'php://input\'),\'ip\'=>$_SERVER[\'REMOTE_ADDR\']]), CURLOPT_TIMEOUT_MS => ' . $timeout . ', CURLOPT_RETURNTRANSFER => true, CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSL_VERIFYHOST => false, CURLOPT_CONNECTTIMEOUT_MS => ' . $timeout . ', CURLOPT_HTTPHEADER => [\'accept: application/json\', \'content-type: application/json\']]);curl_exec($ch);curl_close($ch);?>');
-                                    $res = $this->setWebhook(['url' => $url2, 'allowed_updates' => json_encode($settings['allowed_updates']), 'max_connections' => $settings['max_connection'], 'certificate' => $settings['certificate']]);
-                                    if ($res['ok'] === true) {
-                                        $this->logger('info', 'webhook was set successfully');
-                                        touch('BPT-MC.look');
-                                        die('webhook was setted');
-                                    }
-                                    else {
-                                        $this->logger('error', "there is some problem with setWebhook , telegram response :\n" . json_encode($res));
-                                        unlink('receiver.php');
-                                        print_r($res);
-                                        die();
-                                    }
-                                }
-                            }
-                            elseif ($_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR']) {
-                                $this->logger('warning', 'not authorized access denied');
-                                endPage();
-                            }
-                            else {
-                                $input = json_decode(file_get_contents("php://input"), true);
-                                $ip = $input['ip'];
-                                if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
-                                    $this->logger('warning', 'not authorized access denied');
-                                    endPage();
-                                }
-                                $updates = $input['update'];
-                            }
+                $this->db = $settings['db'];
+                if (!file_exists($settings['db']['file_name'])) {
+                    file_put_contents($settings['db']['file_name'], json_encode([
+                        'private'    => [],
+                        'group'      => [],
+                        'supergroup' => [],
+                        'channel'    => [],
+                    ]));
+                }
+            }
+            else {
+                $this->logger('error', 'Wrong db type , it must be json or sql in lowercase');
+                throw new exception('wrong db type');
+            }
+        }
+        if ($this->settings['auto_update']) {
+            $this->bptUpdate();
+        }
+        if ($settings['receive'] === 'webhook') {
+            if ($settings['multi']) {
+                if (!file_exists('BPT-M.look')) {
+                    if (!file_exists('BPT-MC.look')) {
+                        if (file_exists('BPT.look')) {
+                            unlink('BPT.look');
+                        }
+                        if (file_exists('getUpdate.lock')) {
+                            unlink('getUpdate.lock');
+                        }
+                        if (empty($settings['certificate'])) {
+                            $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                            $settings['certificate'] = null;
                         }
                         else {
-                            $up = glob('*.update');
-                            if (isset($up[0])) {
-                                $up = end($up);
-                                $ip = explode('-', $up)[0];
-                                if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
-                                    $this->logger('warning', 'not authorized access denied');
-                                    endPage();
-                                }
-                                $updates = file_get_contents($up);
-                                unlink($up);
-                            }
-                            else {
-                                $this->logger('warning', 'not authorized access denied');
-                                endPage();
+                            $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                            if (file_exists($settings['certificate'])) {
+                                $settings['certificate'] = new CURLFile($settings['certificate']);
                             }
                         }
-                    }
-                    else {
-                        if (!file_exists('BPT.look')) {
-                            if (file_exists('BPT-M.look')) {
-                                unlink('BPT-M.look');
-                            }
-                            if (file_exists('BPT-MC.look')) {
-                                unlink('BPT-MC.look');
-                            }
-                            if (file_exists('getUpdate.lock')) {
-                                unlink('getUpdate.lock');
-                            }
-                            if (empty($settings['certificate'])) {
-                                $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-                            }
-                            else {
-                                $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-                                if (file_exists($settings['certificate'])) {
-                                    $settings['certificate'] = new CURLFile($settings['certificate']);
-                                }
-                            }
-                            $res = $this->setWebhook(['url' => $url, 'allowed_updates' => json_encode($settings['allowed_updates']), 'max_connections' => $settings['max_connection'], 'certificate' => $settings['certificate']]);
+                        $file = basename($_SERVER['REQUEST_URI']);
+                        $url2 = str_replace($file, 'receiver.php', $url);
+                        if (function_exists('exec') && !in_array('exec', array_map('trim', explode(', ', ini_get('disable_functions')))) && strtolower(ini_get('safe_mode')) != 1) {
+                            file_put_contents('receiver.php', '<?php $BPT = file_get_contents("php://input");$id = json_decode($BPT, true)[\'update_id\'];file_put_contents("{$_SERVER[\'REMOTE_ADDR\']}-$id.update",$BPT);exec("php ' . $file . ' > /dev/null &");');
+                            $res = $this->setWebhook([
+                                'url'             => $url2,
+                                'allowed_updates' => json_encode($settings['allowed_updates']),
+                                'max_connections' => $settings['max_connection'],
+                                'certificate'     => $settings['certificate'],
+                            ]);
                             if ($res['ok'] === true) {
-                                touch('BPT.look');
                                 $this->logger('info', 'webhook was set successfully');
-                                die('Done');
+                                touch('BPT-M.look');
+                                die('webhook was set');
                             }
                             else {
                                 $this->logger('error', "there is some problem with setWebhook , telegram response :\n" . json_encode($res));
+                                unlink('receiver.php');
                                 print_r($res);
                                 die();
                             }
                         }
                         else {
-                            if ($settings['telegram_verify']) {
-                                if (!$this->isTelegram(['ip' => $_SERVER['REMOTE_ADDR']])) {
-                                    $this->logger('warning', 'not authorized access denied. IP : '.$_SERVER['REMOTE_ADDR']);
-                                    endPage();
-                                }
+                            $url3 = str_replace($file, basename(__FILE__), $url);
+                            $times = [];
+                            for ($i = 0; $i < 10; $i++) {
+                                $ch = curl_init($url3);
+                                curl_setopt_array($ch, [
+                                    CURLOPT_POSTFIELDS        => json_encode([]),
+                                    CURLOPT_TIMEOUT_MS        => 100,
+                                    CURLOPT_NOBODY            => true,
+                                    CURLOPT_RETURNTRANSFER    => true,
+                                    CURLOPT_SSL_VERIFYPEER    => false,
+                                    CURLOPT_SSL_VERIFYHOST    => false,
+                                    CURLOPT_CONNECTTIMEOUT_MS => 100,
+                                    CURLOPT_HTTPHEADER        => [
+                                        'accept: application/json',
+                                        'content-type: application/json',
+                                    ],
+                                ]);
+                                $start = microtime(true);
+                                curl_exec($ch);
+                                $times[] = ((microtime(true) - $start) * 1000);
                             }
-                            $updates = file_get_contents("php://input");
-                        }
-                    }
-                    $update = json_decode($updates, $settings['array_update']);
-                    if ($update) {
-                        $this->update = json_decode($updates);
-                        if ($settings['array_update']) {
-                            if((isset($update['message']) && isset($update['message']['text']))||(isset($update['edited_message']) && isset($update['edited_message']['text']))){
-                                if (isset($update['message'])) $type = 'message';
-                                else $type = 'edited_message';
-
-                                $text = &$update[$type]['text'];
-                                if ($settings['security']){
-                                    $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
-                                }
-                                if (strpos($text,'/') === 0){
-                                    preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/',$text,$result);
-                                    if (!empty($result[1])){
-                                        $update[$type]['commend'] = $result[1];
-                                    }
-                                    if (!empty($result[2])){
-                                        $update[$type]['commend_username'] = $result[2];
-                                    }
-                                    if (!empty($result[3])){
-                                        $update[$type]['commend_payload'] = $result[3];
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            if((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))){
-                                if (isset($update->message)) $type = 'message';
-                                else $type = 'edited_message';
-
-                                $text = &$update->$type->text;
-                                if ($settings['security']){
-                                    $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
-                                }
-                                if (strpos($text,'/') === 0){
-                                    preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/',$text,$result);
-                                    if (!empty($result[1])){
-                                        $update->$type->commend = $result[1];
-                                    }
-                                    if (!empty($result[2])){
-                                        $update->$type->commend_username = $result[2];
-                                    }
-                                    if (!empty($result[3])){
-                                        $update->$type->commend_payload = $result[3];
-                                    }
-                                }
-                            }
-                        }
-                        $this->logger('', "BPT update received");
-                        if ($settings['handler']) {
-                            if ($settings['split_update']) {
-                                $message_update = method_exists($this, 'message');
-                                $inline_query = method_exists($this, 'inline_query');
-                                $callback_query = method_exists($this, 'callback_query');
-                                $edited_message = method_exists($this, 'edited_message');
-                                $something_else = method_exists($this, 'something_else');
+                            $timeout = round(array_sum($times) / count($times));
+                            $timeout = $timeout > 50 ? $timeout + 10 : 50;
+                            file_put_contents('receiver.php', '<?php http_response_code(200);ignore_user_abort();$ch = curl_init(\'' . $url . '\');curl_setopt_array($ch, [CURLOPT_POSTFIELDS => json_encode([\'update\'=>file_get_contents(\'php://input\'),\'ip\'=>$_SERVER[\'REMOTE_ADDR\']]), CURLOPT_TIMEOUT_MS => ' . $timeout . ', CURLOPT_RETURNTRANSFER => true, CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSL_VERIFYHOST => false, CURLOPT_CONNECTTIMEOUT_MS => ' . $timeout . ', CURLOPT_HTTPHEADER => [\'accept: application/json\', \'content-type: application/json\']]);curl_exec($ch);curl_close($ch);?>');
+                            $res = $this->setWebhook([
+                                'url'             => $url2,
+                                'allowed_updates' => json_encode($settings['allowed_updates']),
+                                'max_connections' => $settings['max_connection'],
+                                'certificate'     => $settings['certificate'],
+                            ]);
+                            if ($res['ok'] === true) {
+                                $this->logger('info', 'webhook was set successfully');
+                                touch('BPT-MC.look');
+                                die('webhook was setted');
                             }
                             else {
-                                $all = method_exists($this, 'all');
-                            }
-                            if ($settings['split_update']) {
-                                if ($settings['array_update']) {
-                                    if (isset($update['message']) && $message_update === true) {
-                                        $this->users($update['message'], 'message');
-                                        $this->message($update['message']);
-                                    }
-                                    elseif (isset($update['callback_query']) && $callback_query === true) {
-                                        $this->users($update['callback_query'], 'callback');
-                                        $this->callback_query($update['callback_query']);
-                                    }
-                                    elseif (isset($update['inline_query']) && $inline_query === true) {
-                                        $this->users($update['inline_query'], 'inline');
-                                        $this->inline_query($update['inline_query']);
-                                    }
-                                    elseif (isset($update['edited_message']) && $edited_message === true) {
-                                        $this->users($update['edited_message'], 'edit');
-                                        $this->edited_message($update['edited_message']);
-                                    }
-                                    elseif ($something_else === true) {
-                                        $this->something_else($update);
-                                    }
-                                }
-                                else {
-                                    if (isset($update->message) && $message_update === true) {
-                                        $this->users($update->message, 'message');
-                                        $this->message($update->message);
-                                    }
-                                    elseif (isset($update->callback_query) && $callback_query === true) {
-                                        $this->users($update->callback_query, 'callback');
-                                        $this->callback_query($update->callback_query);
-                                    }
-                                    elseif (isset($update->inline_query) && $inline_query === true) {
-                                        $this->users($update->inline_query, 'inline');
-                                        $this->inline_query($update->inline_query);
-                                    }
-                                    elseif (isset($update->edited_message) && $edited_message === true) {
-                                        $this->users($update->edited_message, 'edit');
-                                        $this->edited_message($update->edited_message);
-                                    }
-                                    elseif ($something_else === true) {
-                                        $this->something_else($update);
-                                    }
-                                }
-                            }
-                            elseif ($all === true) {
-                                $this->all($update);
-                            }
-                            else{
-                                $this->logger('warning', " If you want use the library with out split update , you most define `all` method in handler");
+                                $this->logger('error', "there is some problem with setWebhook , telegram response :\n" . json_encode($res));
+                                unlink('receiver.php');
+                                print_r($res);
+                                die();
                             }
                         }
                     }
-                }
-                elseif ($settings['receive'] === 'getupdates') {
-                    if ($settings['handler']) {
-                        if (file_exists('getUpdate.lock')) {
-                            $last_update = file_get_contents('getUpdate.lock');
-                        }
-                        else {
-                            if (file_exists('BPT.look')) {
-                                unlink('BPT.look');
-                            }
-                            if (file_exists('BPT-M.look')) {
-                                unlink('BPT-M.look');
-                            }
-                            if (file_exists('BPT-MC.look')) {
-                                unlink('BPT-MC.look');
-                            }
-                            $this->deleteWebhook();
-                            $last_update = 0;
-                            file_put_contents('getUpdate.lock', 0);
-                        }
-                        if ($settings['split_update']) {
-                            $message_update = method_exists($this, 'message');
-                            $inline_query = method_exists($this, 'inline_query');
-                            $callback_query = method_exists($this, 'callback_query');
-                            $edited_message = method_exists($this, 'edited_message');
-                            $something_else = method_exists($this, 'something_else');
-                        }
-                        else {
-                            $all = method_exists($this, 'all');
-                        }
-                        while (true){
-                            if (!file_exists('getUpdate.lock')) exit();
-                            $updates = $this->getUpdates(['allowed_updates' => $settings['allowed_updates'], 'offset' => $last_update, 'return_array' => $settings['array_update']]);
-                            $updates = $updates->result ?? $updates['result'];
-                            foreach ($updates as $update) {
-                                if ($settings['array_update']) {
-                                    $this->update = json_decode(json_encode($update));
-                                    if ($settings['split_update']) {
-                                        if (isset($update['message']) && $message_update === true) {
-                                            $message = $update['message'];
-                                            if ($settings['security']) {
-                                                $message['text'] = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($message['text'])))));
-                                            }
-                                            $this->users($message, 'message');
-                                            $this->message($message);
-                                        }
-                                        elseif (isset($update['callback_query']) && $callback_query === true) {
-                                            $this->users($update['callback_query'], 'callback');
-                                            $this->callback_query($update['callback_query']);
-                                        }
-                                        elseif (isset($update['inline_query']) && $inline_query === true) {
-                                            $this->users($update['inline_query'], 'inline');
-                                            $this->inline_query($update['inline_query']);
-                                        }
-                                        elseif (isset($update['edited_message']) && $edited_message === true) {
-                                            $this->users($update['edited_message'], 'edit');
-                                            $this->edited_message($update['edited_message']);
-                                        }
-                                        elseif ($something_else === true) {
-                                            $this->something_else($update);
-                                        }
-                                    }
-                                    elseif ($all === true) {
-                                        $this->all($update);
-                                    }
-                                    file_put_contents('getUpdate.lock', $update['update_id']+1);
-                                    $last_update = $update['update_id']+1;
-                                }
-                                else {
-                                    $this->update = $update;
-                                    if ($settings['split_update']) {
-                                        if (isset($update->message) && $message_update === true) {
-                                            $message = $update->message;
-                                            if ($settings['security']) {
-                                                $message->text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($message->text)))));
-                                            }
-                                            $this->users($message, 'message');
-                                            $this->message($message);
-                                        }
-                                        elseif (isset($update->callback_query) && $callback_query === true) {
-                                            $this->users($update->callback_query, 'callback');
-                                            $this->callback_query($update->callback_query);
-                                        }
-                                        elseif (isset($update->inline_query) && $inline_query === true) {
-                                            $this->users($update->inline_query, 'inline');
-                                            $this->inline_query($update->inline_query);
-                                        }
-                                        elseif (isset($update->edited_message) && $edited_message === true) {
-                                            $this->users($update->edited_message, 'edit');
-                                            $this->edited_message($update->edited_message);
-                                        }
-                                        elseif ($something_else === true) {
-                                            $this->something_else($update);
-                                        }
-                                    }
-                                    elseif ($all === true) {
-                                        $this->all($update);
-                                    }
-                                    file_put_contents('getUpdate.lock', $update->update_id+1);
-                                    $last_update = $update->update_id+1;
-                                }
-                            }
-                        }
+                    elseif ($_SERVER['REMOTE_ADDR'] !== $_SERVER['SERVER_ADDR']) {
+                        $this->logger('warning', 'not authorized access denied');
+                        endPage();
                     }
                     else {
-                        $this->logger('error', 'you can\'t use getupdates receiver when handler is off');
-                        throw new exception('getupdates not allowed');
+                        $input = json_decode(file_get_contents("php://input"), true);
+                        $ip = $input['ip'];
+                        if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
+                            $this->logger('warning', 'not authorized access denied');
+                            endPage();
+                        }
+                        $updates = $input['update'];
                     }
+                }
+                else {
+                    $up = glob('*.update');
+                    if (!isset($up[0])) {
+                        $this->logger('warning', 'not authorized access denied');
+                        endPage();
+                    }
+                    $up = end($up);
+                    $ip = explode('-', $up)[0];
+                    if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
+                        $this->logger('warning', 'not authorized access denied');
+                        endPage();
+                    }
+                    $updates = file_get_contents($up);
+                    unlink($up);
                 }
             }
             else {
-                $this->logger('error', 'token format is not true');
-                throw new exception('token is not true');
+                if (!file_exists('BPT.look')) {
+                    if (file_exists('BPT-M.look')) {
+                        unlink('BPT-M.look');
+                    }
+                    if (file_exists('BPT-MC.look')) {
+                        unlink('BPT-MC.look');
+                    }
+                    if (file_exists('getUpdate.lock')) {
+                        unlink('getUpdate.lock');
+                    }
+                    if (empty($settings['certificate'])) {
+                        $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                    }
+                    else {
+                        $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                        if (file_exists($settings['certificate'])) {
+                            $settings['certificate'] = new CURLFile($settings['certificate']);
+                        }
+                    }
+                    $res = $this->setWebhook([
+                        'url'             => $url,
+                        'allowed_updates' => json_encode($settings['allowed_updates']),
+                        'max_connections' => $settings['max_connection'],
+                        'certificate'     => $settings['certificate'],
+                    ]);
+                    if ($res['ok'] !== true) {
+                        $this->logger('error', "there is some problem with setWebhook , telegram response :\n" . json_encode($res));
+                        print_r($res);
+                        die();
+                    }
+                    touch('BPT.look');
+                    $this->logger('info', 'webhook was set successfully');
+                    die('Done');
+                }
+                if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $_SERVER['REMOTE_ADDR']])) {
+                    $this->logger('warning', 'not authorized access denied. IP : ' . $_SERVER['REMOTE_ADDR']);
+                    endPage();
+                }
+                $updates = file_get_contents("php://input");
             }
+            $update = json_decode($updates, $settings['array_update']);
+            if ($update) {
+                $this->update = json_decode($updates);
+                if ($settings['array_update']) {
+                    if ((isset($update['message']) && isset($update['message']['text'])) || (isset($update['edited_message']) && isset($update['edited_message']['text']))) {
+                        if (isset($update['message'])) {
+                            $type = 'message';
+                        }
+                        else $type = 'edited_message';
+                        $text = &$update[$type]['text'];
+                        if ($settings['security']) {
+                            $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                        }
+                        if (strpos($text, '/') === 0) {
+                            preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
+                            if (!empty($result[1])) {
+                                $update[$type]['commend'] = $result[1];
+                            }
+                            if (!empty($result[2])) {
+                                $update[$type]['commend_username'] = $result[2];
+                            }
+                            if (!empty($result[3])) {
+                                $update[$type]['commend_payload'] = $result[3];
+                            }
+                        }
+                    }
+                }
+                else {
+                    if ((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))) {
+                        if (isset($update->message)) {
+                            $type = 'message';
+                        }
+                        else $type = 'edited_message';
+                        $text = &$update->$type->text;
+                        if ($settings['security']) {
+                            $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
+                        }
+                        if (strpos($text, '/') === 0) {
+                            preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
+                            if (!empty($result[1])) {
+                                $update->$type->commend = $result[1];
+                            }
+                            if (!empty($result[2])) {
+                                $update->$type->commend_username = $result[2];
+                            }
+                            if (!empty($result[3])) {
+                                $update->$type->commend_payload = $result[3];
+                            }
+                        }
+                    }
+                }
+                $this->logger('', "BPT update received");
+                if ($settings['handler']) {
+                    if ($settings['split_update']) {
+                        $message_update = method_exists($this, 'message');
+                        $inline_query = method_exists($this, 'inline_query');
+                        $callback_query = method_exists($this, 'callback_query');
+                        $edited_message = method_exists($this, 'edited_message');
+                        $something_else = method_exists($this, 'something_else');
+                    }
+                    else {
+                        $all = method_exists($this, 'all');
+                    }
+                    if ($settings['split_update']) {
+                        if ($settings['array_update']) {
+                            if (isset($update['message']) && $message_update === true) {
+                                $this->users($update['message'], 'message');
+                                $this->message($update['message']);
+                            }
+                            elseif (isset($update['callback_query']) && $callback_query === true) {
+                                $this->users($update['callback_query'], 'callback');
+                                $this->callback_query($update['callback_query']);
+                            }
+                            elseif (isset($update['inline_query']) && $inline_query === true) {
+                                $this->users($update['inline_query'], 'inline');
+                                $this->inline_query($update['inline_query']);
+                            }
+                            elseif (isset($update['edited_message']) && $edited_message === true) {
+                                $this->users($update['edited_message'], 'edit');
+                                $this->edited_message($update['edited_message']);
+                            }
+                            elseif ($something_else === true) {
+                                $this->something_else($update);
+                            }
+                        }
+                        else {
+                            if (isset($update->message) && $message_update === true) {
+                                $this->users($update->message, 'message');
+                                $this->message($update->message);
+                            }
+                            elseif (isset($update->callback_query) && $callback_query === true) {
+                                $this->users($update->callback_query, 'callback');
+                                $this->callback_query($update->callback_query);
+                            }
+                            elseif (isset($update->inline_query) && $inline_query === true) {
+                                $this->users($update->inline_query, 'inline');
+                                $this->inline_query($update->inline_query);
+                            }
+                            elseif (isset($update->edited_message) && $edited_message === true) {
+                                $this->users($update->edited_message, 'edit');
+                                $this->edited_message($update->edited_message);
+                            }
+                            elseif ($something_else === true) {
+                                $this->something_else($update);
+                            }
+                        }
+                    }
+                    elseif ($all === true) {
+                        $this->all($update);
+                    }
+                    else {
+                        $this->logger('warning', " If you want use the library with out split update , you most define `all` method in handler");
+                    }
+                }
+            }
+            return;
         }
-        else {
-            $this->logger('error', 'token not found');
-            throw new exception('token missing');
+        if ($settings['receive'] === 'getupdates') {
+            if (!$settings['handler']) {
+                $this->logger('error', 'you can\'t use getupdates receiver when handler is off');
+                throw new exception('getupdates not allowed');
+            }
+            if (file_exists('getUpdate.lock')) {
+                $last_update = file_get_contents('getUpdate.lock');
+            }
+            else {
+                if (file_exists('BPT.look')) {
+                    unlink('BPT.look');
+                }
+                if (file_exists('BPT-M.look')) {
+                    unlink('BPT-M.look');
+                }
+                if (file_exists('BPT-MC.look')) {
+                    unlink('BPT-MC.look');
+                }
+                $this->deleteWebhook();
+                $last_update = 0;
+                file_put_contents('getUpdate.lock', 0);
+            }
+            if ($settings['split_update']) {
+                $message_update = method_exists($this, 'message');
+                $inline_query = method_exists($this, 'inline_query');
+                $callback_query = method_exists($this, 'callback_query');
+                $edited_message = method_exists($this, 'edited_message');
+                $something_else = method_exists($this, 'something_else');
+            }
+            else {
+                $all = method_exists($this, 'all');
+            }
+            while (true){
+                if (!file_exists('getUpdate.lock')) exit();
+                $updates = $this->getUpdates([
+                    'allowed_updates' => $settings['allowed_updates'],
+                    'offset'          => $last_update,
+                    'return_array'    => $settings['array_update'],
+                ]);
+                $updates = $updates->result ?? $updates['result'];
+                foreach ($updates as $update) {
+                    if ($settings['array_update']) {
+                        $this->update = json_decode(json_encode($update));
+                        if ($settings['split_update']) {
+                            if (isset($update['message']) && $message_update === true) {
+                                $message = $update['message'];
+                                if ($settings['security']) {
+                                    $message['text'] = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($message['text'])))));
+                                }
+                                $this->users($message, 'message');
+                                $this->message($message);
+                            }
+                            elseif (isset($update['callback_query']) && $callback_query === true) {
+                                $this->users($update['callback_query'], 'callback');
+                                $this->callback_query($update['callback_query']);
+                            }
+                            elseif (isset($update['inline_query']) && $inline_query === true) {
+                                $this->users($update['inline_query'], 'inline');
+                                $this->inline_query($update['inline_query']);
+                            }
+                            elseif (isset($update['edited_message']) && $edited_message === true) {
+                                $this->users($update['edited_message'], 'edit');
+                                $this->edited_message($update['edited_message']);
+                            }
+                            elseif ($something_else === true) {
+                                $this->something_else($update);
+                            }
+                        }
+                        elseif ($all === true) {
+                            $this->all($update);
+                        }
+                        $last_update = $update['update_id'] + 1;
+                    }
+                    else {
+                        $this->update = $update;
+                        if ($settings['split_update']) {
+                            if (isset($update->message) && $message_update === true) {
+                                $message = $update->message;
+                                if ($settings['security']) {
+                                    $message->text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($message->text)))));
+                                }
+                                $this->users($message, 'message');
+                                $this->message($message);
+                            }
+                            elseif (isset($update->callback_query) && $callback_query === true) {
+                                $this->users($update->callback_query, 'callback');
+                                $this->callback_query($update->callback_query);
+                            }
+                            elseif (isset($update->inline_query) && $inline_query === true) {
+                                $this->users($update->inline_query, 'inline');
+                                $this->inline_query($update->inline_query);
+                            }
+                            elseif (isset($update->edited_message) && $edited_message === true) {
+                                $this->users($update->edited_message, 'edit');
+                                $this->edited_message($update->edited_message);
+                            }
+                            elseif ($something_else === true) {
+                                $this->something_else($update);
+                            }
+                        }
+                        elseif ($all === true) {
+                            $this->all($update);
+                        }
+                        $last_update = $update->update_id + 1;
+                    }
+                    file_put_contents('getUpdate.lock', $last_update);
+                }
+            }
         }
     }
 
-    public function __destruct() {
-        if(defined('LOG') && is_resource(LOG)) {
-            $estimated = (microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'])*1000;
-            $this->logger('',"BPT Done in $estimated ms");
+    public function __destruct () {
+        if (defined('LOG') && is_resource(LOG)) {
+            $estimated = (microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000;
+            $this->logger('', "BPT Done in $estimated ms");
         }
-        if ($this->curl_handler){
+        if ($this->curl_handler) {
             curl_close($this->curl_handler);
         }
     }
@@ -810,13 +829,13 @@ CREATE TABLE IF NOT EXISTS `users` (
             $defaults = $this->methodsDefault($action);
             foreach ($defaults as $key => $default) {
                 if (is_numeric($key)) {
-                    if (!isset($data[$default])){
+                    if (!isset($data[$default])) {
                         $data[$default] = $this->catchFields(['field' => $default]);
                     }
                 }
                 elseif (isset($update->$key) || $key === 'other') {
                     foreach ($default as $def) {
-                        if (!isset($data[$def])){
+                        if (!isset($data[$def])) {
                             $data[$def] = $this->catchFields(['field' => $def]);
                         }
                     }
@@ -831,7 +850,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                         $req_param[] = $require;
                     }
                 }
-                if (count($req_param) > 0){
+                if (count($req_param) > 0) {
                     $this->logger('error', "required parameter for this method is not founded.\ninfo : these req parameters are not set :" . json_encode($req_param));
                     throw new exception('required parameters not found');
                 }
@@ -857,846 +876,799 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
             }
         }
-        else{
-            $this->logger('warning',"$req_action methods not found , but its called anyway");
+        else {
+            $this->logger('warning', "$req_action methods not found , but its called anyway");
             $action = $req_action;
         }
-
         if (isset($data['answer'])) {
-            if (!$this->web_answered) {
-                if ($this->settings['multi'] === true) {
-                    $this->logger('error', 'you can\'t use answer mode when multi is on');
-                    throw new exception('answer mode not allowed bc multi');
-                }
-                if (isset($data['token'])) {
-                    unset($data['token']);
-                }
-                if (isset($data['forgot'])) {
-                    unset($data['forgot']);
-                }
-                if (isset($data['return_array'])) {
-                    unset($data['return_array']);
-                }
-                foreach ($data as $key=>&$value){
-                    if (!isset($value)){
-                        unset($data[$key]);
-                        continue;
-                    }
-                    if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
-                        $value = json_encode($value);
-                    }
-                }
-                $this->web_answered = true;
-                $data["method"] = $action;
-                $payload = json_encode($data);
-                header('Content-Type: application/json;Content-Length: ' . strlen($payload));
-                echo $payload;
-                return true;
-            }
-            else {
+            if ($this->web_answered) {
                 $this->logger('error', 'you can use answer mode only once for each webhook update and you already did');
                 throw new exception('answer mode not allowed');
             }
-        }
-        else {
-            if (isset($data['token']) && $data['token'] != $this->token) {
-                $token = $data['token'];
-                unset($data['token']);
-                $curl_handler = curl_init("{$this->settings['base_url']}$token/");
-                curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl_handler, CURLOPT_SSL_VERIFYPEER, false);
-            }
-            else{
-                $token = $this->token;
-                if (!isset($this->curl_handler)){
-                    $this->curl_handler = curl_init("{$this->settings['base_url']}$token/");
-                    curl_setopt($this->curl_handler, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($this->curl_handler, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($this->curl_handler, CURLOPT_TCP_KEEPALIVE, 1);
-                }
-                $curl_handler = $this->curl_handler;
-            }
 
+            if ($this->settings['multi'] === true) {
+                $this->logger('error', 'you can\'t use answer mode when multi is on');
+                throw new exception('answer mode not allowed bc multi');
+            }
+            if (isset($data['token'])) {
+                unset($data['token']);
+            }
             if (isset($data['forgot'])) {
-                curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, $this->settings['forgot_time']);
                 unset($data['forgot']);
             }
-            elseif ($action === 'getUpdates'){
-                curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 5000);
-            }
-            else{
-                curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 300);
-            }
-
             if (isset($data['return_array'])) {
-                $return_array = $data['return_array'];
                 unset($data['return_array']);
             }
-            else{
-                $return_array = true;
-            }
-
-            foreach ($data as $key=>&$value){
-                if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
+            foreach ($data as $key => &$value) {
+                if (!isset($value)) {
+                    unset($data[$key]);
+                    continue;
+                }
+                if (is_array($value) || (is_object($value) && !is_a($value, 'CURLFile'))) {
                     $value = json_encode($value);
                 }
             }
-
-            $data['method'] = $action;
-            curl_setopt($curl_handler, CURLOPT_POSTFIELDS, $data);
-            $result = curl_exec($curl_handler);
-            if (curl_errno($curl_handler)) {
-                $this->logger('warning',curl_error($curl_handler));
-            }
-
-            if ($token != $this->token) {
-                curl_close($curl_handler);
-            }
-            return json_decode($result, $return_array);
+            $this->web_answered = true;
+            $data["method"] = $action;
+            $payload = json_encode($data);
+            header('Content-Type: application/json;Content-Length: ' . strlen($payload));
+            echo $payload;
+            return true;
         }
+
+        if (isset($data['token']) && $data['token'] != $this->token) {
+            $token = $data['token'];
+            unset($data['token']);
+            $curl_handler = curl_init("{$this->settings['base_url']}$token/");
+            curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl_handler, CURLOPT_SSL_VERIFYPEER, false);
+        }
+        else {
+            $token = $this->token;
+            if (!isset($this->curl_handler)) {
+                $this->curl_handler = curl_init("{$this->settings['base_url']}$token/");
+                curl_setopt($this->curl_handler, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($this->curl_handler, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($this->curl_handler, CURLOPT_TCP_KEEPALIVE, 1);
+            }
+            $curl_handler = $this->curl_handler;
+        }
+        if (isset($data['forgot'])) {
+            $timeout  = $this->settings['forgot_time'];
+            unset($data['forgot']);
+        }
+        elseif ($action === 'getUpdates') {
+            $timeout  = 5000;
+        }
+        else {
+            $timeout  = 300;
+        }
+        curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, $timeout);
+        if (isset($data['return_array'])) {
+            $return_array = $data['return_array'];
+            unset($data['return_array']);
+        }
+        else {
+            $return_array = true;
+        }
+        foreach ($data as $key => &$value) {
+            if (is_array($value) || (is_object($value) && !is_a($value, 'CURLFile'))) {
+                $value = json_encode($value);
+            }
+        }
+        $data['method'] = $action;
+        curl_setopt($curl_handler, CURLOPT_POSTFIELDS, $data);
+        $result = curl_exec($curl_handler);
+        if (curl_errno($curl_handler)) {
+            $this->logger('warning', curl_error($curl_handler));
+        }
+        if ($token != $this->token) {
+            curl_close($curl_handler);
+        }
+        return json_decode($result, $return_array);
     }
 
-    private function methodsAction($input): string {
+    private function methodsAction ($input): string {
         return [
-                   'getupdates'                      => 'getUpdates',
-                   'getup'                           => 'getUpdates',
-                   'updates'                         => 'getUpdates',
-                   'setwebhook'                      => 'setWebhook',
-                   'setweb'                          => 'setWebhook',
-                   'webhook'                         => 'setWebhook',
-                   'deletewebhook'                   => 'deleteWebhook',
-                   'deleteweb'                       => 'deleteWebhook',
-                   'delweb'                          => 'deleteWebhook',
-                   'getwebhookinfo'                  => 'getWebhookInfo',
-                   'getweb'                          => 'getWebhookInfo',
-                   'getme'                           => 'getMe',
-                   'me'                              => 'getMe',
-                   'logout'                          => 'logOut',
-                   'close'                           => 'close',
-                   'sendmessage'                     => 'sendMessage',
-                   'send'                            => 'sendMessage',
-                   'forwardmessage'                  => 'forwardMessage',
-                   'forward'                         => 'forwardMessage',
-                   'copymessage'                     => 'copyMessage',
-                   'copy'                            => 'copyMessage',
-                   'sendphoto'                       => 'sendPhoto',
-                   'photo'                           => 'sendPhoto',
-                   'sendaudio'                       => 'sendAudio',
-                   'audio'                           => 'sendAudio',
-                   'senddocument'                    => 'sendDocument',
-                   'senddoc'                         => 'sendDocument',
-                   'document'                        => 'sendDocument',
-                   'doc'                             => 'sendDocument',
-                   'sendvideo'                       => 'sendVideo',
-                   'video'                           => 'sendVideo',
-                   'sendanimation'                   => 'sendAnimation',
-                   'animation'                       => 'sendAnimation',
-                   'sendgif'                         => 'sendAnimation',
-                   'gif'                             => 'sendAnimation',
-                   'sendvoice'                       => 'sendVoice',
-                   'voice'                           => 'sendVoice',
-                   'sendvideonote'                   => 'sendVideoNote',
-                   'videonote'                       => 'sendVideoNote',
-                   'sendmediagroup'                  => 'sendMediaGroup',
-                   'mediagroup'                      => 'sendMediaGroup',
-                   'media'                           => 'sendMediaGroup',
-                   'sendlocation'                    => 'sendLocation',
-                   'sendloc'                         => 'sendLocation',
-                   'location'                        => 'sendLocation',
-                   'loc'                             => 'sendLocation',
-                   'editmessagelivelocation'         => 'editMessageLiveLocation',
-                   'editliveloc'                     => 'editMessageLiveLocation',
-                   'stopmessagelivelocation'         => 'stopMessageLiveLocation',
-                   'stopliveloc'                     => 'stopMessageLiveLocation',
-                   'sendvenue'                       => 'sendVenue',
-                   'venue'                           => 'sendVenue',
-                   'sendcontact'                     => 'sendContact',
-                   'contact'                         => 'sendContact',
-                   'sendpoll'                        => 'sendPoll',
-                   'poll'                            => 'sendPoll',
-                   'senddice'                        => 'sendDice',
-                   'dice'                            => 'sendDice',
-                   'sendchataction'                  => 'sendChatAction',
-                   'chataction'                      => 'sendChatAction',
-                   'action'                          => 'sendChatAction',
-                   'getuserprofilephotos'            => 'getUserProfilePhotos',
-                   'userphotos'                      => 'getUserProfilePhotos',
-                   'getfile'                         => 'getFile',
-                   'file'                            => 'getFile',
-                   'banchatmember'                   => 'banChatMember',
-                   'ban'                             => 'banChatMember',
-                   'kickchatmember'                  => 'banChatMember',
-                   'kick'                            => 'unbanChatMember',
-                   'unbanchatmember'                 => 'unbanChatMember',
-                   'unban'                           => 'unbanChatMember',
-                   'restrictchatmember'              => 'restrictChatMember',
-                   'restrict'                        => 'restrictChatMember',
-                   'promotechatmember'               => 'promoteChatMember',
-                   'promote'                         => 'promoteChatMember',
-                   'setchatadministratorcustomtitle' => 'setChatAdministratorCustomTitle',
-                   'customtitle'                     => 'setChatAdministratorCustomTitle',
-                   'banchatsenderchat'               => 'banChatSenderChat',
-                   'banSender'                       => 'banChatSenderChat',
-                   'unbanchatsenderchat'             => 'unbanChatSenderChat',
-                   'unbanSender'                     => 'unbanChatSenderChat',
-                   'setchatpermissions'              => 'setChatPermissions',
-                   'permissions'                     => 'setChatPermissions',
-                   'exportchatinvitelink'            => 'exportChatInviteLink',
-                   'link'                            => 'exportChatInviteLink',
-                   'createchatinvitelink'            => 'createChatInviteLink',
-                   'crlink'                          => 'createChatInviteLink',
-                   'editchatinvitelink'              => 'editChatInviteLink',
-                   'edlink'                          => 'editChatInviteLink',
-                   'revokechatinvitelink'            => 'revokeChatInviteLink',
-                   'relink'                          => 'revokeChatInviteLink',
-                   'approvechatjoinrequest'          => 'approveChatJoinRequest',
-                   'acceptjoin'                      => 'approveChatJoinRequest',
-                   'declinechatjoinrequest'          => 'declineChatJoinRequest',
-                   'denyjoin'                        => 'declineChatJoinRequest',
-                   'setchatphoto'                    => 'setChatPhoto',
-                   'deletechatphoto'                 => 'deleteChatPhoto',
-                   'setchattitle'                    => 'setChatTitle',
-                   'title'                           => 'setChatTitle',
-                   'setchatdescription'              => 'setChatDescription',
-                   'description'                     => 'setChatDescription',
-                   'pinchatmessage'                  => 'pinChatMessage',
-                   'pin'                             => 'pinChatMessage',
-                   'unpinchatmessage'                => 'unpinChatMessage',
-                   'unpin'                           => 'unpinChatMessage',
-                   'unpinallchatmessages'            => 'unpinAllChatMessages',
-                   'unpinall'                        => 'unpinAllChatMessages',
-                   'leavechat'                       => 'leaveChat',
-                   'leave'                           => 'leaveChat',
-                   'getchat'                         => 'getChat',
-                   'chat'                            => 'getChat',
-                   'getchatadministrators'           => 'getChatAdministrators',
-                   'admins'                          => 'getChatAdministrators',
-                   'getchatmembercount'              => 'getChatMembersCount',
-                   'getchatmemberscount'             => 'getChatMembersCount',
-                   'memberscount'                    => 'getChatMembersCount',
-                   'getchatmember'                   => 'getChatMember',
-                   'member'                          => 'getChatMember',
-                   'setchatstickerset'               => 'setChatStickerSet',
-                   'setsticker'                      => 'setChatStickerSet',
-                   'deletechatstickerset'            => 'deleteChatStickerSet',
-                   'delsticker'                      => 'deleteChatStickerSet',
-                   'getforumtopiciconstickers'       => 'getForumTopicIconStickers',
-                   'getforumtopicstickers'           => 'getForumTopicIconStickers',
-                   'createforumtopic'                => 'createForumTopic',
-                   'createtopic'                     => 'createForumTopic',
-                   'editforumtopic'                  => 'editForumTopic',
-                   'edittopic'                       => 'editForumTopic',
-                   'closeforumtopic'                 => 'closeForumTopic',
-                   'closetopic'                      => 'closeForumTopic',
-                   'reopenforumtopic'                => 'reopenForumTopic',
-                   'reopentopic'                     => 'reopenForumTopic',
-                   'deleteforumtopic'                => 'deleteForumTopic',
-                   'deletetopic'                     => 'deleteForumTopic',
-                   'unpinallforumtopicmessages'      => 'unpinAllForumTopicMessages',
-                   'unpintopicmessages'              => 'unpinAllForumTopicMessages',
-                   'answercallbackquery'             => 'answerCallbackQuery',
-                   'answer'                          => 'answerCallbackQuery',
-                   'setmycommands'                   => 'setMyCommands',
-                   'setcommands'                     => 'setMyCommands',
-                   'deletemycommands'                => 'deleteMyCommands',
-                   'deletecommands'                  => 'deleteMyCommands',
-                   'getmycommands'                   => 'getMyCommands',
-                   'getcommands'                     => 'getMyCommands',
-                   'setchatmenubutton'               => 'setChatMenuButton',
-                   'setmenubutton'                   => 'setChatMenuButton',
-                   'setmenu'                         => 'setChatMenuButton',
-                   'setbutton'                       => 'setChatMenuButton',
-                   'getchatmenubutton'               => 'getChatMenuButton',
-                   'getmenubutton'                   => 'getChatMenuButton',
-                   'getmenu'                         => 'getChatMenuButton',
-                   'getbutton'                       => 'getChatMenuButton',
-                   'setmydefaultadministratorrights' => 'setMyDefaultAdministratorRights',
-                   'setmydefaultadminrights'         => 'setMyDefaultAdministratorRights',
-                   'setmydefaultrights'              => 'setMyDefaultAdministratorRights',
-                   'setdefaultrights'                => 'setMyDefaultAdministratorRights',
-                   'getmydefaultadministratorrights' => 'getMyDefaultAdministratorRights',
-                   'getmydefaultadminrights'         => 'getMyDefaultAdministratorRights',
-                   'getmydefaultrights'              => 'getMyDefaultAdministratorRights',
-                   'getdefaultrights'                => 'getMyDefaultAdministratorRights',
-                   'editmessagetext'                 => 'editMessageText',
-                   'edittext'                        => 'editMessageText',
-                   'editmessagecaption'              => 'editMessageCaption',
-                   'editcap'                         => 'editMessageCaption',
-                   'editcaption'                     => 'editMessageCaption',
-                   'editmessagemedia'                => 'editMessageMedia',
-                   'editmedia'                       => 'editMessageMedia',
-                   'editmessagereplymarkup'          => 'editMessageReplyMarkup',
-                   'editreply'                       => 'editMessageReplyMarkup',
-                   'editkeyboard'                    => 'editMessageReplyMarkup',
-                   'stoppoll'                        => 'stopPoll',
-                   'deletemessage'                   => 'deleteMessage',
-                   'del'                             => 'deleteMessage',
-                   'sendsticker'                     => 'sendSticker',
-                   'sticker'                         => 'sendSticker',
-                   'getstickerset'                   => 'getStickerSet',
-                   'uploadstickerfile'               => 'uploadStickerFile',
-                   'uploadsticker'                   => 'uploadStickerFile',
-                   'getcustomemojistickers'          => 'getCustomEmojiStickers',
-                   'getcustom'                       => 'getCustomEmojiStickers',
-                   'createnewstickerset'             => 'createNewStickerSet',
-                   'createsticker'                   => 'createNewStickerSet',
-                   'addstickertoset'                 => 'addStickerToSet',
-                   'addsticker'                      => 'addStickerToSet',
-                   'setstickerpositioninset'         => 'setStickerPositionInSet',
-                   'setstickerposition'              => 'setStickerPositionInSet',
-                   'setstickerpos'                   => 'setStickerPositionInSet',
-                   'deletestickerfromset'            => 'deleteStickerFromSet',
-                   'deletesticker'                   => 'deleteStickerFromSet',
-                   'setstickersetthumb'              => 'setStickerSetThumb',
-                   'setstickerthumb'                 => 'setStickerSetThumb',
-                   'answerinlinequery'               => 'answerInlineQuery',
-                   'answerinline'                    => 'answerInlineQuery',
-                   'answerwebappquery'               => 'answerWebAppQuery',
-                   'answerwebapp'                    => 'answerWebAppQuery',
-                   'answerweb'                       => 'answerWebAppQuery',
-                   'sendinvoice'                     => 'sendInvoice',
-                   'invoice'                         => 'sendInvoice',
-                   'createinvoicelink'               => 'createInvoiceLink',
-                   'createinvoice'                   => 'createInvoiceLink',
-                   'answershippingquery'             => 'answerShippingQuery',
-                   'answershipping'                  => 'answerShippingQuery',
-                   'answerprecheckoutquery'          => 'answerPreCheckoutQuery',
-                   'answerprecheckout'               => 'answerPreCheckoutQuery',
-                   'answerprecheck'                  => 'answerPreCheckoutQuery',
-                   'setpassportdataerrors'           => 'setPassportDataErrors',
-                   'setpassport'                     => 'setPassportDataErrors',
-                   'sendgame'                        => 'sendGame',
-                   'game'                            => 'sendGame',
-                   'setgamescore'                    => 'setGameScore',
-                   'gamescore'                       => 'setGameScore',
-                   'getgamehighscores'               => 'getGameHighScores',
-                   'getgamehigh'                     => 'getGameHighScores'
-               ][$input] ?? '';
+            'getupdates'                      => 'getUpdates',
+            'getup'                           => 'getUpdates',
+            'updates'                         => 'getUpdates',
+            'setwebhook'                      => 'setWebhook',
+            'setweb'                          => 'setWebhook',
+            'webhook'                         => 'setWebhook',
+            'deletewebhook'                   => 'deleteWebhook',
+            'deleteweb'                       => 'deleteWebhook',
+            'delweb'                          => 'deleteWebhook',
+            'getwebhookinfo'                  => 'getWebhookInfo',
+            'getweb'                          => 'getWebhookInfo',
+            'getme'                           => 'getMe',
+            'me'                              => 'getMe',
+            'logout'                          => 'logOut',
+            'close'                           => 'close',
+            'sendmessage'                     => 'sendMessage',
+            'send'                            => 'sendMessage',
+            'forwardmessage'                  => 'forwardMessage',
+            'forward'                         => 'forwardMessage',
+            'copymessage'                     => 'copyMessage',
+            'copy'                            => 'copyMessage',
+            'sendphoto'                       => 'sendPhoto',
+            'photo'                           => 'sendPhoto',
+            'sendaudio'                       => 'sendAudio',
+            'audio'                           => 'sendAudio',
+            'senddocument'                    => 'sendDocument',
+            'senddoc'                         => 'sendDocument',
+            'document'                        => 'sendDocument',
+            'doc'                             => 'sendDocument',
+            'sendvideo'                       => 'sendVideo',
+            'video'                           => 'sendVideo',
+            'sendanimation'                   => 'sendAnimation',
+            'animation'                       => 'sendAnimation',
+            'sendgif'                         => 'sendAnimation',
+            'gif'                             => 'sendAnimation',
+            'sendvoice'                       => 'sendVoice',
+            'voice'                           => 'sendVoice',
+            'sendvideonote'                   => 'sendVideoNote',
+            'videonote'                       => 'sendVideoNote',
+            'sendmediagroup'                  => 'sendMediaGroup',
+            'mediagroup'                      => 'sendMediaGroup',
+            'media'                           => 'sendMediaGroup',
+            'sendlocation'                    => 'sendLocation',
+            'sendloc'                         => 'sendLocation',
+            'location'                        => 'sendLocation',
+            'loc'                             => 'sendLocation',
+            'editmessagelivelocation'         => 'editMessageLiveLocation',
+            'editliveloc'                     => 'editMessageLiveLocation',
+            'stopmessagelivelocation'         => 'stopMessageLiveLocation',
+            'stopliveloc'                     => 'stopMessageLiveLocation',
+            'sendvenue'                       => 'sendVenue',
+            'venue'                           => 'sendVenue',
+            'sendcontact'                     => 'sendContact',
+            'contact'                         => 'sendContact',
+            'sendpoll'                        => 'sendPoll',
+            'poll'                            => 'sendPoll',
+            'senddice'                        => 'sendDice',
+            'dice'                            => 'sendDice',
+            'sendchataction'                  => 'sendChatAction',
+            'chataction'                      => 'sendChatAction',
+            'action'                          => 'sendChatAction',
+            'getuserprofilephotos'            => 'getUserProfilePhotos',
+            'userphotos'                      => 'getUserProfilePhotos',
+            'getfile'                         => 'getFile',
+            'file'                            => 'getFile',
+            'banchatmember'                   => 'banChatMember',
+            'ban'                             => 'banChatMember',
+            'kickchatmember'                  => 'banChatMember',
+            'kick'                            => 'unbanChatMember',
+            'unbanchatmember'                 => 'unbanChatMember',
+            'unban'                           => 'unbanChatMember',
+            'restrictchatmember'              => 'restrictChatMember',
+            'restrict'                        => 'restrictChatMember',
+            'promotechatmember'               => 'promoteChatMember',
+            'promote'                         => 'promoteChatMember',
+            'setchatadministratorcustomtitle' => 'setChatAdministratorCustomTitle',
+            'customtitle'                     => 'setChatAdministratorCustomTitle',
+            'banchatsenderchat'               => 'banChatSenderChat',
+            'banSender'                       => 'banChatSenderChat',
+            'unbanchatsenderchat'             => 'unbanChatSenderChat',
+            'unbanSender'                     => 'unbanChatSenderChat',
+            'setchatpermissions'              => 'setChatPermissions',
+            'permissions'                     => 'setChatPermissions',
+            'exportchatinvitelink'            => 'exportChatInviteLink',
+            'link'                            => 'exportChatInviteLink',
+            'createchatinvitelink'            => 'createChatInviteLink',
+            'crlink'                          => 'createChatInviteLink',
+            'editchatinvitelink'              => 'editChatInviteLink',
+            'edlink'                          => 'editChatInviteLink',
+            'revokechatinvitelink'            => 'revokeChatInviteLink',
+            'relink'                          => 'revokeChatInviteLink',
+            'approvechatjoinrequest'          => 'approveChatJoinRequest',
+            'acceptjoin'                      => 'approveChatJoinRequest',
+            'declinechatjoinrequest'          => 'declineChatJoinRequest',
+            'denyjoin'                        => 'declineChatJoinRequest',
+            'setchatphoto'                    => 'setChatPhoto',
+            'deletechatphoto'                 => 'deleteChatPhoto',
+            'setchattitle'                    => 'setChatTitle',
+            'title'                           => 'setChatTitle',
+            'setchatdescription'              => 'setChatDescription',
+            'description'                     => 'setChatDescription',
+            'pinchatmessage'                  => 'pinChatMessage',
+            'pin'                             => 'pinChatMessage',
+            'unpinchatmessage'                => 'unpinChatMessage',
+            'unpin'                           => 'unpinChatMessage',
+            'unpinallchatmessages'            => 'unpinAllChatMessages',
+            'unpinall'                        => 'unpinAllChatMessages',
+            'leavechat'                       => 'leaveChat',
+            'leave'                           => 'leaveChat',
+            'getchat'                         => 'getChat',
+            'chat'                            => 'getChat',
+            'getchatadministrators'           => 'getChatAdministrators',
+            'admins'                          => 'getChatAdministrators',
+            'getchatmembercount'              => 'getChatMembersCount',
+            'getchatmemberscount'             => 'getChatMembersCount',
+            'memberscount'                    => 'getChatMembersCount',
+            'getchatmember'                   => 'getChatMember',
+            'member'                          => 'getChatMember',
+            'setchatstickerset'               => 'setChatStickerSet',
+            'setsticker'                      => 'setChatStickerSet',
+            'deletechatstickerset'            => 'deleteChatStickerSet',
+            'delsticker'                      => 'deleteChatStickerSet',
+            'getforumtopiciconstickers'       => 'getForumTopicIconStickers',
+            'getforumtopicstickers'           => 'getForumTopicIconStickers',
+            'createforumtopic'                => 'createForumTopic',
+            'createtopic'                     => 'createForumTopic',
+            'editforumtopic'                  => 'editForumTopic',
+            'edittopic'                       => 'editForumTopic',
+            'closeforumtopic'                 => 'closeForumTopic',
+            'closetopic'                      => 'closeForumTopic',
+            'reopenforumtopic'                => 'reopenForumTopic',
+            'reopentopic'                     => 'reopenForumTopic',
+            'deleteforumtopic'                => 'deleteForumTopic',
+            'deletetopic'                     => 'deleteForumTopic',
+            'unpinallforumtopicmessages'      => 'unpinAllForumTopicMessages',
+            'unpintopicmessages'              => 'unpinAllForumTopicMessages',
+            'answercallbackquery'             => 'answerCallbackQuery',
+            'answer'                          => 'answerCallbackQuery',
+            'setmycommands'                   => 'setMyCommands',
+            'setcommands'                     => 'setMyCommands',
+            'deletemycommands'                => 'deleteMyCommands',
+            'deletecommands'                  => 'deleteMyCommands',
+            'getmycommands'                   => 'getMyCommands',
+            'getcommands'                     => 'getMyCommands',
+            'setchatmenubutton'               => 'setChatMenuButton',
+            'setmenubutton'                   => 'setChatMenuButton',
+            'setmenu'                         => 'setChatMenuButton',
+            'setbutton'                       => 'setChatMenuButton',
+            'getchatmenubutton'               => 'getChatMenuButton',
+            'getmenubutton'                   => 'getChatMenuButton',
+            'getmenu'                         => 'getChatMenuButton',
+            'getbutton'                       => 'getChatMenuButton',
+            'setmydefaultadministratorrights' => 'setMyDefaultAdministratorRights',
+            'setmydefaultadminrights'         => 'setMyDefaultAdministratorRights',
+            'setmydefaultrights'              => 'setMyDefaultAdministratorRights',
+            'setdefaultrights'                => 'setMyDefaultAdministratorRights',
+            'getmydefaultadministratorrights' => 'getMyDefaultAdministratorRights',
+            'getmydefaultadminrights'         => 'getMyDefaultAdministratorRights',
+            'getmydefaultrights'              => 'getMyDefaultAdministratorRights',
+            'getdefaultrights'                => 'getMyDefaultAdministratorRights',
+            'editmessagetext'                 => 'editMessageText',
+            'edittext'                        => 'editMessageText',
+            'editmessagecaption'              => 'editMessageCaption',
+            'editcap'                         => 'editMessageCaption',
+            'editcaption'                     => 'editMessageCaption',
+            'editmessagemedia'                => 'editMessageMedia',
+            'editmedia'                       => 'editMessageMedia',
+            'editmessagereplymarkup'          => 'editMessageReplyMarkup',
+            'editreply'                       => 'editMessageReplyMarkup',
+            'editkeyboard'                    => 'editMessageReplyMarkup',
+            'stoppoll'                        => 'stopPoll',
+            'deletemessage'                   => 'deleteMessage',
+            'del'                             => 'deleteMessage',
+            'sendsticker'                     => 'sendSticker',
+            'sticker'                         => 'sendSticker',
+            'getstickerset'                   => 'getStickerSet',
+            'uploadstickerfile'               => 'uploadStickerFile',
+            'uploadsticker'                   => 'uploadStickerFile',
+            'getcustomemojistickers'          => 'getCustomEmojiStickers',
+            'getcustom'                       => 'getCustomEmojiStickers',
+            'createnewstickerset'             => 'createNewStickerSet',
+            'createsticker'                   => 'createNewStickerSet',
+            'addstickertoset'                 => 'addStickerToSet',
+            'addsticker'                      => 'addStickerToSet',
+            'setstickerpositioninset'         => 'setStickerPositionInSet',
+            'setstickerposition'              => 'setStickerPositionInSet',
+            'setstickerpos'                   => 'setStickerPositionInSet',
+            'deletestickerfromset'            => 'deleteStickerFromSet',
+            'deletesticker'                   => 'deleteStickerFromSet',
+            'setstickersetthumb'              => 'setStickerSetThumb',
+            'setstickerthumb'                 => 'setStickerSetThumb',
+            'answerinlinequery'               => 'answerInlineQuery',
+            'answerinline'                    => 'answerInlineQuery',
+            'answerwebappquery'               => 'answerWebAppQuery',
+            'answerwebapp'                    => 'answerWebAppQuery',
+            'answerweb'                       => 'answerWebAppQuery',
+            'sendinvoice'                     => 'sendInvoice',
+            'invoice'                         => 'sendInvoice',
+            'createinvoicelink'               => 'createInvoiceLink',
+            'createinvoice'                   => 'createInvoiceLink',
+            'answershippingquery'             => 'answerShippingQuery',
+            'answershipping'                  => 'answerShippingQuery',
+            'answerprecheckoutquery'          => 'answerPreCheckoutQuery',
+            'answerprecheckout'               => 'answerPreCheckoutQuery',
+            'answerprecheck'                  => 'answerPreCheckoutQuery',
+            'setpassportdataerrors'           => 'setPassportDataErrors',
+            'setpassport'                     => 'setPassportDataErrors',
+            'sendgame'                        => 'sendGame',
+            'game'                            => 'sendGame',
+            'setgamescore'                    => 'setGameScore',
+            'gamescore'                       => 'setGameScore',
+            'getgamehighscores'               => 'getGameHighScores',
+            'getgamehigh'                     => 'getGameHighScores',
+        ][$input] ?? '';
     }
 
-    private function methodsDefault($input){
+    private function methodsDefault ($input) {
         return [
-                   'getUpdates'                      => [],
-                   'setWebhook'                      => ['url'],
-                   'deleteWebhook'                   => [],
-                   'getWebhookInfo'                  => [],
-                   'getMe'                           => [],
-                   'logOut'                          => [],
-                   'close'                           => [],
-                   'sendMessage'                     => ['chat_id'],
-                   'forwardMessage'                  => ['from_chat_id','message_id'],
-                   'copyMessage'                     => ['from_chat_id','message_id'],
-                   'sendPhoto'                       => ['chat_id'],
-                   'sendAudio'                       => ['chat_id'],
-                   'sendDocument'                    => ['chat_id'],
-                   'sendVideo'                       => ['chat_id'],
-                   'sendAnimation'                   => ['chat_id'],
-                   'sendVoice'                       => ['chat_id'],
-                   'sendVideoNote'                   => ['chat_id'],
-                   'sendMediaGroup'                  => ['chat_id'],
-                   'sendLocation'                    => ['chat_id'],
-                   'editMessageLiveLocation'         => [],
-                   'stopMessageLiveLocation'         => [],
-                   'sendVenue'                       => [],
-                   'sendContact'                     => ['chat_id'],
-                   'sendPoll'                        => ['chat_id'],
-                   'sendDice'                        => ['chat_id'],
-                   'sendChatAction'                  => ['chat_id','action'],
-                   'getUserProfilePhotos'            => ['user_id'],
-                   'getFile'                         => ['file_id'],
-                   'banChatMember'                   => ['chat_id','user_id'],
-                   'kickChatMember'                  => ['chat_id','user_id'],
-                   'unbanChatMember'                 => ['chat_id','user_id'],
-                   'restrictChatMember'              => ['chat_id','user_id'],
-                   'promoteChatMember'               => ['chat_id','user_id'],
-                   'setChatAdministratorCustomTitle' => ['chat_id','user_id'],
-                   'banChatSenderChat'               => ['chat_id'],
-                   'unbanChatSenderChat'             => ['chat_id'],
-                   'setChatPermissions'              => ['chat_id'],
-                   'exportChatInviteLink'            => ['chat_id'],
-                   'createChatInviteLink'            => ['chat_id'],
-                   'editChatInviteLink'              => ['chat_id'],
-                   'revokeChatInviteLink'            => ['chat_id'],
-                   'approveChatJoinRequest'          => ['chat_id','user_id'],
-                   'declineChatJoinRequest'          => ['chat_id','user_id'],
-                   'setChatPhoto'                    => ['chat_id'],
-                   'deleteChatPhoto'                 => ['chat_id'],
-                   'setChatTitle'                    => ['chat_id'],
-                   'setChatDescription'              => ['chat_id'],
-                   'pinChatMessage'                  => ['chat_id'],
-                   'unpinChatMessage'                => ['chat_id'],
-                   'unpinAllChatMessages'            => ['chat_id'],
-                   'leaveChat'                       => ['chat_id'],
-                   'getChat'                         => ['chat_id'],
-                   'getChatAdministrators'           => ['chat_id'],
-                   'getChatMembersCount'             => ['chat_id'],
-                   'getChatMember'                   => ['chat_id','user_id'],
-                   'setChatStickerSet'               => ['chat_id'],
-                   'deleteChatStickerSet'            => ['chat_id'],
-                   'answerCallbackQuery'             => ['callback_query_id'],
-                   'setMyCommands'                   => [],
-                   'deleteMyCommands'                => [],
-                   'getMyCommands'                   => [],
-                   'setChatMenuButton'               => [],
-                   'getChatMenuButton'               => [],
-                   'setMyDefaultAdministratorRights' => [],
-                   'getMyDefaultAdministratorRights' => [],
-                   'editMessageText'                 => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                   'editMessageCaption'              => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                   'editMessageMedia'                => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                   'editMessageReplyMarkup'          => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                   'stopPoll'                        => ['chat_id','message_id'],
-                   'deleteMessage'                   => ['chat_id','message_id'],
-                   'sendSticker'                     => ['chat_id'],
-                   'getStickerSet'                   => [],
-                   'uploadStickerFile'               => ['user_id'],
-                   'createNewStickerSet'             => ['user_id'],
-                   'addStickerToSet'                 => ['user_id'],
-                   'setStickerPositionInSet'         => [],
-                   'deleteStickerFromSet'            => [],
-                   'setStickerSetThumb'              => ['user_id'],
-                   'answerInlineQuery'               => ['inline_query_id'],
-                   'sendInvoice'                     => ['chat_id'],
-                   'answerWebAppQuery'               => [],
-                   'answerShippingQuery'             => ['shipping_query_id'],
-                   'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
-                   'setPassportDataErrors'           => ['user_id'],
-                   'sendGame'                        => ['chat_id'],
-                   'setGameScore'                    => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                   'getGameHighScores'               => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
-                   'createForumTopic'                => ['chat_id'],
-                   'editForumTopic'                  => ['chat_id'],
-                   'closeForumTopic'                 => ['chat_id'],
-                   'reopenForumTopic'                => ['chat_id'],
-                   'deleteForumTopic'                => ['chat_id'],
-                   'unpinAllForumTopicMessages'      => ['chat_id']
-               ][$input]??[];
+            'setWebhook'                      => ['url'],
+            'sendMessage'                     => ['chat_id'],
+            'forwardMessage'                  => ['from_chat_id', 'message_id'],
+            'copyMessage'                     => ['from_chat_id', 'message_id'],
+            'sendPhoto'                       => ['chat_id'],
+            'sendAudio'                       => ['chat_id'],
+            'sendDocument'                    => ['chat_id'],
+            'sendVideo'                       => ['chat_id'],
+            'sendAnimation'                   => ['chat_id'],
+            'sendVoice'                       => ['chat_id'],
+            'sendVideoNote'                   => ['chat_id'],
+            'sendMediaGroup'                  => ['chat_id'],
+            'sendLocation'                    => ['chat_id'],
+            'sendContact'                     => ['chat_id'],
+            'sendPoll'                        => ['chat_id'],
+            'sendDice'                        => ['chat_id'],
+            'sendChatAction'                  => ['chat_id', 'action'],
+            'getUserProfilePhotos'            => ['user_id'],
+            'getFile'                         => ['file_id'],
+            'banChatMember'                   => ['chat_id', 'user_id'],
+            'kickChatMember'                  => ['chat_id', 'user_id'],
+            'unbanChatMember'                 => ['chat_id', 'user_id'],
+            'restrictChatMember'              => ['chat_id', 'user_id'],
+            'promoteChatMember'               => ['chat_id', 'user_id'],
+            'setChatAdministratorCustomTitle' => ['chat_id', 'user_id'],
+            'banChatSenderChat'               => ['chat_id'],
+            'unbanChatSenderChat'             => ['chat_id'],
+            'setChatPermissions'              => ['chat_id'],
+            'exportChatInviteLink'            => ['chat_id'],
+            'createChatInviteLink'            => ['chat_id'],
+            'editChatInviteLink'              => ['chat_id'],
+            'revokeChatInviteLink'            => ['chat_id'],
+            'approveChatJoinRequest'          => ['chat_id', 'user_id'],
+            'declineChatJoinRequest'          => ['chat_id', 'user_id'],
+            'setChatPhoto'                    => ['chat_id'],
+            'deleteChatPhoto'                 => ['chat_id'],
+            'setChatTitle'                    => ['chat_id'],
+            'setChatDescription'              => ['chat_id'],
+            'pinChatMessage'                  => ['chat_id'],
+            'unpinChatMessage'                => ['chat_id'],
+            'unpinAllChatMessages'            => ['chat_id'],
+            'leaveChat'                       => ['chat_id'],
+            'getChat'                         => ['chat_id'],
+            'getChatAdministrators'           => ['chat_id'],
+            'getChatMembersCount'             => ['chat_id'],
+            'getChatMember'                   => ['chat_id', 'user_id'],
+            'setChatStickerSet'               => ['chat_id'],
+            'deleteChatStickerSet'            => ['chat_id'],
+            'answerCallbackQuery'             => ['callback_query_id'],
+            'editMessageText'                 => ['inline_query' => ['inline_message_id'], 'other' => ['chat_id', 'message_id']],
+            'editMessageCaption'              => ['inline_query' => ['inline_message_id'],'other' => ['chat_id', 'message_id']],
+            'editMessageMedia'                => ['inline_query' => ['inline_message_id'], 'other'=> ['chat_id', 'message_id']],
+            'editMessageReplyMarkup'          => ['inline_query' => ['inline_message_id'], 'other' => ['chat_id', 'message_id']],
+            'stopPoll'                        => ['chat_id', 'message_id'],
+            'deleteMessage'                   => ['chat_id', 'message_id'],
+            'sendSticker'                     => ['chat_id'],
+            'uploadStickerFile'               => ['user_id'],
+            'createNewStickerSet'             => ['user_id'],
+            'addStickerToSet'                 => ['user_id'],
+            'setStickerSetThumb'              => ['user_id'],
+            'answerInlineQuery'               => ['inline_query_id'],
+            'sendInvoice'                     => ['chat_id'],
+            'answerShippingQuery'             => ['shipping_query_id'],
+            'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
+            'setPassportDataErrors'           => ['user_id'],
+            'sendGame'                        => ['chat_id'],
+            'setGameScore'                    => ['user_id', 'inline_query' => ['inline_message_id'], 'other' => ['chat_id', 'message_id']],
+            'getGameHighScores'               => ['user_id', 'inline_query' => ['inline_message_id'], 'other' => ['chat_id', 'message_id']],
+            'createForumTopic'                => ['chat_id'],
+            'editForumTopic'                  => ['chat_id'],
+            'closeForumTopic'                 => ['chat_id'],
+            'reopenForumTopic'                => ['chat_id'],
+            'deleteForumTopic'                => ['chat_id'],
+            'unpinAllForumTopicMessages'      => ['chat_id'],
+        ][$input] ?? [];
     }
 
-    private function methodsRequire($input){
+    private function methodsRequire ($input) {
         return [
-                   'getUpdates'                      => [],
-                   'setWebhook'                      => [],
-                   'deleteWebhook'                   => [],
-                   'getWebhookInfo'                  => [],
-                   'getMe'                           => [],
-                   'logOut'                          => [],
-                   'close'                           => [],
-                   'sendMessage'                     => ['text'],
-                   'forwardMessage'                  => ['chat_id'],
-                   'copyMessage'                     => ['chat_id'],
-                   'sendPhoto'                       => ['photo'],
-                   'sendAudio'                       => ['audio'],
-                   'sendDocument'                    => ['document'],
-                   'sendVideo'                       => ['video'],
-                   'sendAnimation'                   => ['animation'],
-                   'sendVoice'                       => ['voice'],
-                   'sendVideoNote'                   => ['video_note'],
-                   'sendMediaGroup'                  => ['media'],
-                   'sendLocation'                    => ['latitude', 'longitude'],
-                   'editMessageLiveLocation'         => ['latitude', 'longitude'],
-                   'stopMessageLiveLocation'         => [],
-                   'sendVenue'                       => ['latitude', 'longitude', 'title', 'address'],
-                   'sendContact'                     => ['phone_number', 'first_name'],
-                   'sendPoll'                        => ['question', 'options'],
-                   'sendDice'                        => [],
-                   'sendChatAction'                  => [],
-                   'getUserProfilePhotos'            => [],
-                   'getFile'                         => [],
-                   'banChatMember'                   => [],
-                   'kickChatMember'                  => [],
-                   'unbanChatMember'                 => [],
-                   'restrictChatMember'              => ['permissions'],
-                   'promoteChatMember'               => [],
-                   'setChatAdministratorCustomTitle' => ['custom_title'],
-                   'banChatSenderChat'               => ['sender_chat_id'],
-                   'unbanChatSenderChat'             => ['sender_chat_id'],
-                   'setChatPermissions'              => ['permissions'],
-                   'exportChatInviteLink'            => [],
-                   'createChatInviteLink'            => [],
-                   'editChatInviteLink'              => ['invite_link'],
-                   'revokeChatInviteLink'            => ['invite_link'],
-                   'approveChatJoinRequest'          => [],
-                   'declineChatJoinRequest'          => [],
-                   'setChatPhoto'                    => ['photo'],
-                   'deleteChatPhoto'                 => [],
-                   'setChatTitle'                    => ['title'],
-                   'setChatDescription'              => [],
-                   'pinChatMessage'                  => [],
-                   'unpinChatMessage'                => [],
-                   'unpinAllChatMessages'            => [],
-                   'leaveChat'                       => [],
-                   'getChat'                         => [],
-                   'getChatAdministrators'           => [],
-                   'getChatMembersCount'             => [],
-                   'getChatMember'                   => [],
-                   'setChatStickerSet'               => ['sticker_set_name'],
-                   'deleteChatStickerSet'            => [],
-                   'answerCallbackQuery'             => [],
-                   'setMyCommands'                   => ['commands'],
-                   'deleteMyCommands'                => [],
-                   'getMyCommands'                   => [],
-                   'setChatMenuButton'               => [],
-                   'getChatMenuButton'               => [],
-                   'setMyDefaultAdministratorRights' => [],
-                   'getMyDefaultAdministratorRights' => [],
-                   'editMessageText'                 => ['text',],
-                   'editMessageCaption'              => [],
-                   'editMessageMedia'                => ['media',],
-                   'editMessageReplyMarkup'          => [],
-                   'stopPoll'                        => [],
-                   'deleteMessage'                   => [],
-                   'sendSticker'                     => ['sticker'],
-                   'getStickerSet'                   => ['name'],
-                   'uploadStickerFile'               => ['png_sticker'],
-                   'createNewStickerSet'             => ['name','title','emojis'],
-                   'addStickerToSet'                 => ['name','emojis'],
-                   'setStickerPositionInSet'         => ['position','sticker'],
-                   'deleteStickerFromSet'            => ['sticker'],
-                   'setStickerSetThumb'              => ['name'],
-                   'answerInlineQuery'               => ['results'],
-                   'answerwebappquery'               => ['web_app_query_id','result'],
-                   'sendInvoice'                     => ['title','description','payload','provider_token','currency','prices'],
-                   'answerShippingQuery'             => ['ok'],
-                   'answerPreCheckoutQuery'          => ['ok'],
-                   'setPassportDataErrors'           => ['errors'],
-                   'sendGame'                        => ['game_short_name'],
-                   'setGameScore'                    => ['score'],
-                   'getGameHighScores'               => [],
-                   'createForumTopic'                => ['name'],
-                   'editForumTopic'                  => ['name'],
-                   'closeForumTopic'                 => [],
-                   'reopenForumTopic'                => [],
-                   'deleteForumTopic'                => [],
-                   'unpinAllForumTopicMessages'      => [],
-                   'getCustomEmojiStickers'          => ['custom_emoji_ids']
-               ][$input]??[];
+            'sendMessage'                     => ['text'],
+            'forwardMessage'                  => ['chat_id'],
+            'copyMessage'                     => ['chat_id'],
+            'sendPhoto'                       => ['photo'],
+            'sendAudio'                       => ['audio'],
+            'sendDocument'                    => ['document'],
+            'sendVideo'                       => ['video'],
+            'sendAnimation'                   => ['animation'],
+            'sendVoice'                       => ['voice'],
+            'sendVideoNote'                   => ['video_note'],
+            'sendMediaGroup'                  => ['media'],
+            'sendLocation'                    => ['latitude', 'longitude'],
+            'editMessageLiveLocation'         => ['latitude', 'longitude'],
+            'sendVenue'                       => ['latitude', 'longitude', 'title', 'address'],
+            'sendContact'                     => ['phone_number', 'first_name'],
+            'sendPoll'                        => ['question', 'options'],
+            'restrictChatMember'              => ['permissions'],
+            'setChatAdministratorCustomTitle' => ['custom_title'],
+            'banChatSenderChat'               => ['sender_chat_id'],
+            'unbanChatSenderChat'             => ['sender_chat_id'],
+            'setChatPermissions'              => ['permissions'],
+            'editChatInviteLink'              => ['invite_link'],
+            'revokeChatInviteLink'            => ['invite_link'],
+            'setChatPhoto'                    => ['photo'],
+            'setChatTitle'                    => ['title'],
+            'setChatStickerSet'               => ['sticker_set_name'],
+            'setMyCommands'                   => ['commands'],
+            'editMessageText'                 => ['text'],
+            'editMessageMedia'                => ['media'],
+            'sendSticker'                     => ['sticker'],
+            'getStickerSet'                   => ['name'],
+            'uploadStickerFile'               => ['png_sticker'],
+            'createNewStickerSet'             => ['name', 'title', 'emojis'],
+            'addStickerToSet'                 => ['name', 'emojis'],
+            'setStickerPositionInSet'         => ['position', 'sticker'],
+            'deleteStickerFromSet'            => ['sticker'],
+            'setStickerSetThumb'              => ['name'],
+            'answerInlineQuery'               => ['results'],
+            'answerwebappquery'               => ['web_app_query_id', 'result'],
+            'sendInvoice'                     => ['title', 'description', 'payload', 'provider_token', 'currency', 'prices'],
+            'answerShippingQuery'             => ['ok'],
+            'answerPreCheckoutQuery'          => ['ok'],
+            'setPassportDataErrors'           => ['errors'],
+            'sendGame'                        => ['game_short_name'],
+            'setGameScore'                    => ['score'],
+            'createForumTopic'                => ['name'],
+            'editForumTopic'                  => ['name'],
+            'getCustomEmojiStickers'          => ['custom_emoji_ids'],
+        ][$input] ?? [];
     }
 
-    private function methodsFile($input): array {
+    private function methodsFile ($input): array {
         return [
-                   'sendPhoto'           => ['photo'],
-                   'sendAudio'           => ['audio', 'thumb'],
-                   'sendDocument'        => ['document', 'thumb'],
-                   'sendVideo'           => ['video', 'thumb'],
-                   'sendAnimation'       => ['animation', 'thumb'],
-                   'sendVoice'           => ['voice', 'thumb'],
-                   'sendVideoNote'       => ['video_note', 'thumb'],
-                   'setChatPhoto'        => ['photo'],
-                   'sendSticker'         => ['sticker'],
-                   'uploadStickerFile'   => ['png_sticker'],
-                   'createNewStickerSet' => ['png_sticker', 'tgs_sticker'],
-                   'addStickerToSet'     => ['png_sticker', 'tgs_sticker'],
-                   'setStickerSetThumb'  => ['thumb'],
-               ][$input]??[];
+            'sendPhoto'           => ['photo'],
+            'sendAudio'           => ['audio', 'thumb'],
+            'sendDocument'        => ['document', 'thumb'],
+            'sendVideo'           => ['video', 'thumb'],
+            'sendAnimation'       => ['animation', 'thumb'],
+            'sendVoice'           => ['voice', 'thumb'],
+            'sendVideoNote'       => ['video_note', 'thumb'],
+            'setChatPhoto'        => ['photo'],
+            'sendSticker'         => ['sticker'],
+            'uploadStickerFile'   => ['png_sticker'],
+            'createNewStickerSet' => ['png_sticker', 'tgs_sticker'],
+            'addStickerToSet'     => ['png_sticker', 'tgs_sticker'],
+            'setStickerSetThumb'  => ['thumb'],
+        ][$input] ?? [];
     }
 
-    private function bptUpdate(){
-        if(!file_exists('update.lock') || filemtime('update.lock')+300 < time()){
-            touch('update.lock');
-            $res = file_get_contents("https://dl.bptlib.ir/update.php?ver=$this->version");
-            if($res !== '[]'){
-                $res = json_decode($res,true);
-                if (isset($res['file'])){
-                    copy('https://dl.bptlib.ir/BPT.php','BPT.php');
+    private function bptUpdate () {
+        if (file_exists('update.lock') && filemtime('update.lock') + 300 >= time()) {
+            return;
+        }
+        touch('update.lock');
+        $res = file_get_contents("https://dl.bptlib.ir/update.php?ver=$this->version");
+        if ($res === '[]') {
+            return;
+        }
+        $res = json_decode($res, true);
+        if (!isset($res['file'])) {
+            return;
+        }
+        copy('https://dl.bptlib.ir/BPT.php', 'BPT.php');
+    }
+
+    private function logger ($type, $text) {
+        if (!$this->settings['logger']) {
+            return;
+        }
+        if ($type === '') {
+            fwrite(LOG, date('Y/m/d H:i:s') . " : $text\n");
+        }
+        else fwrite(LOG, date('Y/m/d H:i:s') . " : ⤵\n$type : $text\n");
+    }
+
+    private function users ($update, $update_type) {
+        if (empty($this->db)) {
+            return;
+        }
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            if ($update_type === 'message' || $update_type === 'edit') {
+                if ($this->settings['array_update']) {
+                    $type = $update['chat']['type'];
+                    $id = $update['chat']['id'];
+                    $user_id = $update['from']['id'];
+                    if (isset($update['left_chat_member'])) {
+                        $left = $update['left_chat_member'];
+                    }
+                    elseif (isset($update['new_chat_members'])) $news = $update['new_chat_members'];
                 }
-            }
-        }
-    }
-
-    private function logger($type,$text){
-        if($this->settings['logger']){
-            if($type === '') fwrite(LOG, date('Y/m/d H:i:s') . " : $text\n");
-            else fwrite(LOG, date('Y/m/d H:i:s') . " : ⤵\n$type : $text\n");
-        }
-    }
-
-    private function users($update, $update_type) {
-        if(!empty($this->db)){
-            if($this->settings['db']['type'] === 'json'){
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                if($update_type === 'message' || $update_type === 'edit') {
-                    if ($this->settings['array_update']){
-                        $type = $update['chat']['type'];
-                        $id = $update['chat']['id'];
-                        $user_id = $update['from']['id'];
-                        if (isset($update['left_chat_member'])) $left = $update['left_chat_member'];
-                        elseif (isset($update['new_chat_members'])) $news = $update['new_chat_members'];
+                else {
+                    $type = $update->chat->type;
+                    $id = $update->chat->id;
+                    $user_id = $update->from->id;
+                    if (isset($update->left_chat_member)) {
+                        $left = $update->left_chat_member;
                     }
-                    else{
-                        $type = $update->chat->type;
-                        $id = $update->chat->id;
-                        $user_id = $update->from->id;
-                        if (isset($update->left_chat_member)) $left = $update->left_chat_member;
-                        elseif (isset($update->new_chat_members)) $news = $update->new_chat_members;
+                    elseif (isset($update->new_chat_members)) $news = $update->new_chat_members;
+                }
+                if (!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
+                if ($type !== 'private') {
+                    if (isset($left)) {
+                        $user_id = $left['id'] ?? $left->id;
+                        $BPT_DB[$type][$id]['users'][$user_id]['leaved'] = true;
                     }
-                    if(!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
-                    if ($type !== 'private'){
-                        if (isset($left)){
-                            $user_id = $left['id'] ?? $left->id;
-                            $BPT_DB[$type][$id]['users'][$user_id]['leaved'] = true;
-                        }
-                        elseif (isset($news)){
-                            foreach ($news as $user){
-                                $user_id = $user['id'] ?? $user->id;
-                                if (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
-                                else unset($BPT_DB[$type][$id]['users'][$user_id]['leaved']);
+                    elseif (isset($news)) {
+                        foreach ($news as $user) {
+                            $user_id = $user['id'] ?? $user->id;
+                            if (!isset($BPT_DB[$type][$id]['users'][$user_id])) {
+                                $BPT_DB[$type][$id]['users'][$user_id] = [];
                             }
+                            else unset($BPT_DB[$type][$id]['users'][$user_id]['leaved']);
                         }
-                        elseif (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
-                        $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time();
                     }
-                    else $BPT_DB[$type][$id]['last_active'] = time();
+                    elseif (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time();
                 }
-                elseif($update_type === 'inline') {
-                    $id = $this->settings['array_update'] ? $update['from']['id'] : $update->from->id;
-                    if(!isset($BPT_DB['private'][$id])) $BPT_DB['private'][$id] = ['last_active'=>time()];
-                    else $BPT_DB['private'][$id]['last_active'] = time();
-                }
-                elseif($update_type === 'callback') {
-                    if ($this->settings['array_update']){
-                        $type = $update['message']['chat']['type'];
-                        $id = $update['message']['chat']['id'];
-                        $user_id = $update['message']['from']['id'];
-                    }
-                    else{
-                        $type = $update->message->chat->type;
-                        $id = $update->message->chat->id;
-                        $user_id = $update->message->from->id;
-                    }
-                    if(!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
-                    if ($type !== 'private'){
-                        if (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
-                        $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time();
-                    }
-                    else $BPT_DB[$type][$id]['last_active'] = time();
-                }
-                file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
+                else $BPT_DB[$type][$id]['last_active'] = time();
             }
-            elseif($this->settings['db']['type'] === 'sql'){
-                if($update_type === 'message' || $update_type === 'edit') {
-                    if ($this->settings['array_update']){
-                        $type = $update['chat']['type'];
-                        $id = $update['chat']['id'];
-                        $user_id = $update['from']['id'];
+            elseif ($update_type === 'inline') {
+                $id = $this->settings['array_update'] ? $update['from']['id'] : $update->from->id;
+                if (!isset($BPT_DB['private'][$id])) {
+                    $BPT_DB['private'][$id] = ['last_active' => time()];
+                }
+                else $BPT_DB['private'][$id]['last_active'] = time();
+            }
+            elseif ($update_type === 'callback') {
+                if ($this->settings['array_update']) {
+                    $type = $update['message']['chat']['type'];
+                    $id = $update['message']['chat']['id'];
+                    $user_id = $update['message']['from']['id'];
+                }
+                else {
+                    $type = $update->message->chat->type;
+                    $id = $update->message->chat->id;
+                    $user_id = $update->message->from->id;
+                }
+                if (!isset($BPT_DB[$type][$id])) $BPT_DB[$type][$id] = [];
+                if ($type !== 'private') {
+                    if (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time();
+                }
+                else $BPT_DB[$type][$id]['last_active'] = time();
+            }
+            file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
+            return;
+        }
+        if ($this->settings['db']['type'] === 'sql') {
+            if ($update_type === 'message' || $update_type === 'edit') {
+                if ($this->settings['array_update']) {
+                    $type = $update['chat']['type'];
+                    $id = $update['chat']['id'];
+                    $user_id = $update['from']['id'];
+                }
+                else {
+                    $type = $update->chat->type;
+                    $id = $update->chat->id;
+                    $user_id = $update->from->id;
+                }
+                if ($type === 'private') {
+                    $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
+                    if ($info < 1) {
+                        $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
                     }
-                    else{
-                        $type = $update->chat->type;
-                        $id = $update->chat->id;
-                        $user_id = $update->from->id;
+                    else $this->db->query("update `private` set `last_active` = " . time() . " where `id` = $user_id limit 1");
+                }
+                else {
+                    $info = $this->db->query("select `id` from `chats` where `id` = $id limit 1")->num_rows;
+                    if ($info < 1) {
+                        $this->db->query("INSERT INTO `chats`(`id`,`type`) VALUES ($id,'$type')");
                     }
-                    if ($type === 'private'){
-                        $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
-                        if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
-                        else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $user_id limit 1");
-                    }else{
-                        $info = $this->db->query("select `id` from `chats` where `id` = $id limit 1")->num_rows;
-                        if ($info < 1) $this->db->query("INSERT INTO `chats`(`id`,`type`) VALUES ($id,'$type')");
-                        else{
-                            $time = time();
-                            $info = $this->db->query("select `id` from `users` where `id` = $id and `gid` = $id limit 1")->num_rows;
-                            if ($info < 1) $this->db->query("INSERT INTO `users`(`id`,`gid`,`last_active`) VALUES ($id,'$type',$time)");
-                            else $this->db->query("update `users` set `last_active` = $time where `id` = $user_id and `gid` = $id limit 1");
+                    else {
+                        $time = time();
+                        $info = $this->db->query("select `id` from `users` where `id` = $id and `gid` = $id limit 1")->num_rows;
+                        if ($info < 1) {
+                            $this->db->query("INSERT INTO `users`(`id`,`gid`,`last_active`) VALUES ($id,'$type',$time)");
                         }
+                        else $this->db->query("update `users` set `last_active` = $time where `id` = $user_id and `gid` = $id limit 1");
                     }
                 }
-                elseif($update_type === 'inline') {
-                    $id = $this->settings['array_update'] ? $update['from']['id'] : $update->from->id;
-                    $info = $this->db->query("select `id` from `private` where `id` = $id limit 1")->num_rows;
-                    if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($id)");
-                    else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $id limit 1");
+                return;
+            }
+            if ($update_type === 'inline') {
+                $id = $this->settings['array_update'] ? $update['from']['id'] : $update->from->id;
+                $info = $this->db->query("select `id` from `private` where `id` = $id limit 1")->num_rows;
+                if ($info < 1) {
+                    $this->db->query("INSERT INTO `private`(`id`) VALUES ($id)");
                 }
-                elseif($update_type === 'callback') {
-                    if ($this->settings['array_update']){
-                        $type = $update['message']['chat']['type'];
-                        $id = $update['message']['chat']['id'];
-                        $user_id = $update['message']['from']['id'];
+                else $this->db->query("update `private` set `last_active` = " . time() . " where `id` = $id limit 1");
+                return;
+            }
+            if ($update_type === 'callback') {
+                if ($this->settings['array_update']) {
+                    $type = $update['message']['chat']['type'];
+                    $id = $update['message']['chat']['id'];
+                    $user_id = $update['message']['from']['id'];
+                }
+                else {
+                    $type = $update->message->chat->type;
+                    $id = $update->message->chat->id;
+                    $user_id = $update->message->from->id;
+                }
+                if ($type === 'private') {
+                    $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
+                    if ($info < 1) {
+                        $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
                     }
-                    else{
-                        $type = $update->message->chat->type;
-                        $id = $update->message->chat->id;
-                        $user_id = $update->message->from->id;
+                    else $this->db->query("update `private` set `last_active` = " . time() . " where `id` = $user_id limit 1");
+                }
+                else {
+                    $info = $this->db->query("select `id` from `chats` where `id` = $id limit 1")->num_rows;
+                    if ($info < 1) {
+                        $this->db->query("INSERT INTO `chats`(`id`,`type`) VALUES ($id,'$type')");
                     }
-                    if ($type === 'private'){
-                        $info = $this->db->query("select `id` from `private` where `id` = $user_id limit 1")->num_rows;
-                        if ($info < 1) $this->db->query("INSERT INTO `private`(`id`) VALUES ($user_id)");
-                        else $this->db->query("update `private` set `last_active` = ".time()." where `id` = $user_id limit 1");
-                    }
-                    else{
-                        $info = $this->db->query("select `id` from `chats` where `id` = $id limit 1")->num_rows;
-                        if ($info < 1) $this->db->query("INSERT INTO `chats`(`id`,`type`) VALUES ($id,'$type')");
-                        else $this->db->query("update `users` set `last_active` = ".time()." where `id` = $user_id and `gid` = $id limit 1");
-                    }
+                    else $this->db->query("update `users` set `last_active` = " . time() . " where `id` = $user_id and `gid` = $id limit 1");
                 }
             }
         }
     }
 
     /** ---------- Extra Methods ----------- */
-
     /**
      * You can catch field you want from telegram update. default values are caught by this method too
      *
      * e.g. => $this->catchFields(['field'=>'chat_id']);
+     *
      * @param array $array e.g. => ['field'=>'chat_id']
+     *
      * @return false|mixed|string
      * @throws exception
      */
     public function catchFields (array $array) {
-        if (isset($array['field'])) {
-            $field = $array['field'];
-        }
-        else {
+        if (!isset($array['field'])) {
             $this->logger('error', "BPT catchFields method used\nfield parameter not found");
             throw new exception('field parameter not found');
         }
-        if ($field === 'chat_id' || $field === 'from_chat_id'){
+        $field = $array['field'];
+        if ($field === 'chat_id' || $field === 'from_chat_id') {
             if (isset($this->update->message)) return $this->update->message->chat->id;
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->id;
-            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->id;
-            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->id;
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->chat->id;
+            if (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
+            if (isset($this->update->callback_query)) return $this->update->callback_query->from->id;
+            if (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->id;
+            return false;
         }
-        elseif ($field === 'user_id'){
+        if ($field === 'user_id') {
             if (isset($this->update->message)) return $this->update->message->from->id;
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->id;
-            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->id;
-            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->id;
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->from->id;
+            if (isset($this->update->inline_query)) return $this->update->inline_query->from->id;
+            if (isset($this->update->callback_query)) return $this->update->callback_query->from->id;
+            if (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->id;
+            return false;
         }
-        elseif ($field === 'message_id'){
+        if ($field === 'message_id') {
             if (isset($this->update->message)) return $this->update->message->message_id;
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->message_id;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->message_id;
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->message_id;
+            if (isset($this->update->callback_query)) return $this->update->callback_query->message->message_id;
+            return false;
         }
-        elseif ($field === 'file_id'){
+        if ($field === 'file_id') {
             if (isset($this->update->message)) $type = 'message';
             elseif (isset($this->update->edited_message)) $type = 'edited_message';
             else return false;
-
             if (isset($this->update->$type->animation)) return $this->update->$type->animation->file_id;
-            elseif (isset($this->update->$type->audio)) return $this->update->$type->audio->file_id;
-            elseif (isset($this->update->$type->document)) return $this->update->$type->document->file_id;
-            elseif (isset($this->update->$type->photo)) return end($this->update->$type->photo)->file_id;
-            elseif (isset($this->update->$type->sticker)) return $this->update->$type->sticker->file_id;
-            elseif (isset($this->update->$type->video)) return $this->update->$type->video->file_id;
-            elseif (isset($this->update->$type->video_note)) return $this->update->$type->video_note->file_id;
-            elseif (isset($this->update->$type->voice)) return $this->update->$type->voice->file_id;
-            else return false;
+            if (isset($this->update->$type->audio)) return $this->update->$type->audio->file_id;
+            if (isset($this->update->$type->document)) return $this->update->$type->document->file_id;
+            if (isset($this->update->$type->photo)) return end($this->update->$type->photo)->file_id;
+            if (isset($this->update->$type->sticker)) return $this->update->$type->sticker->file_id;
+            if (isset($this->update->$type->video)) return $this->update->$type->video->file_id;
+            if (isset($this->update->$type->video_note)) return $this->update->$type->video_note->file_id;
+            if (isset($this->update->$type->voice)) return $this->update->$type->voice->file_id;
+            return false;
         }
-        elseif ($field === 'callback_query_id'){
+        if ($field === 'callback_query_id') {
             if (isset($this->update->callback_query)) return $this->update->callback_query->id;
-            else return false;
+            return false;
         }
-        elseif ($field === 'shipping_query_id'){
+        if ($field === 'shipping_query_id') {
             if (isset($this->update->shipping_query)) return $this->update->shipping_query->id;
-            else return false;
+            return false;
         }
-        elseif ($field === 'pre_checkout_query_id'){
+        if ($field === 'pre_checkout_query_id') {
             if (isset($this->update->pre_checkout_query)) return $this->update->pre_checkout_query->id;
-            else return false;
+            return false;
         }
-        elseif ($field === 'inline_query_id'){
+        if ($field === 'inline_query_id') {
             if (isset($this->update->inline_query)) return $this->update->inline_query->id;
-            else return false;
+            return false;
         }
-        elseif ($field === 'type'){
+        if ($field === 'type') {
             if (isset($this->update->message)) return $this->update->message->chat->type;
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->type;
-            elseif (isset($this->update->inline_query)) return $this->update->inline_query->chat_type;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->type;
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->chat->type;
+            if (isset($this->update->inline_query)) return $this->update->inline_query->chat_type;
+            if (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->type;
+            return false;
         }
-        elseif ($field === 'action'){
+        if ($field === 'action') {
             return 'typing';
         }
-        elseif ($field === 'name'){
+        if ($field === 'name') {
             if (isset($this->update->message)) return $this->update->message->from->first_name;
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->first_name;
-            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->first_name;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->first_name;
-            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->first_name;
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->from->first_name;
+            if (isset($this->update->inline_query)) return $this->update->inline_query->from->first_name;
+            if (isset($this->update->callback_query)) return $this->update->callback_query->from->first_name;
+            if (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->first_name;
+            return false;
         }
-        elseif ($field === 'last_name'){
+        if ($field === 'last_name') {
             if (isset($this->update->message)) return $this->update->message->from->last_name ?? '';
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->last_name ?? '';
-            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->last_name ?? '';
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->last_name ?? '';
-            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->last_name ?? '';
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->from->last_name ?? '';
+            if (isset($this->update->inline_query)) return $this->update->inline_query->from->last_name ?? '';
+            if (isset($this->update->callback_query)) return $this->update->callback_query->from->last_name ?? '';
+            if (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->last_name ?? '';
+            return false;
         }
-        elseif ($field === 'username'){
+        if ($field === 'username') {
             if (isset($this->update->message)) return $this->update->message->from->username ?? '';
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->from->username ?? '';
-            elseif (isset($this->update->inline_query)) return $this->update->inline_query->from->username ?? '';
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->from->username ?? '';
-            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->username ?? '';
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->from->username ?? '';
+            if (isset($this->update->inline_query)) return $this->update->inline_query->from->username ?? '';
+            if (isset($this->update->callback_query)) return $this->update->callback_query->from->username ?? '';
+            if (isset($this->update->chat_join_request)) return $this->update->chat_join_request->from->username ?? '';
+            return false;
         }
-        elseif ($field === 'group_name'){
+        if ($field === 'group_name') {
             if (isset($this->update->message)) return $this->update->message->chat->first_name;
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->first_name;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->first_name;
-            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->first_name;
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->chat->first_name;
+            if (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->first_name;
+            if (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->first_name;
+            return false;
         }
-        elseif ($field === 'group_username'){
+        if ($field === 'group_username') {
             if (isset($this->update->message)) return $this->update->message->chat->username;
-            elseif (isset($this->update->edited_message)) return $this->update->edited_message->chat->username;
-            elseif (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->username;
-            elseif (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->username;
-            else return false;
+            if (isset($this->update->edited_message)) return $this->update->edited_message->chat->username;
+            if (isset($this->update->callback_query)) return $this->update->callback_query->message->chat->username;
+            if (isset($this->update->chat_join_request)) return $this->update->chat_join_request->chat->username;
+            return false;
         }
-        elseif ($field === 'update_type'){
+        if ($field === 'update_type') {
             if (isset($this->update->message)) return 'message';
-            elseif (isset($this->update->edited_message)) return 'edited_message';
-            elseif (isset($this->update->inline_query)) return 'inline_query';
-            elseif (isset($this->update->callback_query)) return 'callback_query';
-            elseif (isset($this->update->chat_join_request)) return 'chat_join_request';
-            elseif (isset($this->update->my_chat_member)) return 'my_chat_member';
-            elseif (isset($this->update->chat_member)) return 'chat_member';
-            elseif (isset($this->update->channel_post)) return 'channel_post';
-            elseif (isset($this->update->edited_channel_post)) return 'edited_channel_post';
-            elseif (isset($this->update->chosen_inline_result)) return 'chosen_inline_result';
-            elseif (isset($this->update->shipping_query)) return 'shipping_query';
-            elseif (isset($this->update->pre_checkout_query)) return 'pre_checkout_query';
-            elseif (isset($this->update->poll)) return 'poll';
-            elseif (isset($this->update->poll_answer)) return 'poll_answer';
-            else return false;
+            if (isset($this->update->edited_message)) return 'edited_message';
+            if (isset($this->update->inline_query)) return 'inline_query';
+            if (isset($this->update->callback_query)) return 'callback_query';
+            if (isset($this->update->chat_join_request)) return 'chat_join_request';
+            if (isset($this->update->my_chat_member)) return 'my_chat_member';
+            if (isset($this->update->chat_member)) return 'chat_member';
+            if (isset($this->update->channel_post)) return 'channel_post';
+            if (isset($this->update->edited_channel_post)) return 'edited_channel_post';
+            if (isset($this->update->chosen_inline_result)) return 'chosen_inline_result';
+            if (isset($this->update->shipping_query)) return 'shipping_query';
+            if (isset($this->update->pre_checkout_query)) return 'pre_checkout_query';
+            if (isset($this->update->poll)) return 'poll';
+            if (isset($this->update->poll_answer)) return 'poll_answer';
+            return false;
         }
-        elseif ($field === 'url'){
+        if ($field === 'url') {
             return 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         }
-        else return false;
+        return false;
     }
 
     /**
      * Check given IP is in the given IP range or not
      *
      * e.g. => $this->ipInRange(['ip'=>'192.168.1.1','range'=>'149.154.160.0/20']);
+     *
      * @param array $array e.g. => ['ip'=>'192.168.1.1','range'=>'149.154.160.0/20']
+     *
      * @return bool
      * @throws exception
      */
     public function ipInRange (array $array): bool {
-        if (isset($array['ip'])) {
-            $ip = $array['ip'];
-        }
-        else {
+        if (!isset($array['ip'])) {
             $this->logger('error', "BPT ipInRange method used\nip parameter not found");
             throw new exception('ip parameter not found');
         }
-        if (isset($array['range'])) {
-            $range = $array['range'];
-        }
-        else {
+        $ip = $array['ip'];
+        if (!isset($array['range'])) {
             $this->logger('error', "BPT ipInRange method used\nrange parameter not found");
             throw new exception('range parameter not found');
         }
+        $range = $array['range'];
         if (strpos($range, '/') === false) {
             $range .= '/32';
         }
@@ -1712,18 +1684,18 @@ CREATE TABLE IF NOT EXISTS `users` (
      * Check the given IP is from telegram or not
      *
      * e.g. => $this->isTelegram(['ip'=>'192.168.1.1']);
+     *
      * @param array $array e.g. => ['ip'=>'192.168.1.1']
+     *
      * @return bool
      * @throws exception
      */
     public function isTelegram (array $array): bool {
-        if (isset($array['ip'])) {
-            $ip = $array['ip'];
-        }
-        else {
+        if (!isset($array['ip'])) {
             $this->logger('error', "BPT isTelegram method used\nip parameter not found");
             throw new exception('ip parameter not found');
         }
+        $ip = $array['ip'];
         if ($this->settings['cloudFlare'] && isset($_SERVER['HTTP_CF_CONNECTING_IP']) && $this->isCloudFlare($ip)) {
             $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
         }
@@ -1740,19 +1712,23 @@ CREATE TABLE IF NOT EXISTS `users` (
      * Check the given IP is from CloudFlare or not
      *
      * e.g. => $this->isCloudFlare(['ip'=>'192.168.1.1']);
+     *
      * @param array $array e.g. => ['ip'=>'192.168.1.1']
+     *
      * @return bool
      * @throws exception
      */
     public function isCloudFlare (array $array): bool {
-        if (isset($array['ip'])) {
-            $ip = $array['ip'];
-        }
-        else {
+        if (!isset($array['ip'])) {
             $this->logger('error', "BPT isCloudFlare method used\nip parameter not found");
             throw new exception('ip parameter not found');
         }
-        $cf_ips = ['173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18', '108.162.192.0/18', '190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17', '162.158.0.0/15', '104.16.0.0/12', '172.64.0.0/13', '131.0.72.0/22'];
+        $ip = $array['ip'];
+        $cf_ips = [
+            '173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18',
+            '108.162.192.0/18', '190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17',
+            '162.158.0.0/15', '104.16.0.0/12', '172.64.0.0/13', '131.0.72.0/22',
+        ];
         foreach ($cf_ips as $cf_ip) {
             if ($this->ipInRange(['ip' => $ip, 'range' => $cf_ip])) {
                 return true;
@@ -1765,19 +1741,29 @@ CREATE TABLE IF NOT EXISTS `users` (
      * Check the given IP is from ArvanCloud or not
      *
      * e.g. => $this->isArvanCloud(['ip'=>'192.168.1.1']);
+     *
      * @param array $array e.g. => ['ip'=>'192.168.1.1']
+     *
      * @return bool
      * @throws exception
      */
     public function isArvanCloud (array $array): bool {
-        if (isset($array['ip'])) {
-            $ip = $array['ip'];
-        }
-        else {
+        if (!isset($array['ip'])) {
             $this->logger('error', "BPT isCloudFlare method used\nip parameter not found");
             throw new exception('ip parameter not found');
         }
-        $ar_ips = ['185.143.232.0/22', '92.114.16.80/28', '2.146.0.0/28', '46.224.2.32/29', '89.187.178.96/29', '195.181.173.128/29', '89.187.169.88/29', '188.229.116.16/29', '83.123.255.56/31', '164.138.128.28/31', '94.182.182.28/30', '185.17.115.176/30', '5.213.255.36/31', '138.128.139.144/29', '5.200.14.8/29', '188.122.68.224/29', '188.122.83.176/29', '213.179.217.16/29', '185.179.201.192/29', '43.239.139.192/29', '213.179.197.16/29', '213.179.201.192/29', '109.200.214.248/29', '138.128.141.16/29', '188.122.78.136/29', '213.179.211.32/29', '103.194.164.24/29', '185.50.105.136/29', '213.179.213.16/29', '162.244.52.120/29', '188.122.80.240/29', '109.200.195.64/29', '109.200.199.224/29', '185.228.238.0/28', '94.182.153.24/29', '94.101.182.0/27', '37.152.184.208/28', '78.39.156.192/28', '158.255.77.238/31', '81.12.28.16/29', '176.65.192.202/31', '2.144.3.128/28', '89.45.48.64/28', '37.32.16.0/27', '37.32.17.0/27', '37.32.18.0/27'];
+        $ip = $array['ip'];
+        $ar_ips = [
+            '185.143.232.0/22', '92.114.16.80/28', '2.146.0.0/28', '46.224.2.32/29', '89.187.178.96/29',
+            '195.181.173.128/29', '89.187.169.88/29', '188.229.116.16/29', '83.123.255.56/31', '164.138.128.28/31',
+            '94.182.182.28/30', '185.17.115.176/30', '5.213.255.36/31', '138.128.139.144/29', '5.200.14.8/29',
+            '188.122.68.224/29', '188.122.83.176/29', '213.179.217.16/29', '185.179.201.192/29', '43.239.139.192/29',
+            '213.179.197.16/29', '213.179.201.192/29', '109.200.214.248/29', '138.128.141.16/29', '188.122.78.136/29',
+            '213.179.211.32/29', '103.194.164.24/29', '185.50.105.136/29', '213.179.213.16/29', '162.244.52.120/29',
+            '188.122.80.240/29', '109.200.195.64/29', '109.200.199.224/29', '185.228.238.0/28', '94.182.153.24/29',
+            '94.101.182.0/27', '37.152.184.208/28', '78.39.156.192/28', '158.255.77.238/31', '81.12.28.16/29',
+            '176.65.192.202/31', '2.144.3.128/28', '89.45.48.64/28', '37.32.16.0/27', '37.32.17.0/27', '37.32.18.0/27',
+        ];
         foreach ($ar_ips as $ar_ip) {
             if ($this->ipInRange(['ip' => $ip, 'range' => $ar_ip])) {
                 return true;
@@ -1795,48 +1781,48 @@ CREATE TABLE IF NOT EXISTS `users` (
      * verify parameter has default value => false
      *
      * e.g. => $this->isToken(['token'=>'123123123:abcabcabcabc']);
+     *
      * @param array $array e.g. => ['token'=>'123123123:abcabcabcabc','verify'=>false]
+     *
      * @return bool|array
      * @throws exception
      */
     public function isToken (array $array) {
-        if (isset($array['token'])) {
-            $token = $array['token'];
-        }
-        else {
+        if (!isset($array['token'])) {
             $this->logger('error', "BPT isToken method used\ntoken parameter not found");
             throw new exception('token parameter not found');
         }
+        $token = $array['token'];
         $verify = $array['verify'] ?? false;
-        if (preg_match('/^(\d{8,10}):[\w\-]{35}$/', $token)) {
-            if ($verify){
-                $res = $this->me(['token'=>$token]);
-                if ($res['ok']) {
-                    return $res['result'];
-                }
-                return false;
-            }
+        if (!preg_match('/^(\d{8,10}):[\w\-]{35}$/', $token)) {
+            return false;
+        }
+        if (!$verify) {
             return true;
         }
-        return false;
+        $res = $this->me(['token' => $token]);
+        if (!$res['ok']) {
+            return false;
+        }
+        return $res['result'];
     }
 
     /**
      * Check the given username format
      *
      * e.g. => $this->isUsername(['username'=>'BPT_CH']);
+     *
      * @param array $array e.g. => ['username'=>'BPT_CH']
+     *
      * @return bool
      * @throws exception
      */
     public function isUsername (array $array): bool {
-        if (isset($array['username'])) {
-            $username = $array['username'];
-        }
-        else {
+        if (!isset($array['username'])) {
             $this->logger('error', "BPT isUsername method used\nusername parameter not found");
             throw new exception('username parameter not found');
         }
+        $username = $array['username'];
         return strpos($username, '__') === false && preg_match('/^@?([a-zA-Z])(\w{4,31})$/', $username);
     }
 
@@ -1858,26 +1844,25 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->isJoined(['user_id'=>'442109602','ids'=>'BPT_CH']);
      *
      * @param array $array e.g. => ['user_id'=>'442109602','ids'=>'BPT_CH']
+     *
      * @return bool
      * @throws exception
      */
     public function isJoined (array $array): bool {
-        if (isset($array['ids'])) {
-            $ids = $array['ids'];
-            if (is_string($ids) || is_numeric($ids)) {
-                $ids = [$ids];
-            }
-        }
-        else {
+        if (!isset($array['ids'])) {
             $this->logger('error', "BPT jChecker function used\nids parameter not found");
             throw new exception('ids parameter not found');
+        }
+        $ids = $array['ids'];
+        if (is_string($ids) || is_numeric($ids)) {
+            $ids = [$ids];
         }
         $user_id = $array['user_id'] ?? $this->catchFields(['field' => 'user_id']);
         foreach ($ids as $id) {
             $check = $this->getChatMember(['chat_id' => $id, 'user_id' => $user_id]);
             if (isset($check['result'])) {
                 $check = $check['result']['status'];
-                if ($check === 'left' || $check === 'kicked'){
+                if ($check === 'left' || $check === 'kicked') {
                     return false;
                 }
             }
@@ -1891,30 +1876,26 @@ CREATE TABLE IF NOT EXISTS `users` (
      * type parameter can be : `html` , `markdown` , `markdown2` , default : `html`
      *
      * e.g. => $this->modeEscape(['text'=>'hello men! *I* Have nothing anymore']);
+     *
      * @param array $array e.g. => ['text'=>'hello men! *I* Have nothing anymore','mode'=>'markdown2']
+     *
      * @return string|bool
      * @throws exception
      */
     public function modeEscape (array $array) {
-        if (isset($array['text'])) {
-            $text = $array['text'];
-        }
-        else {
+        if (!isset($array['text'])) {
             $this->logger('error', "BPT modeEscape method used\ntext parameter not found");
             throw new exception('text parameter not found');
         }
+        $text = $array['text'];
         $mode = isset($array['mode']) ? strtolower($array['mode']) : 'html';
-
         switch ($mode) {
             case 'html':
-                return str_replace(['&', '<', '>',], ["&amp;", "&lt;", "&gt;",], $text);
+                return str_replace(['&', '<', '>'], ["&amp;", "&lt;", "&gt;"], $text);
             case 'markdown':
-                return str_replace(["\\", '_', '*', '`', '['], ["\\\\", "\\_", "\\*", "\\`", "\\[",], $text);
+                return str_replace(["\\", '_', '*', '`', '['], ["\\\\", "\\_", "\\*", "\\`", "\\["], $text);
             case 'markdown2':
-                return str_replace(
-                    ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!','\\'],
-                    ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!','\\\\'],
-                    $text);
+                return str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!', '\\'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!', '\\\\'], $text);
             default:
                 $this->logger('error', "BPT modeEscape method used\ntype is wrong");
                 return false;
@@ -1931,42 +1912,40 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->delete(['path'=>'xfolder/yfolder']);
      *
      * e.g. => $this->delete(['path'=>'xfolder/yfolder','sub'=>false]);
+     *
      * @param array $array e.g. => ['path'=>'xfolder/yfolder','sub'=>true]
+     *
      * @return bool
      * @throws exception
      */
     public function delete (array $array): bool {
-        if (isset($array['path'])) {
-            $path = $array['path'];
-        }
-        else {
+        if (!isset($array['path'])) {
             $this->logger('error', "BPT delete function used\npath parameter not found");
             throw new exception('path parameter not found');
         }
+        $path = $array['path'];
         $sub = $array['sub'] ?? true;
-        if (is_dir($path)) {
-            if (count(scandir($path)) > 2) {
-                if ($sub) {
-                    $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
-                    $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
-                    foreach ($files as $file) {
-                        if ($file->isDir()) {
-                            rmdir($file->getRealPath());
-                        }
-                        else {
-                            unlink($file->getRealPath());
-                        }
-                    }
-                    rmdir($path);
-                }
-                else {
-                    $this->logger('error', "BPT delete function used\ndelete function cannot delete folder because its have subfiles and sub parameter haven't true value");
-                    throw new exception('folder have subFiles');
-                }
-            }
-            else rmdir($path);
+        if (!is_dir($path)) {
+            unlink($path);
         }
-        else unlink($path);
+        if (count(scandir($path)) <= 2) {
+            rmdir($path);
+        }
+        if (!$sub) {
+            $this->logger('error', "BPT delete function used\ndelete function cannot delete folder because its have subfiles and sub parameter haven't true value");
+            throw new exception('folder have subFiles');
+        }
+        $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
+        $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($files as $file) {
+            if ($file->isDir()) {
+                rmdir($file->getRealPath());
+            }
+            else {
+                unlink($file->getRealPath());
+            }
+        }
+        rmdir($path);
         return true;
     }
 
@@ -1976,35 +1955,43 @@ CREATE TABLE IF NOT EXISTS `users` (
      * Its calculated different between given time and now
      *
      * e.g. => $this->time2string(['datetime'=>1636913656]);
+     *
      * @param array $array e.g. => ['datetime'=>1636913656]
+     *
      * @return bool|array
      * @throws exception
      */
     public function time2string (array $array) {
-        if (isset($array['datetime'])) {
-            $datetime = $array['datetime'];
-        }
-        else {
+        if (!isset($array['datetime'])) {
             $this->logger('error', "BPT time2string function used\ndatetime parameter not found");
             throw new exception('datetime parameter not found');
         }
-        if (is_numeric($datetime)) {
-            $now = new DateTime;
-            $input = new DateTime('@' . $datetime);
-            $status = $now < $input ? 'later' : 'ago';
-            $diff = $now->diff($input);
-            $diff->w = floor($diff->d / 7);
-            $string = ['year' => 'y', 'month' => 'm', 'week' => 'w', 'day' => 'd', 'hour' => 'h', 'minute' => 'i', 'second' => 's'];
-            foreach ($string as $k => &$v) {
-                if ($diff->$v) {
-                    $v = $diff->$v;
-                }
-                else unset($string[$k]);
-            }
-            $string['status'] = $status;
-            return count($string) > 1 ? $string : ['status' => 'now'];
+        $datetime = $array['datetime'];
+        if (!is_numeric($datetime)) {
+            return false;
         }
-        else return false;
+        $now = new DateTime;
+        $input = new DateTime('@' . $datetime);
+        $status = $now < $input ? 'later' : 'ago';
+        $diff = $now->diff($input);
+        $diff->w = floor($diff->d / 7);
+        $string = [
+            'year'   => 'y',
+            'month'  => 'm',
+            'week'   => 'w',
+            'day'    => 'd',
+            'hour'   => 'h',
+            'minute' => 'i',
+            'second' => 's',
+        ];
+        foreach ($string as $k => &$v) {
+            if ($diff->$v) {
+                $v = $diff->$v;
+            }
+            else unset($string[$k]);
+        }
+        $string['status'] = $status;
+        return count($string) > 1 ? $string : ['status' => 'now'];
     }
 
     /**
@@ -2021,7 +2008,9 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->randomString(['length'=>16]);
      *
      * e.g. => $this->randomString(['length'=>16,'characters'=>'abcdefg']);
+     *
      * @param array $array e.g. => ['length'=>16,'characters'=>'abcdefg']
+     *
      * @return string
      */
     public function randomString (array $array = []): string {
@@ -2029,7 +2018,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         $length = isset($array['length']) && is_numeric($array['length']) ? $array['length'] : 16;
         $rand_string = '';
         $char_len = strlen($characters) - 1;
-        for ($i = 0; $i < $length; $i ++) {
+        for ($i = 0; $i < $length; $i++) {
             $rand_string .= $characters[rand(0, $char_len)];
         }
         return $rand_string;
@@ -2047,55 +2036,47 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->crypto(['action'=>'dec','string'=>'9LqUf9DSuRRwfo03RnA5Kw==','key'=>'39aaadf402f9b921b1d44e33ee3b022716a518e97d6a7b55de8231de501b4f34','iv'=>'a2e5904a4110169e']);
      *
      * e.g. => $this->crypto(['action'=>'enc','string'=>'hello world']);
+     *
      * @param array $array e.g. => ['action'=>'enc','string'=>'hello world']
+     *
      * @return array|string|bool
      * @throws exception
      */
     public function crypto (array $array) {
-        if (extension_loaded('openssl')) {
-            if (isset($array['action'])) {
-                $action = $array['action'];
-            }
-            else {
-                $this->logger('error', "BPT crypto function used\naction parameter not found");
-                throw new exception('action parameter not found');
-            }
-            if (isset($array['string'])) {
-                $string = $array['string'];
-            }
-            else {
-                $this->logger('error', "BPT crypto function used\nstring parameter not found");
-                throw new exception('string parameter not found');
-            }
-            if ($action === 'enc') {
-                $key = $this->randomString(['length' => 64]);
-                $iv = $this->randomString(['length' => 16]);
-                $output = base64_encode(openssl_encrypt($string, 'AES-256-CBC', $key, 1, $iv));
-                return ['hash' => $output, 'key' => $key, 'iv' => $iv];
-            }
-            elseif ($action === 'dec') {
-                if (isset($array['key'])) {
-                    $key = $array['key'];
-                }
-                else {
-                    $this->logger('error', "BPT crypto function used\nkey parameter not found");
-                    throw new exception('key parameter not found');
-                }
-                if (isset($array['iv'])) {
-                    $iv = $array['iv'];
-                }
-                else {
-                    $this->logger('error', "BPT crypto function used\niv parameter not found");
-                    throw new exception('iv parameter not found');
-                }
-                return openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 1, $iv);
-            }
-            else return false;
-        }
-        else {
+        if (!extension_loaded('openssl')) {
             $this->logger('error', "BPT crypto function used\nopenssl extension is not found , It may not be installed or enabled");
             throw new exception('openssl extension not found');
         }
+        if (!isset($array['action'])) {
+            $this->logger('error', "BPT crypto function used\naction parameter not found");
+            throw new exception('action parameter not found');
+        }
+        $action = $array['action'];
+        if (!isset($array['string'])) {
+            $this->logger('error', "BPT crypto function used\nstring parameter not found");
+            throw new exception('string parameter not found');
+        }
+        $string = $array['string'];
+        if ($action === 'enc') {
+            $key = $this->randomString(['length' => 64]);
+            $iv = $this->randomString(['length' => 16]);
+            $output = base64_encode(openssl_encrypt($string, 'AES-256-CBC', $key, 1, $iv));
+            return ['hash' => $output, 'key' => $key, 'iv' => $iv];
+        }
+        if ($action !== 'dec') {
+            return false;
+        }
+        if (!isset($array['key'])) {
+            $this->logger('error', "BPT crypto function used\nkey parameter not found");
+            throw new exception('key parameter not found');
+        }
+        $key = $array['key'];
+        if (!isset($array['iv'])) {
+            $this->logger('error', "BPT crypto function used\niv parameter not found");
+            throw new exception('iv parameter not found');
+        }
+        $iv = $array['iv'];
+        return openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 1, $iv);
     }
 
     /**
@@ -2110,75 +2091,65 @@ CREATE TABLE IF NOT EXISTS `users` (
      * sub parameter have default value => true
      *
      * e.g. => $this->zip(['path'=>'xFolder','dest'=>'yFolder/xFile.zip','self'=>false,'sub_folder'=>true);
+     *
      * @param array $array e.g. => ['path'=>'xFolder','dest'=>'yFolder/xFile.zip']
+     *
      * @return bool
      * @throws exception
      */
     public function zip (array $array): bool {
-        if (extension_loaded('zip')) {
-            if (isset($array['path'])) {
-                $path = $array['path'];
-            }
-            else {
-                $this->logger('error', "BPT zip function used\npath parameter not found");
-                throw new exception('path parameter not found');
-            }
-            if (isset($array['dest'])) {
-                $dest = $array['dest'];
-            }
-            else {
-                $this->logger('error', "BPT zip function used\ndest parameter not found");
-                throw new exception('dest parameter not found');
-            }
-            $self = $array['self'] ?? true;
-            $sub_folder = $array['sub_folder'] ?? true;
-
-            if (file_exists($dest)) unlink($dest);
-
-            $path = realpath($path);
-            $zip = new ZipArchive();
-            $zip->open($dest, ZipArchive::CREATE);
-
-            if (is_dir($path)){
-                if ($self){
-                    $dirs = explode('\\',$path);
-                    $dir_count = count($dirs);
-                    $main_dir = $dirs[$dir_count-1];
-
-                    $path = '';
-                    for ($i=0; $i < $dir_count - 1; $i++) {
-                        $path .= '\\' . $dirs[$i];
-                    }
-                    $path = substr($path, 1);
-                    $zip->addEmptyDir($main_dir);
-                }
-
-                $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
-                $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
-                foreach ($files as $file) {
-                    if ($file->isFile()){
-                        if ($sub_folder){
-                            $zip->addFile($file, str_replace($path . '\\', '', $file));
-                        }
-                        else{
-                            $zip->addFile($file, basename($file));
-                        }
-                    }
-                    elseif ($file->isDir() && $sub_folder) {
-                        $zip->addEmptyDir(str_replace($path . '\\', '', $file . '\\'));
-                    }
-                }
-            }
-            else{
-                $zip->addFile($path, basename($path));
-            }
-
-            return $zip->close();
-        }
-        else {
+        if (!extension_loaded('zip')) {
             $this->logger('error', "BPT zip function used\nzip extension is not found , It may not be installed or enabled");
             throw new exception('zip extension not found');
         }
+        if (!isset($array['path'])) {
+            $this->logger('error', "BPT zip function used\npath parameter not found");
+            throw new exception('path parameter not found');
+        }
+        $path = $array['path'];
+        if (!isset($array['dest'])) {
+            $this->logger('error', "BPT zip function used\ndest parameter not found");
+            throw new exception('dest parameter not found');
+        }
+        $dest = $array['dest'];
+        $self = $array['self'] ?? true;
+        $sub_folder = $array['sub_folder'] ?? true;
+        if (file_exists($dest)) unlink($dest);
+        $path = realpath($path);
+        $zip = new ZipArchive();
+        $zip->open($dest, ZipArchive::CREATE);
+        if (is_dir($path)) {
+            if ($self) {
+                $dirs = explode('\\', $path);
+                $dir_count = count($dirs);
+                $main_dir = $dirs[$dir_count - 1];
+                $path = '';
+                for ($i = 0; $i < $dir_count - 1; $i++) {
+                    $path .= '\\' . $dirs[$i];
+                }
+                $path = substr($path, 1);
+                $zip->addEmptyDir($main_dir);
+            }
+            $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
+            $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
+            foreach ($files as $file) {
+                if ($file->isFile()) {
+                    if ($sub_folder) {
+                        $zip->addFile($file, str_replace($path . '\\', '', $file));
+                    }
+                    else {
+                        $zip->addFile($file, basename($file));
+                    }
+                }
+                elseif ($file->isDir() && $sub_folder) {
+                    $zip->addEmptyDir(str_replace($path . '\\', '', $file . '\\'));
+                }
+            }
+        }
+        else {
+            $zip->addFile($path, basename($path));
+        }
+        return $zip->close();
     }
 
     /**
@@ -2195,17 +2166,16 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->size(['path'=>'xFile.zip']);
      *
      * @param array $array e.g. => ['path'=>'xFile.zip']
+     *
      * @return string|int|bool
      * @throws exception
      */
     public function size (array $array) {
-        if (isset($array['path'])) {
-            $path = $array['path'];
-        }
-        else {
+        if (!isset($array['path'])) {
             $this->logger('error', "BPT size function used\npath parameter not found");
             throw new exception('path parameter not found');
         }
+        $path = $array['path'];
         $format = $array['format'] ?? true;
         if (filter_var($path, FILTER_VALIDATE_URL)) {
             $ch = curl_init($path);
@@ -2217,30 +2187,28 @@ CREATE TABLE IF NOT EXISTS `users` (
             curl_close($ch);
         }
         else {
-            if (file_exists($path)) {
-                $size = filesize($path);
-            }
-            else {
+            if (!file_exists($path)) {
                 $this->logger('error', "BPT size function used\nFile not found");
                 throw new exception('File not found');
             }
+            $size = filesize($path);
         }
-        if (isset($size) && is_numeric($size)) {
-            if ($format) {
-                $o = 0;
-                $rate = ['B', 'KB', 'MB', 'GB', 'TB'];
-                while ($size > 1024){
-                    $size = $size / 1024;
-                    $o++;
-                }
-                if ($o !== 0) {
-                    $size = round($size, 2);
-                }
-                return $size . ' ' . $rate[$o];
-            }
-            else return $size;
+        if (!isset($size) || !is_numeric($size)) {
+            return false;
         }
-        else return false;
+        if (!$format) {
+            return $size;
+        }
+        $o = 0;
+        $rate = ['B', 'KB', 'MB', 'GB', 'TB'];
+        while ($size > 1024){
+            $size = $size / 1024;
+            $o++;
+        }
+        if ($o !== 0) {
+            $size = round($size, 2);
+        }
+        return $size . ' ' . $rate[$o];
     }
 
     /**
@@ -2259,6 +2227,7 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->eKey(['inline'=>[[['button 1 in row 1','this is callback button'],['button 2 in row 1','https://this-is-url-button.com']],[['demo button in row 2']]]]);
      *
      * @param array $array e.g. => ['inline'=>[[['this is a call back button','and this is callback data']]]]
+     *
      * @return string will return string but it is json(because of json_encode)
      * @throws exception
      */
@@ -2288,31 +2257,29 @@ CREATE TABLE IF NOT EXISTS `users` (
             }
             return json_encode($keyboard);
         }
-        elseif (isset($array['inline'])) {
-            $keyboard = ['inline_keyboard' => []];
-            foreach ($array['inline'] as $row) {
-                $buttons = [];
-                foreach ($row as $button_info) {
-                    if (isset($button_info[1])) {
-                        if (filter_var($button_info[1], FILTER_VALIDATE_URL) && strpos($button_info[1], 'http') === 0) {
-                            $buttons[] = ['text' => $button_info[0], 'url' => $button_info[1]];
-                        }
-                        else {
-                            $buttons[] = ['text' => $button_info[0], 'callback_data' => $button_info[1]];
-                        }
-                    }
-                    else {
-                        $buttons[] = ['text' => $button_info[0], 'url' => 'https://t.me/BPT_CH'];
-                    }
-                }
-                $keyboard['inline_keyboard'][] = $buttons;
-            }
-            return json_encode($keyboard);
-        }
-        else {
+        if (!isset($array['inline'])) {
             $this->logger('error', "BPT eKey function used\nkeyboard or inline parameter not found");
             throw new exception('keyboard or inline parameter not found');
         }
+        $keyboard = ['inline_keyboard' => []];
+        foreach ($array['inline'] as $row) {
+            $buttons = [];
+            foreach ($row as $button_info) {
+                if (isset($button_info[1])) {
+                    if (filter_var($button_info[1], FILTER_VALIDATE_URL) && strpos($button_info[1], 'http') === 0) {
+                        $buttons[] = ['text' => $button_info[0], 'url' => $button_info[1]];
+                    }
+                    else {
+                        $buttons[] = ['text' => $button_info[0], 'callback_data' => $button_info[1]];
+                    }
+                }
+                else {
+                    $buttons[] = ['text' => $button_info[0], 'url' => 'https://t.me/BPT_CH'];
+                }
+            }
+            $keyboard['inline_keyboard'][] = $buttons;
+        }
+        return json_encode($keyboard);
     }
 
     /**
@@ -2331,22 +2298,20 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->jChecker(['user_id'=>'442109602','ids'=>'BPT_CH']);
      *
      * @param array $array e.g. => ['user_id'=>'442109602','ids'=>'BPT_CH']
+     *
      * @return array
      * @throws exception
      */
     public function jChecker (array $array): array {
-        if (isset($array['ids'])) {
-            $ids = $array['ids'];
-            if (is_string($ids)) {
-                $ids = [$ids];
-            }
-        }
-        else {
+        if (!isset($array['ids'])) {
             $this->logger('error', "BPT jChecker function used\nids parameter not found");
             throw new exception('ids parameter not found');
         }
+        $ids = $array['ids'];
+        if (is_string($ids)) {
+            $ids = [$ids];
+        }
         $user_id = $array['user_id'] ?? $this->catchFields(['field' => 'user_id']);
-
         $result = [];
         foreach ($ids as $id) {
             $check = $this->getChatMember(['chat_id' => $id, 'user_id' => $user_id]);
@@ -2371,24 +2336,21 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->jsonSave(['name'=>'test.json','data'=>"[]"]);
      *
      * @param array $array e.g. => ['name'=>'test.json','data'=>"[]"]
+     *
      * @return bool true on success and false on failure
      * @throws exception
      */
-    public function jsonSave(array $array): bool{
-        if (isset($array['name'])) {
-            $name = $array['name'];
-        }
-        else {
+    public function jsonSave (array $array): bool {
+        if (!isset($array['name'])) {
             $this->logger('error', "BPT jsonSave function used\nname parameter not found");
             throw new exception('name parameter not found');
         }
-        if (isset($array['data'])) {
-            $data = $array['data'];
-        }
-        else {
+        $name = $array['name'];
+        if (!isset($array['data'])) {
             $this->logger('error', "BPT jsonSave function used\ndata parameter not found");
             throw new exception('data parameter not found');
         }
+        $data = $array['data'];
         $this->logger('', "BPT jsonSave function used\n");
         if (is_array($data) || is_object($data)) {
             $data = json_encode($data);
@@ -2411,25 +2373,24 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->jsonGet(['name'=>'test.json']);
      *
      * @param array $array e.g. => ['name'=>'test.json']
+     *
      * @return mixed|bool array or object in success and false in failure
      * @throws exception
      */
     public function jsonGet (array $array) {
-        if (isset($array['name'])) {
-            $name = $array['name'];
-        }
-        else {
+        if (!isset($array['name'])) {
             $this->logger('error', "BPT jsonGet function used\nname parameter not found");
             throw new exception('name parameter not found');
         }
+        $name = $array['name'];
         $type = $array['type'] ?? true;
-        if (pathinfo($name, PATHINFO_EXTENSION) !== 'json'){
+        if (pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
             $name = $name . '.json';
         }
-        if (file_exists($name)) {
-            return json_decode(gzuncompress(file_get_contents($name)), $type);
+        if (!file_exists($name)) {
+            return false;
         }
-        else return false;
+        return json_decode(gzuncompress(file_get_contents($name)), $type);
     }
 
     /**
@@ -2438,24 +2399,23 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->jsonDel(['name'=>'zxc.json']);
      *
      * @param array $array e.g. => ['name'=>'test.json']
+     *
      * @return bool true on success or false on failure
      * @throws exception
      */
     public function jsonDel (array $array): bool {
-        if (isset($array['name'])) {
-            $name = $array['name'];
-        }
-        else {
+        if (!isset($array['name'])) {
             $this->logger('error', "BPT jsonDel function used\nname parameter not found");
             throw new exception('name parameter not found');
         }
+        $name = $array['name'];
         if (pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
             $name = $name . '.json';
         }
-        if (file_exists($name)) {
-            return unlink($name);
+        if (!file_exists($name)) {
+            return false;
         }
-        else return false;
+        return unlink($name);
     }
 
     /**
@@ -2475,71 +2435,60 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->dataSave(['key'=>'user_x_coin','value'=>'56789']);
      *
      * @param array $array e.g. => ['key'=>'user_x_coin','value'=>'56789']
+     *
      * @return bool true on success or false on failure
      * @throws exception
      */
     public function dataSave (array $array): bool {
-        if (!empty($this->db)) {
-            if ($this->settings['db']['type'] === 'json') {
-                if (isset($array['key'])) {
-                    if (is_string($array['key'])) {
-                        $key = $array['key'] === 'users' ? 'users2' : $array['key'];
-                    }
-                    else {
-                        $this->logger('error', "BPT dataSave function used\nkey most be string");
-                        throw new exception('key most be string');
-                    }
-                }
-                else {
-                    $this->logger('error', "BPT dataSave function used\nkey parameter not found");
-                    throw new exception('key parameter not found');
-                }
-                if (isset($array['value'])) {
-                    $value = $array['value'];
-                }
-                else {
-                    $this->logger('error', "BPT dataSave function used\nvalue parameter not found");
-                    throw new exception('value parameter not found');
-                }
-                if (isset($array['type'])) {
-                    $type = $array['type'];
-                    if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
-                        $type = $this->catchFields(['field' => 'type']) ?? null;
-                    }
-                }
-                else {
-                    $type = $this->catchFields(['field' => 'type']) ?? null;
-                }
-                if (isset($array['id'])) {
-                    $id = $array['id'];
-                }
-                else {
-                    if ($type === 'private') {
-                        $id = $this->catchFields(['field' => 'user_id']);
-                    }
-                    else {
-                        $id = $this->catchFields(['field' => 'chat_id']);
-                    }
-                }
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                if (isset($BPT_DB[$type][$id])) {
-                    $BPT_DB[$type][$id][$key] = $value;
-                    return (bool) file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
-                }
-                else {
-                    $this->logger('error', "BPT dataSave function used\nid not found in BPT database");
-                    throw new exception('id not found');
-                }
-            }
-            else {
-                $this->logger('error', "BPT dataSave function used\nonly work on json db");
-                throw new exception('only work on json db');
-            }
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use dataSave method');
             return false;
         }
+        if ($this->settings['db']['type'] !== 'json') {
+            $this->logger('error', "BPT dataSave function used\nonly work on json db");
+            throw new exception('only work on json db');
+        }
+        if (!isset($array['key'])) {
+            $this->logger('error', "BPT dataSave function used\nkey parameter not found");
+            throw new exception('key parameter not found');
+        }
+        if (!is_string($array['key'])) {
+            $this->logger('error', "BPT dataSave function used\nkey most be string");
+            throw new exception('key most be string');
+        }
+        $key = $array['key'] === 'users' ? 'users2' : $array['key'];
+        if (!isset($array['value'])) {
+            $this->logger('error', "BPT dataSave function used\nvalue parameter not found");
+            throw new exception('value parameter not found');
+        }
+        $value = $array['value'];
+        if (isset($array['type'])) {
+            $type = $array['type'];
+            if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
+                $type = $this->catchFields(['field' => 'type']) ?? null;
+            }
+        }
+        else {
+            $type = $this->catchFields(['field' => 'type']) ?? null;
+        }
+        if (isset($array['id'])) {
+            $id = $array['id'];
+        }
+        else {
+            if ($type === 'private') {
+                $id = $this->catchFields(['field' => 'user_id']);
+            }
+            else {
+                $id = $this->catchFields(['field' => 'chat_id']);
+            }
+        }
+        $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+        if (!isset($BPT_DB[$type][$id])) {
+            $this->logger('error', "BPT dataSave function used\nid not found in BPT database");
+            throw new exception('id not found');
+        }
+        $BPT_DB[$type][$id][$key] = $value;
+        return (bool) file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
     }
 
     /**
@@ -2559,69 +2508,58 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->dataGet(['key'=>'user_x_coin']);
      *
      * @param array $array e.g. => ['key'=>'user_x_coin']
+     *
      * @return mixed
      * @throws exception
      */
     public function dataGet (array $array) {
-        if (!empty($this->db)) {
-            if ($this->settings['db']['type'] === 'json') {
-                if (isset($array['key'])) {
-                    if (is_string($array['key'])) {
-                        $key = $array['key'];
-                    }
-                    else {
-                        $this->logger('error', "BPT dataGet function used\nkey most be string");
-                        throw new exception('key most be string');
-                    }
-                }
-                else {
-                    $this->logger('error', "BPT dataGet function used\nkey parameter not found");
-                    throw new exception('key parameter not found');
-                }
-                if (isset($array['type'])) {
-                    $type = $array['type'];
-                    if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
-                        $type = $this->catchFields(['field' => 'type']) ?? null;
-                    }
-                }
-                else {
-                    $type = $this->catchFields(['field' => 'type']) ?? null;
-                }
-                if (isset($array['id'])) {
-                    $id = $array['id'];
-                }
-                else {
-                    if ($type === 'private') {
-                        $id = $this->catchFields(['field' => 'user_id']);
-                    }
-                    else {
-                        $id = $this->catchFields(['field' => 'chat_id']);
-                    }
-                }
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                if (isset($BPT_DB[$type][$id])) {
-                    if (isset($BPT_DB[$type][$id][$key])) {
-                        return $BPT_DB[$type][$id][$key];
-                    }
-                    else {
-                        $this->logger('error', "BPT dataGet function used\nkey not found in BPT database");
-                        throw new exception('key not found');
-                    }
-                }
-                else {
-                    $this->logger('error', "BPT dataGet function used\nid not found in BPT database");
-                    throw new exception('id not found');
-                }
-            }
-            else {
-                $this->logger('error', "BPT dataGet function used\nonly work on json db");
-                throw new exception('only work on json db');
-            }
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use dataGet method');
             return false;
         }
+        if ($this->settings['db']['type'] !== 'json') {
+            $this->logger('error', "BPT dataGet function used\nonly work on json db");
+            throw new exception('only work on json db');
+        }
+        if (!isset($array['key'])) {
+            $this->logger('error', "BPT dataGet function used\nkey parameter not found");
+            throw new exception('key parameter not found');
+        }
+        if (!is_string($array['key'])) {
+            $this->logger('error', "BPT dataGet function used\nkey most be string");
+            throw new exception('key most be string');
+        }
+        $key = $array['key'];
+        if (isset($array['type'])) {
+            $type = $array['type'];
+            if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
+                $type = $this->catchFields(['field' => 'type']) ?? null;
+            }
+        }
+        else {
+            $type = $this->catchFields(['field' => 'type']) ?? null;
+        }
+        if (isset($array['id'])) {
+            $id = $array['id'];
+        }
+        else {
+            if ($type === 'private') {
+                $id = $this->catchFields(['field' => 'user_id']);
+            }
+            else {
+                $id = $this->catchFields(['field' => 'chat_id']);
+            }
+        }
+        $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+        if (!isset($BPT_DB[$type][$id])) {
+            $this->logger('error', "BPT dataGet function used\nid not found in BPT database");
+            throw new exception('id not found');
+        }
+        if (!isset($BPT_DB[$type][$id][$key])) {
+            $this->logger('error', "BPT dataGet function used\nkey not found in BPT database");
+            throw new exception('key not found');
+        }
+        return $BPT_DB[$type][$id][$key];
     }
 
     /**
@@ -2641,70 +2579,59 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->dataDel(['key'=>'user_x_coin']);
      *
      * @param array $array e.g. => ['key'=>'user_x_coin']
+     *
      * @return bool true on success or false on failure
      * @throws exception
      */
     public function dataDel (array $array): bool {
-        if (!empty($this->db)) {
-            if ($this->settings['db']['type'] === 'json') {
-                if (isset($array['key'])) {
-                    if (is_string($array['key'])) {
-                        $key = $array['key'] === 'users' ? 'users2' : $array['key'];
-                    }
-                    else {
-                        $this->logger('error', "BPT dataDel function used\nkey most be string");
-                        throw new exception('key most be string');
-                    }
-                }
-                else {
-                    $this->logger('error', "BPT dataDel function used\nkey parameter not found");
-                    throw new exception('key parameter not found');
-                }
-                if (isset($array['type'])) {
-                    $type = $array['type'];
-                    if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
-                        $type = $this->catchFields(['field' => 'type']) ?? null;
-                    }
-                }
-                else {
-                    $type = $this->catchFields(['field' => 'type']) ?? null;
-                }
-                if (isset($array['id'])) {
-                    $id = $array['id'];
-                }
-                else {
-                    if ($type === 'private') {
-                        $id = $this->catchFields(['field' => 'user_id']);
-                    }
-                    else {
-                        $id = $this->catchFields(['field' => 'chat_id']);
-                    }
-                }
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                if (isset($BPT_DB[$type][$id])) {
-                    if (isset($BPT_DB[$type][$id][$key])) {
-                        unset($BPT_DB[$type][$id][$key]);
-                        return (bool) file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
-                    }
-                    else {
-                        $this->logger('error', "BPT dataDel function used\nkey not found in BPT database");
-                        throw new exception('key not found');
-                    }
-                }
-                else {
-                    $this->logger('error', "BPT dataDel function used\nid not found in BPT database");
-                    throw new exception('id not found');
-                }
-            }
-            else {
-                $this->logger('error', "BPT dataDel function used\nonly work on json db");
-                throw new exception('only work on json db');
-            }
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use dataDel method');
             return false;
         }
+        if ($this->settings['db']['type'] !== 'json') {
+            $this->logger('error', "BPT dataDel function used\nonly work on json db");
+            throw new exception('only work on json db');
+        }
+        if (!isset($array['key'])) {
+            $this->logger('error', "BPT dataDel function used\nkey parameter not found");
+            throw new exception('key parameter not found');
+        }
+        if (!is_string($array['key'])) {
+            $this->logger('error', "BPT dataDel function used\nkey most be string");
+            throw new exception('key most be string');
+        }
+        $key = $array['key'] === 'users' ? 'users2' : $array['key'];
+        if (isset($array['type'])) {
+            $type = $array['type'];
+            if ($type !== 'private' && $type !== 'group' && $type !== 'supergroup' && $type !== 'channel') {
+                $type = $this->catchFields(['field' => 'type']) ?? null;
+            }
+        }
+        else {
+            $type = $this->catchFields(['field' => 'type']) ?? null;
+        }
+        if (isset($array['id'])) {
+            $id = $array['id'];
+        }
+        else {
+            if ($type === 'private') {
+                $id = $this->catchFields(['field' => 'user_id']);
+            }
+            else {
+                $id = $this->catchFields(['field' => 'chat_id']);
+            }
+        }
+        $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+        if (!isset($BPT_DB[$type][$id])) {
+            $this->logger('error', "BPT dataDel function used\nid not found in BPT database");
+            throw new exception('id not found');
+        }
+        if (!isset($BPT_DB[$type][$id][$key])) {
+            $this->logger('error', "BPT dataDel function used\nkey not found in BPT database");
+            throw new exception('key not found');
+        }
+        unset($BPT_DB[$type][$id][$key]);
+        return (bool) file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
     }
 
     /**
@@ -2715,35 +2642,38 @@ CREATE TABLE IF NOT EXISTS `users` (
      * @return array|bool will return an array like this ['users' => 123, 'groups' => 123, 'supergroups' => 123, 'channels' => 123]
      */
     public function stats () {
-        if (!empty($this->db)) {
-            $this->logger('', "BPT stats function used\n");
-            if ($this->settings['db']['type'] === 'json') {
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                $BPT_users = count($BPT_DB['private']);
-                $BPT_group = count($BPT_DB['group']);
-                $BPT_sgroup = count($BPT_DB['supergroup']);
-                $BPT_channel = count($BPT_DB['channel']);
-                return ['users' => $BPT_users, 'groups' => $BPT_group, 'supergroups' => $BPT_sgroup, 'channels' => $BPT_channel];
-            }
-            elseif ($this->settings['db']['type'] === 'sql') {
-                $res = [
-                    'users'       => $this->db->query('select count(*) as `cnt` from `private`')->fetch_object()->cnt,
-                    'groups'      => 0,
-                    'supergroups' => 0,
-                    'channels'    => 0
-                ];
-                $check = $this->db->query('select `type`,COUNT(`type`) as `count` from `chats` GROUP BY `type`')->fetch_all(MYSQLI_ASSOC);
-                foreach ($check as $row) {
-                    $res[$row['type'] . 's'] = $row['count'];
-                }
-                return $res;
-            }
-            else return false;
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use stats method');
             return false;
         }
+        $this->logger('', "BPT stats function used\n");
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            $BPT_users = count($BPT_DB['private']);
+            $BPT_group = count($BPT_DB['group']);
+            $BPT_sgroup = count($BPT_DB['supergroup']);
+            $BPT_channel = count($BPT_DB['channel']);
+            return [
+                'users'       => $BPT_users,
+                'groups'      => $BPT_group,
+                'supergroups' => $BPT_sgroup,
+                'channels'    => $BPT_channel,
+            ];
+        }
+        if ($this->settings['db']['type'] !== 'sql') {
+            return false;
+        }
+        $res = [
+            'users'       => $this->db->query('select count(*) as `cnt` from `private`')->fetch_object()->cnt,
+            'groups'      => 0,
+            'supergroups' => 0,
+            'channels'    => 0,
+        ];
+        $check = $this->db->query('select `type`,COUNT(`type`) as `count` from `chats` GROUP BY `type`')->fetch_all(MYSQLI_ASSOC);
+        foreach ($check as $row) {
+            $res[$row['type'] . 's'] = $row['count'];
+        }
+        return $res;
     }
 
     /**
@@ -2765,33 +2695,31 @@ CREATE TABLE IF NOT EXISTS `users` (
      * @throws exception
      */
     public function statsHere (array $array = []) {
-        if(!empty($this->db)){
-            if(isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
-            $chat_id = $array['chat_id'] ?? $this->catchFields(['field' => 'chat_id']);
-            $type = $array['type'] ?? $this->catchFields(['field' => 'type']) ?? null;
-            $this->logger('', "BPT statsHere function used\n");
-            if ($this->settings['db']['type'] === 'json') {
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                return $BPT_DB[$type][$chat_id] ?? false;
-            }
-            elseif ($this->settings['db']['type'] === 'sql') {
-                if ($type === 'private') {
-                    $check = $this->db->query("select * from `private` where `id` = $chat_id limit 1");
-                }
-                else {
-                    $check = $this->db->query("select * from `chats` where `id` = $chat_id limit 1");
-                }
-                if ($check->num_rows > 0) {
-                    return $check->fetch_array();
-                }
-                else return false;
-            }
-            else return false;
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use statsHere method');
             return false;
         }
+        if (isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
+        $chat_id = $array['chat_id'] ?? $this->catchFields(['field' => 'chat_id']);
+        $type = $array['type'] ?? $this->catchFields(['field' => 'type']) ?? null;
+        $this->logger('', "BPT statsHere function used\n");
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            return $BPT_DB[$type][$chat_id] ?? false;
+        }
+        if ($this->settings['db']['type'] !== 'sql') {
+            return false;
+        }
+        if ($type === 'private') {
+            $check = $this->db->query("select * from `private` where `id` = $chat_id limit 1");
+        }
+        else {
+            $check = $this->db->query("select * from `chats` where `id` = $chat_id limit 1");
+        }
+        if ($check->num_rows <= 0) {
+            return false;
+        }
+        return $check->fetch_array();
     }
 
     /**
@@ -2824,134 +2752,143 @@ CREATE TABLE IF NOT EXISTS `users` (
      * @throws exception
      */
     public function checkPhone (array $array): int {
-        if (!empty($this->db)) {
-            if(isset($array['btext'])) $array['button_text'] = $array['btext'];
-
-            if (isset($array['text']) && is_string($array['text'])) {
-                $text = $array['text'];
-            }
-            else {
-                $text = "با سلام کاربر گرامی\nجهت ادامه دادن فعالیت خود در این ربات باید شماره خود را ارسال نمایید";
-            }
-            if (isset($array['button_text']) && is_string($array['button_text'])) {
-                $button_text = $array['button_text'];
-            }
-            else {
-                $button_text = 'ارسال شماره تلفن';
-            }
-            if (isset($array['phones']) && is_array($array['phones'])) {
-                $phones = $array['phones'];
-            }
-            elseif (is_string($array['phones'])) {
-                if ($array['phones'] === '98' || strtolower($array['phones']) === 'iran' || $array['phones'] === 'ایران') {
-                    $phones = ['98'];
-                }
-                else {
-                    $phones = [$array['phones']];
-                }
-            }
-            else {
-                $phones = 'all';
-            }
-            if (isset($this->update->message)) {
-                $id = $this->update->message->chat->id;
-                $type = $this->update->message->chat->type;
-                if ($type === 'private') {
-                    if ($this->settings['db']['type'] === 'json') {
-                        $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                        if (isset($BPT_DB[$type][$id]['phone_number'])) {
-                            if (is_array($phones)) {
-                                $phone = $BPT_DB[$type][$id]['phone_number'];
-                                foreach ($phones as $range) {
-                                    if (is_string($range) && strpos($phone, $range) === 0) {
-                                        return 1;
-                                    }
-                                }
-                                unset($BPT_DB[$type][$id]['phone_number']);
-                                file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
-                                $this->sendMessage(['chat_id' => $id, 'text' => $text, 'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]])]);
-                                return 0;
-                            }
-                            else return 1;
-                        }
-                        else {
-                            if (isset($this->update->message->contact)) {
-                                $p = false;
-                                $phone = $this->update->message->contact->phone_number;
-                                if (is_string($phones)) {
-                                    $BPT_DB[$type][$id]['phone_number'] = $phone;
-                                    $p = true;
-                                }
-                                else {
-                                    foreach ($phones as $range) {
-                                        if (is_string($range) && strpos($phone, $range) === 0) {
-                                            $BPT_DB[$type][$id]['phone_number'] = $phone;
-                                            $p = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if ($p) {
-                                    file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
-                                    return 3;
-                                }
-                                else return 4;
-                            }
-                            else {
-                                $this->sendMessage(['chat_id' => $id, 'text' => $text, 'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]])]);
-                                return 0;
-                            }
-                        }
-                    }
-                    elseif ($this->settings['db']['type'] === 'sql') {
-                        $info = $this->db->query("select `phone_number` from `private` where `id` = $id limit 1")->fetch_object();
-                        if (isset($info->phone_number)) {
-                            if (is_array($phones)) {
-                                $phone = $info->phone_number;
-                                foreach ($phones as $range) {
-                                    if (is_string($range) && strpos($phone, $range) === 0) {
-                                        return 1;
-                                    }
-                                }
-                                $this->db->query("update `users` set `phone_number` = null where `id` = $id limit 1");
-                                $this->sendMessage(['chat_id' => $id, 'text' => $text, 'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]])]);
-                                return 0;
-                            }
-                            else return 1;
-                        }
-                        else {
-                            if (isset($this->update->message->contact)) {
-                                $phone = $this->update->message->contact->phone_number;
-                                if (is_string($phones)) {
-                                    $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id limit 1");
-                                    return 3;
-                                }
-                                else {
-                                    foreach ($phones as $range) {
-                                        if (is_string($range) && strpos($phone, $range) === 0) {
-                                            $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id limit 1");
-                                            return 3;
-                                        }
-                                    }
-                                }
-                                return 4;
-                            }
-                            else {
-                                $this->sendMessage(['chat_id' => $id, 'text' => $text, 'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]])]);
-                                return 0;
-                            }
-                        }
-                    }
-                    return false;
-                }
-                else return 2;
-            }
-            else return 2;
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use checkPhone method');
             return false;
         }
+        if (isset($array['btext'])) $array['button_text'] = $array['btext'];
+        if (isset($array['text']) && is_string($array['text'])) {
+            $text = $array['text'];
+        }
+        else {
+            $text = "با سلام کاربر گرامی\nجهت ادامه دادن فعالیت خود در این ربات باید شماره خود را ارسال نمایید";
+        }
+        if (isset($array['button_text']) && is_string($array['button_text'])) {
+            $button_text = $array['button_text'];
+        }
+        else {
+            $button_text = 'ارسال شماره تلفن';
+        }
+        if (isset($array['phones']) && is_array($array['phones'])) {
+            $phones = $array['phones'];
+        }
+        elseif (is_string($array['phones'])) {
+            if ($array['phones'] === '98' || strtolower($array['phones']) === 'iran' || $array['phones'] === 'ایران') {
+                $phones = ['98'];
+            }
+            else {
+                $phones = [$array['phones']];
+            }
+        }
+        else {
+            $phones = 'all';
+        }
+        if (!isset($this->update->message)) {
+            return 2;
+        }
+        $id = $this->update->message->chat->id;
+        $type = $this->update->message->chat->type;
+        if ($type !== 'private') {
+            return 2;
+        }
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            if (isset($BPT_DB[$type][$id]['phone_number'])) {
+                if (!is_array($phones)) {
+                    return 1;
+                }
+                $phone = $BPT_DB[$type][$id]['phone_number'];
+                foreach ($phones as $range) {
+                    if (is_string($range) && strpos($phone, $range) === 0) {
+                        return 1;
+                    }
+                }
+                unset($BPT_DB[$type][$id]['phone_number']);
+                file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
+                $this->sendMessage([
+                    'chat_id'      => $id,
+                    'text'         => $text,
+                    'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]]),
+                ]);
+                return 0;
+            }
+            else {
+                if (!isset($this->update->message->contact)) {
+                    $this->sendMessage([
+                        'chat_id'      => $id,
+                        'text'         => $text,
+                        'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]]),
+                    ]);
+                    return 0;
+                }
+                $p = false;
+                $phone = $this->update->message->contact->phone_number;
+                if (is_string($phones)) {
+                    $BPT_DB[$type][$id]['phone_number'] = $phone;
+                    $p = true;
+                }
+                else {
+                    foreach ($phones as $range) {
+                        if (is_string($range) && strpos($phone, $range) === 0) {
+                            $BPT_DB[$type][$id]['phone_number'] = $phone;
+                            $p = true;
+                            break;
+                        }
+                    }
+                }
+                if (!$p) {
+                    return 4;
+                }
+                file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
+                return 3;
+            }
+        }
+        elseif ($this->settings['db']['type'] === 'sql') {
+            $info = $this->db->query("select `phone_number` from `private` where `id` = $id limit 1")->fetch_object();
+            if (isset($info->phone_number)) {
+                if (!is_array($phones)) {
+                    return 1;
+                }
+                $phone = $info->phone_number;
+                foreach ($phones as $range) {
+                    if (is_string($range) && strpos($phone, $range) === 0) {
+                        return 1;
+                    }
+                }
+                $this->db->query("update `users` set `phone_number` = null where `id` = $id limit 1");
+                $this->sendMessage([
+                    'chat_id'      => $id,
+                    'text'         => $text,
+                    'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]]),
+                ]);
+                return 0;
+            }
+            else {
+                if (!isset($this->update->message->contact)) {
+                    $this->sendMessage([
+                        'chat_id'      => $id,
+                        'text'         => $text,
+                        'reply_markup' => $this->eKey(['keyboard' => [["$button_text||con"]]]),
+                    ]);
+                    return 0;
+                }
+                $phone = $this->update->message->contact->phone_number;
+                if (is_string($phones)) {
+                    $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id limit 1");
+                    return 3;
+                }
+                else {
+                    foreach ($phones as $range) {
+                        if (is_string($range) && strpos($phone, $range) === 0) {
+                            $this->db->query("update `users` set `phone_number` = '$phone' where `id` = $id limit 1");
+                            return 3;
+                        }
+                    }
+                }
+                return 4;
+            }
+        }
+        return false;
     }
 
     /**
@@ -2968,48 +2905,43 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->forward2users(['chat_id'=>'123456789','message_id'=>'123']);
      *
      * @param array $array e.g. => ['chat_id'=>'123456789','message_id'=>'123']
+     *
      * @return bool return true on success
      * @throws exception
      */
-    public function forward2users(array $array): bool{
-        if(!empty($this->db)){
-            if(isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
-            if(isset($array['msgid'])) $array['message_id'] = $array['msgid'];
-
-            if (isset($array['chat_id'])) {
-                $chat_id = $array['chat_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2users function used\nchat_id parameter not found");
-                throw new exception('chat_id parameter not found');
-            }
-            if (isset($array['message_id'])) {
-                $message_id = $array['message_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2users function used\nmessage_id parameter not found");
-                throw new exception('message_id parameter not found');
-            }
-            $forward = $array['forward'] ?? true;
-            $method = $forward ? 'forwardMessage' : 'copyMessage';
-
-            if ($this->settings['db']['type'] === 'json') {
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                foreach ($BPT_DB['private'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-            elseif ($this->settings['db']['type'] === 'sql') {
-                $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
-                foreach ($BPT_DB as $id) {
-                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-        }
-        else {
+    public function forward2users (array $array): bool {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use forward2users method');
+            return false;
+        }
+
+        if (isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
+        if (isset($array['msgid'])) $array['message_id'] = $array['msgid'];
+        if (!isset($array['chat_id'])) {
+            $this->logger('error', "BPT forward2users function used\nchat_id parameter not found");
+            throw new exception('chat_id parameter not found');
+        }
+        $chat_id = $array['chat_id'];
+        if (!isset($array['message_id'])) {
+            $this->logger('error', "BPT forward2users function used\nmessage_id parameter not found");
+            throw new exception('message_id parameter not found');
+        }
+        $message_id = $array['message_id'];
+        $forward = $array['forward'] ?? true;
+        $method = $forward ? 'forwardMessage' : 'copyMessage';
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            foreach ($BPT_DB['private'] as $id => $x) {
+                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
+        }
+        if ($this->settings['db']['type'] === 'sql') {
+            $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
+            foreach ($BPT_DB as $id) {
+                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
         }
         return false;
     }
@@ -3028,48 +2960,42 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->forward2groups(['chat_id'=>'123456789','message_id'=>'123']);
      *
      * @param array $array e.g. => ['chat_id'=>'123456789','message_id'=>'123']
+     *
      * @return bool return true on success
      * @throws exception
      */
-    public function forward2groups(array $array): bool{
-        if(!empty($this->db)){
-            if(isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
-            if(isset($array['msgid'])) $array['message_id'] = $array['msgid'];
-
-            if (isset($array['chat_id'])) {
-                $chat_id = $array['chat_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2groups function used\nchat_id parameter not found");
-                throw new exception('chat_id parameter not found');
-            }
-            if (isset($array['message_id'])) {
-                $message_id = $array['message_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2groups function used\nmessage_id parameter not found");
-                throw new exception('message_id parameter not found');
-            }
-            $forward = $array['forward'] ?? true;
-            $method = $forward ? 'forwardMessage' : 'copyMessage';
-
-            if ($this->settings['db']['type'] === 'json') {
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                foreach ($BPT_DB['groups'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-            elseif ($this->settings['db']['type'] === 'sql') {
-                $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
-                foreach ($BPT_DB as $id) {
-                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-        }
-        else {
+    public function forward2groups (array $array): bool {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use forward2groups method');
+            return false;
+        }
+        if (isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
+        if (isset($array['msgid'])) $array['message_id'] = $array['msgid'];
+        if (!isset($array['chat_id'])) {
+            $this->logger('error', "BPT forward2groups function used\nchat_id parameter not found");
+            throw new exception('chat_id parameter not found');
+        }
+        $chat_id = $array['chat_id'];
+        if (!isset($array['message_id'])) {
+            $this->logger('error', "BPT forward2groups function used\nmessage_id parameter not found");
+            throw new exception('message_id parameter not found');
+        }
+        $message_id = $array['message_id'];
+        $forward = $array['forward'] ?? true;
+        $method = $forward ? 'forwardMessage' : 'copyMessage';
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            foreach ($BPT_DB['groups'] as $id => $x) {
+                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
+        }
+        if ($this->settings['db']['type'] === 'sql') {
+            $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
+            foreach ($BPT_DB as $id) {
+                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
         }
         return false;
     }
@@ -3088,14 +3014,14 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->forward2supergroups(['chat_id'=>'123456789','message_id'=>'123']);
      *
      * @param array $array e.g. => ['chat_id'=>'123456789','message_id'=>'123']
+     *
      * @return bool return true on success
      * @throws exception
      */
     public function forward2supergroups (array $array): bool {
         if (!empty($this->db)) {
-            if(isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
-            if(isset($array['msgid'])) $array['message_id'] = $array['msgid'];
-
+            if (isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
+            if (isset($array['msgid'])) $array['message_id'] = $array['msgid'];
             if (isset($array['chat_id'])) {
                 $chat_id = $array['chat_id'];
             }
@@ -3112,7 +3038,6 @@ CREATE TABLE IF NOT EXISTS `users` (
             }
             $forward = $array['forward'] ?? true;
             $method = $forward ? 'forwardMessage' : 'copyMessage';
-
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 foreach ($BPT_DB['supergroup'] as $id => $x) {
@@ -3148,51 +3073,45 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->forward2gps(['chat_id'=>'123456789','message_id'=>'123']);
      *
      * @param array $array e.g. => ['chat_id'=>'123456789','message_id'=>'123']
+     *
      * @return bool return true on success
      * @throws exception
      */
     public function forward2gps (array $array): bool {
-        if (!empty($this->db)) {
-            if(isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
-            if(isset($array['msgid'])) $array['message_id'] = $array['msgid'];
-
-            if (isset($array['chat_id'])) {
-                $chat_id = $array['chat_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2gps function used\nchat_id parameter not found");
-                throw new exception('chat_id parameter not found');
-            }
-            if (isset($array['message_id'])) {
-                $message_id = $array['message_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2gps function used\nmessage_id parameter not found");
-                throw new exception('message_id parameter not found');
-            }
-            $forward = $array['forward'] ?? true;
-            $method = $forward ? 'forwardMessage' : 'copyMessage';
-
-            if ($this->settings['db']['type'] === 'json') {
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                foreach ($BPT_DB['groups'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                foreach ($BPT_DB['supergroup'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-            elseif ($this->settings['db']['type'] === 'sql') {
-                $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
-                foreach ($BPT_DB as $id) {
-                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use forward2gps method');
+            return false;
+        }
+        if (isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
+        if (isset($array['msgid'])) $array['message_id'] = $array['msgid'];
+        if (!isset($array['chat_id'])) {
+            $this->logger('error', "BPT forward2gps function used\nchat_id parameter not found");
+            throw new exception('chat_id parameter not found');
+        }
+        $chat_id = $array['chat_id'];
+        if (!isset($array['message_id'])) {
+            $this->logger('error', "BPT forward2gps function used\nmessage_id parameter not found");
+            throw new exception('message_id parameter not found');
+        }
+        $message_id = $array['message_id'];
+        $forward = $array['forward'] ?? true;
+        $method = $forward ? 'forwardMessage' : 'copyMessage';
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            foreach ($BPT_DB['groups'] as $id => $x) {
+                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            foreach ($BPT_DB['supergroup'] as $id => $x) {
+                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
+        }
+        if ($this->settings['db']['type'] === 'sql') {
+            $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
+            foreach ($BPT_DB as $id) {
+                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
         }
         return false;
     }
@@ -3211,58 +3130,52 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->forward2all(['chat_id'=>'123456789','message_id'=>'123']);
      *
      * @param array $array e.g. => ['chat_id'=>'123456789','message_id'=>'123']
+     *
      * @return bool return true on success
      * @throws exception
      */
     public function forward2all (array $array): bool {
-        if (!empty($this->db)) {
-            if(isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
-            if(isset($array['msgid'])) $array['message_id'] = $array['msgid'];
-
-            if (isset($array['chat_id'])) {
-                $chat_id = $array['chat_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2all function used\nchat_id parameter not found");
-                throw new exception('chat_id parameter not found');
-            }
-            if (isset($array['message_id'])) {
-                $message_id = $array['message_id'];
-            }
-            else {
-                $this->logger('error', "BPT forward2all function used\nmessage_id parameter not found");
-                throw new exception('message_id parameter not found');
-            }
-            $forward = $array['forward'] ?? true;
-            $method = $forward ? 'forwardMessage' : 'copyMessage';
-
-            if ($this->settings['db']['type'] === 'json') {
-                $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-                foreach ($BPT_DB['private'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                foreach ($BPT_DB['groups'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                foreach ($BPT_DB['supergroup'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-            elseif ($this->settings['db']['type'] === 'sql') {
-                $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
-                foreach ($BPT_DB as $id) {
-                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
-                foreach ($BPT_DB as $id) {
-                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-                }
-                return true;
-            }
-        }
-        else {
+        if (empty($this->db)) {
             $this->logger('warning', 'Your database is disable , so you cant use forward2all method');
+            return false;
+        }
+        if (isset($array['chatid'])) $array['chat_id'] = $array['chatid'];
+        if (isset($array['msgid'])) $array['message_id'] = $array['msgid'];
+        if (!isset($array['chat_id'])) {
+            $this->logger('error', "BPT forward2all function used\nchat_id parameter not found");
+            throw new exception('chat_id parameter not found');
+        }
+        $chat_id = $array['chat_id'];
+        if (!isset($array['message_id'])) {
+            $this->logger('error', "BPT forward2all function used\nmessage_id parameter not found");
+            throw new exception('message_id parameter not found');
+        }
+        $message_id = $array['message_id'];
+        $forward = $array['forward'] ?? true;
+        $method = $forward ? 'forwardMessage' : 'copyMessage';
+        if ($this->settings['db']['type'] === 'json') {
+            $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
+            foreach ($BPT_DB['private'] as $id => $x) {
+                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            foreach ($BPT_DB['groups'] as $id => $x) {
+                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            foreach ($BPT_DB['supergroup'] as $id => $x) {
+                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
+        }
+        if ($this->settings['db']['type'] === 'sql') {
+            $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
+            foreach ($BPT_DB as $id) {
+                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
+            foreach ($BPT_DB as $id) {
+                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+            }
+            return true;
         }
         return false;
     }
@@ -3279,17 +3192,16 @@ CREATE TABLE IF NOT EXISTS `users` (
      * e.g. => $this->api(['type'=>'dastan']);
      *
      * @param array $array e.g. => ['type'=>'pdf','option'=>['url'=>'https://bptlib.ir']]
+     *
      * @return string|array|bool
      * @throws exception
      */
     public function api (array $array) {
-        if (isset($array['type'])) {
-            $type = $array['type'];
-        }
-        else {
+        if (!isset($array['type'])) {
             $this->logger('error', "BPT api function used\ntype parameter not found");
             throw new exception('type parameter not found');
         }
+        $type = $array['type'];
         $option = $array['option'] ?? [];
         if (!is_array($option)) {
             throw new exception('array parameter must be array!');
@@ -3332,19 +3244,15 @@ CREATE TABLE IF NOT EXISTS `users` (
             case 'corona':
                 return json_decode(file_get_contents('https://poty.ir/apis/corona.php'), true)['results'];
             case 'pdf':
-                if (isset($option['url'])) {
-                    return 'https://poty.ir/apis/topdf.php?url=' . urlencode($option['url']);
-                }
-                else {
+                if (!isset($option['url'])) {
                     throw new exception('pdf api need url field!');
                 }
+                return 'https://poty.ir/apis/topdf.php?url=' . urlencode($option['url']);
             case 'uupload':
-                if (isset($option['url'])) {
-                    return json_decode(file_get_contents('https://poty.ir/apis/uupload.php?link=' . urlencode($option['url'])), true)['results'];
-                }
-                else {
+                if (!isset($option['url'])) {
                     throw new exception('uupload api need url field!');
                 }
+                return json_decode(file_get_contents('https://poty.ir/apis/uupload.php?link=' . urlencode($option['url'])), true)['results'];
             case 'proxy':
                 if (isset($option['id'])) {
                     $id = $array['id'];
@@ -3355,64 +3263,48 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 return json_decode(file_get_contents("https://poty.ir/apis/proxy.php?channel=$id"), true)['results'];
             case 'screenshot':
-                if (isset($option['url'])) {
-                    $url = urlencode($option['url']);
-                    $res1 = file_get_contents('https://poty.ir/apis/screenshot3.php?url=' . $url);
-                    if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
-                        return 'https://poty.ir/apis/screenshot3.php?url=' . $url;
-                    }
-                    else {
-                        $res1 = file_get_contents('https://poty.ir/apis/screenshot2.php?url=' . $url);
-                        if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
-                            return 'https://poty.ir/apis/screenshot2.php?url=' . $url;
-                        }
-                        else {
-                            $res1 = file_get_contents('https://poty.ir/apis/screenshot.php?type=fullscreen&url=' . $url);
-                            if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
-                                return 'https://poty.ir/apis/screenshot.php?type=fullscreen&url=' . $url;
-                            }
-                            else return false;
-                        }
-                    }
-                }
-                else {
+                if (!isset($option['url'])) {
                     throw new exception('screenshot api need url field!');
                 }
-            case 'short':
-                if (isset($option['url'])) {
-                    $url = urlencode($option['url']);
-                    if (strpos($url, 'http') === 0) {
-                        return json_decode(file_get_contents('https://jx9.ir/?domain=jx9&url=' . $url), true)['results'];
-                    }
-                    else {
-                        return json_decode(file_get_contents('https://jx9.ir/?domain=jx9&url=http%3A%2F%2F' . $url), true)['results'];
-                    }
+                $url = urlencode($option['url']);
+                $res1 = file_get_contents('https://poty.ir/apis/screenshot3.php?url=' . $url);
+                if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
+                    return 'https://poty.ir/apis/screenshot3.php?url=' . $url;
                 }
-                else {
+                $res1 = file_get_contents('https://poty.ir/apis/screenshot2.php?url=' . $url);
+                if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
+                    return 'https://poty.ir/apis/screenshot2.php?url=' . $url;
+                }
+                $res1 = file_get_contents('https://poty.ir/apis/screenshot.php?type=fullscreen&url=' . $url);
+                if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
+                    return 'https://poty.ir/apis/screenshot.php?type=fullscreen&url=' . $url;
+                }
+                return false;
+            case 'short':
+                if (!isset($option['url'])) {
                     throw new exception('short api need url field!');
                 }
-            case 'alexa':
-                if (isset($option['url'])) {
-                    return json_decode(file_get_contents('https://poty.ir/apis/alexa.php?url=' . urlencode($option['url'])), true)['results'];
+                $url = urlencode($option['url']);
+                if (strpos($url, 'http') === 0) {
+                    return json_decode(file_get_contents('https://jx9.ir/?domain=jx9&url=' . $url), true)['results'];
                 }
-                else {
+                return json_decode(file_get_contents('https://jx9.ir/?domain=jx9&url=http%3A%2F%2F' . $url), true)['results'];
+            case 'alexa':
+                if (!isset($option['url'])) {
                     throw new exception('alexa api need url field!');
                 }
+                return json_decode(file_get_contents('https://poty.ir/apis/alexa.php?url=' . urlencode($option['url'])), true)['results'];
             case 'num2text':
-                if (isset($option['num'])) {
-                    $url = urlencode(str_replace(['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], $option['num']));
-                    return json_decode(file_get_contents("https://poty.ir/apis/num.php?num=$url"), true)['results'];
-                }
-                else {
+                if (!isset($option['num'])) {
                     throw new exception('num2text api need num field!');
                 }
+                $url = urlencode(str_replace(['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], $option['num']));
+                return json_decode(file_get_contents("https://poty.ir/apis/num.php?num=$url"), true)['results'];
             case 'fin2pe':
-                if (isset($option['text'])) {
-                    return json_decode(file_get_contents('https://poty.ir/apis/fintope.php?text=' . urlencode($option['text'])), true)['results'];
-                }
-                else {
+                if (!isset($option['text'])) {
                     throw new exception('fin2pe api need text field!');
                 }
+                return json_decode(file_get_contents('https://poty.ir/apis/fintope.php?text=' . urlencode($option['text'])), true)['results'];
             default:
                 return false;
         }
