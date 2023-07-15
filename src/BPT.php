@@ -240,7 +240,7 @@ class BPT {
     public $update;
     public $db;
     public $bot_id;
-    private $curl_handler = null;
+    private $curl_handler;
     private bool $web_answered = false;
 
     public function __construct (array $settings) {
