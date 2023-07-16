@@ -226,16 +226,16 @@ function endPage () {
  * @method deleteTopic($array)
  * @method unpinAllForumTopicMessages($array)
  * @method unpinTopicMessages($array)
- * @method editGeneralForumTopic($array)//
- * @method editGeneralTopic($array)//
- * @method closeGeneralForumTopic($array)//
- * @method closeGeneralTopic($array)//
- * @method reopenGeneralForumTopic($array)//
- * @method reopenGeneralTopic($array)//
- * @method hideGeneralForumTopic($array)//
- * @method hideGeneralTopic($array)//
- * @method unhideGeneralForumTopic($array)//
- * @method unhideGeneralTopic($array)//
+ * @method editGeneralForumTopic($array)
+ * @method editGeneralTopic($array)
+ * @method closeGeneralForumTopic($array = [])
+ * @method closeGeneralTopic($array = [])
+ * @method reopenGeneralForumTopic($array = [])
+ * @method reopenGeneralTopic($array = [])
+ * @method hideGeneralForumTopic($array = [])
+ * @method hideGeneralTopic($array = [])
+ * @method unhideGeneralForumTopic($array = [])
+ * @method unhideGeneralTopic($array = [])
  * @method getCustomEmojiStickers($array)
  * @method getCustom($array = [])
  * @link https://bptlib.ir
@@ -1083,16 +1083,16 @@ CREATE TABLE IF NOT EXISTS `users` (
             'deletetopic'                     => 'deleteForumTopic',
             'unpinallforumtopicmessages'      => 'unpinAllForumTopicMessages',
             'unpintopicmessages'              => 'unpinAllForumTopicMessages',
-            'editGeneralForumTopic'           => 'editGeneralForumTopic',
-            'editGeneralTopic'                => 'editGeneralForumTopic',
-            'closeGeneralForumTopic'          => 'closeGeneralForumTopic',
-            'closeGeneralTopic'               => 'closeGeneralForumTopic',
-            'reopenGeneralForumTopic'         => 'reopenGeneralForumTopic',
-            'reopenGeneralTopic'              => 'reopenGeneralForumTopic',
-            'hideGeneralForumTopic'           => 'hideGeneralForumTopic',
-            'hideGeneralTopic'                => 'hideGeneralForumTopic',
-            'unhideGeneralForumTopic'         => 'unhideGeneralForumTopic',
-            'unhideGeneralTopic'              => 'unhideGeneralForumTopic',
+            'editgeneralforumtopic'           => 'editGeneralForumTopic',
+            'editgeneraltopic'                => 'editGeneralForumTopic',
+            'closegeneralforumtopic'          => 'closeGeneralForumTopic',
+            'closegeneraltopic'               => 'closeGeneralForumTopic',
+            'reopengeneralforumtopic'         => 'reopenGeneralForumTopic',
+            'reopengeneraltopic'              => 'reopenGeneralForumTopic',
+            'hidegeneralforumtopic'           => 'hideGeneralForumTopic',
+            'hidegeneraltopic'                => 'hideGeneralForumTopic',
+            'unhidegeneralforumtopic'         => 'unhideGeneralForumTopic',
+            'unhidegeneraltopic'              => 'unhideGeneralForumTopic',
             'answercallbackquery'             => 'answerCallbackQuery',
             'answer'                          => 'answerCallbackQuery',
             'setmycommands'                   => 'setMyCommands',
