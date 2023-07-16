@@ -15,7 +15,7 @@ function endPage () {
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 6.3
+ * BOT API version : 6.4
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
@@ -226,6 +226,16 @@ function endPage () {
  * @method deleteTopic($array)
  * @method unpinAllForumTopicMessages($array)
  * @method unpinTopicMessages($array)
+ * @method editGeneralForumTopic($array)//
+ * @method editGeneralTopic($array)//
+ * @method closeGeneralForumTopic($array)//
+ * @method closeGeneralTopic($array)//
+ * @method reopenGeneralForumTopic($array)//
+ * @method reopenGeneralTopic($array)//
+ * @method hideGeneralForumTopic($array)//
+ * @method hideGeneralTopic($array)//
+ * @method unhideGeneralForumTopic($array)//
+ * @method unhideGeneralTopic($array)//
  * @method getCustomEmojiStickers($array)
  * @method getCustom($array = [])
  * @link https://bptlib.ir
@@ -1073,6 +1083,16 @@ CREATE TABLE IF NOT EXISTS `users` (
             'deletetopic'                     => 'deleteForumTopic',
             'unpinallforumtopicmessages'      => 'unpinAllForumTopicMessages',
             'unpintopicmessages'              => 'unpinAllForumTopicMessages',
+            'editGeneralForumTopic'           => 'editGeneralForumTopic',
+            'editGeneralTopic'                => 'editGeneralForumTopic',
+            'closeGeneralForumTopic'          => 'closeGeneralForumTopic',
+            'closeGeneralTopic'               => 'closeGeneralForumTopic',
+            'reopenGeneralForumTopic'         => 'reopenGeneralForumTopic',
+            'reopenGeneralTopic'              => 'reopenGeneralForumTopic',
+            'hideGeneralForumTopic'           => 'hideGeneralForumTopic',
+            'hideGeneralTopic'                => 'hideGeneralForumTopic',
+            'unhideGeneralForumTopic'         => 'unhideGeneralForumTopic',
+            'unhideGeneralTopic'              => 'unhideGeneralForumTopic',
             'answercallbackquery'             => 'answerCallbackQuery',
             'answer'                          => 'answerCallbackQuery',
             'setmycommands'                   => 'setMyCommands',
@@ -1229,6 +1249,11 @@ CREATE TABLE IF NOT EXISTS `users` (
             'reopenForumTopic'                => ['chat_id'],
             'deleteForumTopic'                => ['chat_id'],
             'unpinAllForumTopicMessages'      => ['chat_id'],
+            'editGeneralForumTopic'           => ['chat_id'],
+            'closeGeneralForumTopic'          => ['chat_id'],
+            'reopenGeneralForumTopic'         => ['chat_id'],
+            'hideGeneralForumTopic'           => ['chat_id'],
+            'unhideGeneralForumTopic'         => ['chat_id'],
         ][$input] ?? [];
     }
 
@@ -1280,8 +1305,8 @@ CREATE TABLE IF NOT EXISTS `users` (
             'sendGame'                        => ['game_short_name'],
             'setGameScore'                    => ['score'],
             'createForumTopic'                => ['name'],
-            'editForumTopic'                  => ['name'],
             'getCustomEmojiStickers'          => ['custom_emoji_ids'],
+            'editGeneralForumTopic'           => ['name']
         ][$input] ?? [];
     }
 
