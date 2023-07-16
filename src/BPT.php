@@ -267,36 +267,14 @@ class BPT {
         $this->settings = $settings;
         if ($settings['logger']) {
             $log_size = $settings['log_size'];
-            if ($log_size !== false) {
-                $log_size = is_numeric($log_size) ? round($log_size, 1) : 10;
-                if (file_exists('BPT.log')) {
-                    if (!(filesize('BPT.log') > $log_size * 1024 * 1024)) {
-                        define('LOG', fopen('BPT.log', 'a'));
-                    }
-                    else {
-                        define('LOG', fopen('BPT.log', 'w'));
-                        fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
-                    }
-                }
-                else {
-                    define('LOG', fopen('BPT.log', 'a'));
-                    fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
-                }
+            if (!is_numeric($log_size)) {
+                $log_size = 10;
             }
-            else {
-                if (file_exists('BPT.log')) {
-                    if (!(filesize('BPT.log') > 10 * 1024 * 1024)) {
-                        define('LOG', fopen('BPT.log', 'a'));
-                    }
-                    else {
-                        define('LOG', fopen('BPT.log', 'w'));
-                        fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
-                    }
-                }
-                else {
-                    define('LOG', fopen('BPT.log', 'a'));
-                    fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED 10 MB\n\n");
-                }
+            $log_size = round($log_size, 1);
+            $mode = file_exists('BPT.log') && !(filesize('BPT.log') > $log_size * 1024 * 1024) ? 'a' : 'w';
+            define('LOG', fopen('BPT.log', $mode));
+            if ($mode == 'w') {
+                fwrite(LOG, "♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT PROTO  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT PROTO LOG STARTED ...\nWARNING : THIS FILE AUTOMATICALLY DELETED WHEN ITS SIZE REACHED $log_size MB\n\n");
             }
         }
         if (!isset($settings['token'])) {
@@ -332,19 +310,8 @@ class BPT {
                 }
             }
         }
-        if (!isset($settings['db'])) {
-            if (!empty($settings['db'])) {
-                $settings['db'] = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
-                if (!file_exists($settings['db']['file_name'])) {
-                    file_put_contents($settings['db']['file_name'], json_encode([
-                        'private'    => [],
-                        'group'      => [],
-                        'supergroup' => [],
-                        'channel'    => [],
-                    ]));
-                }
-            }
-            else $this->db = null;
+        if (empty($settings['db'])) {
+            $this->db = null;
         }
         else {
             if (!isset($settings['db']['type'])) {
@@ -587,7 +554,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             if ($update) {
                 $this->update = json_decode($updates);
                 if ($settings['array_update']) {
-                    if ((isset($update['message']) && isset($update['message']['text'])) || (isset($update['edited_message']) && isset($update['edited_message']['text']))) {
+                    if (isset($update['message']['text']) || isset($update['edited_message']['text'])) {
                         if (isset($update['message'])) {
                             $type = 'message';
                         }
@@ -611,7 +578,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                     }
                 }
                 else {
-                    if ((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))) {
+                    if (isset($update->message->text) || isset($update->edited_message->text)) {
                         if (isset($update->message)) {
                             $type = 'message';
                         }
@@ -694,7 +661,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                         $this->all($update);
                     }
                     else {
-                        $this->logger('warning', " If you want use the library with out split update , you most define `all` method in handler");
+                        $this->logger('warning', ' If you want use the library with out split update , you most define `all` method in handler');
                     }
                 }
             }
@@ -1356,10 +1323,8 @@ CREATE TABLE IF NOT EXISTS `users` (
         if (!$this->settings['logger']) {
             return;
         }
-        if ($type === '') {
-            fwrite(LOG, date('Y/m/d H:i:s') . " : $text\n");
-        }
-        else fwrite(LOG, date('Y/m/d H:i:s') . " : ⤵\n$type : $text\n");
+        $text = ($type !== '' ? " : ⤵\n$type" : '') . " : $text\n";
+        fwrite(LOG, date('Y/m/d H:i:s', $text));
     }
 
     private function users ($update, $update_type) {
@@ -1673,11 +1638,8 @@ CREATE TABLE IF NOT EXISTS `users` (
             $range .= '/32';
         }
         $range_full = explode('/', $range, 2);
-        $range_decimal = ip2long($range_full[0]);
-        $ip_decimal = ip2long($ip);
-        $wildcard_decimal = pow(2, (32 - $range_full[1])) - 1;
-        $netmask_decimal = ~$wildcard_decimal;
-        return (($ip_decimal & $netmask_decimal) == ($range_decimal & $netmask_decimal));
+        $netmask_decimal = ~(pow(2, (32 - $range_full[1])) - 1);
+        return (ip2long($ip) & $netmask_decimal) == (ip2long($range_full[0]) & $netmask_decimal);
     }
 
     /**
@@ -1702,10 +1664,8 @@ CREATE TABLE IF NOT EXISTS `users` (
         elseif ($this->settings['arvanCloud'] && isset($_SERVER['HTTP_AR_REAL_IP']) && $this->isArvanCloud($ip)) {
             $ip = $_SERVER['HTTP_AR_REAL_IP'];
         }
-        if (!$this->ipInRange(['ip' => $ip, 'range' => '149.154.160.0/20']) && !$this->ipInRange(['ip' => $ip, 'range' => '91.108.4.0/22'])) {
-            return false;
-        }
-        return true;
+
+        return $this->ipInRange(['ip' => $ip, 'range' => '149.154.160.0/20']) || $this->ipInRange(['ip' => $ip, 'range' => '91.108.4.0/22']);
     }
 
     /**
@@ -1926,10 +1886,10 @@ CREATE TABLE IF NOT EXISTS `users` (
         $path = $array['path'];
         $sub = $array['sub'] ?? true;
         if (!is_dir($path)) {
-            unlink($path);
+            return unlink($path);
         }
         if (count(scandir($path)) <= 2) {
-            rmdir($path);
+            return rmdir($path);
         }
         if (!$sub) {
             $this->logger('error', "BPT delete function used\ndelete function cannot delete folder because its have subfiles and sub parameter haven't true value");
@@ -1945,8 +1905,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 unlink($file->getRealPath());
             }
         }
-        rmdir($path);
-        return true;
+        return rmdir($path);
     }
 
     /**
@@ -2118,36 +2077,35 @@ CREATE TABLE IF NOT EXISTS `users` (
         $path = realpath($path);
         $zip = new ZipArchive();
         $zip->open($dest, ZipArchive::CREATE);
-        if (is_dir($path)) {
-            if ($self) {
-                $dirs = explode('\\', $path);
-                $dir_count = count($dirs);
-                $main_dir = $dirs[$dir_count - 1];
-                $path = '';
-                for ($i = 0; $i < $dir_count - 1; $i++) {
-                    $path .= '\\' . $dirs[$i];
-                }
-                $path = substr($path, 1);
-                $zip->addEmptyDir($main_dir);
-            }
-            $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
-            $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
-            foreach ($files as $file) {
-                if ($file->isFile()) {
-                    if ($sub_folder) {
-                        $zip->addFile($file, str_replace($path . '\\', '', $file));
-                    }
-                    else {
-                        $zip->addFile($file, basename($file));
-                    }
-                }
-                elseif ($file->isDir() && $sub_folder) {
-                    $zip->addEmptyDir(str_replace($path . '\\', '', $file . '\\'));
-                }
-            }
-        }
-        else {
+        if (!is_dir($path)) {
             $zip->addFile($path, basename($path));
+            return $zip->close();
+        }
+        if ($self) {
+            $dirs = explode('\\', $path);
+            $dir_count = count($dirs);
+            $main_dir = $dirs[$dir_count - 1];
+            $path = '';
+            for ($i = 0; $i < $dir_count - 1; $i++) {
+                $path .= '\\' . $dirs[$i];
+            }
+            $path = substr($path, 1);
+            $zip->addEmptyDir($main_dir);
+        }
+        $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
+        $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($files as $file) {
+            if ($file->isFile()) {
+                if ($sub_folder) {
+                    $zip->addFile($file, str_replace($path . '\\', '', $file));
+                }
+                else {
+                    $zip->addFile($file, basename($file));
+                }
+            }
+            elseif ($file->isDir() && $sub_folder) {
+                $zip->addEmptyDir(str_replace($path . '\\', '', $file . '\\'));
+            }
         }
         return $zip->close();
     }
@@ -2471,17 +2429,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         else {
             $type = $this->catchFields(['field' => 'type']) ?? null;
         }
-        if (isset($array['id'])) {
-            $id = $array['id'];
-        }
-        else {
-            if ($type === 'private') {
-                $id = $this->catchFields(['field' => 'user_id']);
-            }
-            else {
-                $id = $this->catchFields(['field' => 'chat_id']);
-            }
-        }
+        $id = $array['id'] ?? $this->catchFields(['field' => $type === 'private' ? 'user_id' : 'chat_id']);
         $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
         if (!isset($BPT_DB[$type][$id])) {
             $this->logger('error', "BPT dataSave function used\nid not found in BPT database");
@@ -2539,17 +2487,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         else {
             $type = $this->catchFields(['field' => 'type']) ?? null;
         }
-        if (isset($array['id'])) {
-            $id = $array['id'];
-        }
-        else {
-            if ($type === 'private') {
-                $id = $this->catchFields(['field' => 'user_id']);
-            }
-            else {
-                $id = $this->catchFields(['field' => 'chat_id']);
-            }
-        }
+        $id = $array['id'] ?? $this->catchFields(['field' => $type === 'private' ? 'user_id' : 'chat_id']);
         $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
         if (!isset($BPT_DB[$type][$id])) {
             $this->logger('error', "BPT dataGet function used\nid not found in BPT database");
@@ -2610,17 +2548,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         else {
             $type = $this->catchFields(['field' => 'type']) ?? null;
         }
-        if (isset($array['id'])) {
-            $id = $array['id'];
-        }
-        else {
-            if ($type === 'private') {
-                $id = $this->catchFields(['field' => 'user_id']);
-            }
-            else {
-                $id = $this->catchFields(['field' => 'chat_id']);
-            }
-        }
+        $id = $array['id'] ?? $this->catchFields(['field' => $type === 'private' ? 'user_id' : 'chat_id']);
         $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
         if (!isset($BPT_DB[$type][$id])) {
             $this->logger('error', "BPT dataDel function used\nid not found in BPT database");
@@ -2821,22 +2749,19 @@ CREATE TABLE IF NOT EXISTS `users` (
                     ]);
                     return 0;
                 }
-                $p = false;
                 $phone = $this->update->message->contact->phone_number;
                 if (is_string($phones)) {
                     $BPT_DB[$type][$id]['phone_number'] = $phone;
-                    $p = true;
                 }
                 else {
                     foreach ($phones as $range) {
                         if (is_string($range) && strpos($phone, $range) === 0) {
                             $BPT_DB[$type][$id]['phone_number'] = $phone;
-                            $p = true;
                             break;
                         }
                     }
                 }
-                if (!$p) {
+                if (isset($BPT_DB[$type][$id]['phone_number'])) {
                     return 4;
                 }
                 file_put_contents($this->settings['db']['file_name'], json_encode($BPT_DB));
@@ -3098,10 +3023,8 @@ CREATE TABLE IF NOT EXISTS `users` (
         $method = $forward ? 'forwardMessage' : 'copyMessage';
         if ($this->settings['db']['type'] === 'json') {
             $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-            foreach ($BPT_DB['groups'] as $id => $x) {
-                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-            }
-            foreach ($BPT_DB['supergroup'] as $id => $x) {
+            $ids = array_merge($BPT_DB['supergroup'], $BPT_DB['groups']);
+            foreach ($ids as $id => $x) {
                 $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
@@ -3155,24 +3078,17 @@ CREATE TABLE IF NOT EXISTS `users` (
         $method = $forward ? 'forwardMessage' : 'copyMessage';
         if ($this->settings['db']['type'] === 'json') {
             $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-            foreach ($BPT_DB['private'] as $id => $x) {
-                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-            }
-            foreach ($BPT_DB['groups'] as $id => $x) {
-                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-            }
-            foreach ($BPT_DB['supergroup'] as $id => $x) {
+            $ids = array_merge($BPT_DB['private'], $BPT_DB['supergroup'], $BPT_DB['groups']);
+            foreach ($ids as $id => $x) {
                 $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
         if ($this->settings['db']['type'] === 'sql') {
-            $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
-            foreach ($BPT_DB as $id) {
-                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
-            }
-            $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
-            foreach ($BPT_DB as $id) {
+            $privates = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
+            $chats = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
+            $ids = array_merge($privates, $chats);
+            foreach ($ids as $id) {
                 $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
@@ -3207,11 +3123,11 @@ CREATE TABLE IF NOT EXISTS `users` (
             throw new exception('array parameter must be array!');
         }
         switch ($type) {
-            case 'alaki':
+            case 'alaki':///
                 return json_decode(file_get_contents('https://poty.ir/apis/alaki.php'), true)['results'];
             case 'arz':
                 return json_decode(file_get_contents('https://poty.ir/apis/arz.php?type=arz'), true)['results'];
-            case 'tala':
+            case 'tala'://
                 return json_decode(file_get_contents('https://poty.ir/apis/arz.php?type=tala'), true)['results'];
             case 'arzdigital':
                 return json_decode(file_get_contents('https://poty.ir/apis/arzdigital.php'), true)['results'];
@@ -3227,7 +3143,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 return json_decode(file_get_contents('https://poty.ir/apis/dialog.php'), true)['results'];
             case 'hadis':
                 return json_decode(file_get_contents('https://poty.ir/apis/hadis2.php'), true)['results'];
-            case 'joke':
+            case 'joke'://
                 return json_decode(file_get_contents('https://poty.ir/apis/joke.php'), true)['results'];
             case 'fall':
                 return 'https://poty.ir/apis/fal.php';
@@ -3237,7 +3153,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 return json_decode(file_get_contents('https://poty.ir/apis/pnp.php'), true)['results'];
             case 'noroz':
                 return json_decode(file_get_contents('https://poty.ir/apis/noroz.php'), true)['results'];
-            case 'capcha':
+            case 'capcha'://
                 return json_decode(file_get_contents('https://poty.ir/apis/capcha2.php'), true)['results'];
             case 'time':
                 return json_decode(file_get_contents('https://poty.ir/apis/time.php'), true)['results'];
