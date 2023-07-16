@@ -15,7 +15,7 @@ function endPage () {
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 6.4
+ * BOT API version : 6.5
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
