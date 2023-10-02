@@ -15,7 +15,7 @@ function endPage () {
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 6.5
+ * BOT API version : 6.7
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
@@ -147,6 +147,8 @@ function endPage () {
  * @method deleteCommands($array = [])
  * @method getMyCommands($array = [])
  * @method getCommands($array = [])
+ * @method setMyName($array = [])
+ * @method getMyName($array = [])
  * @method setMyDescription($array = [])
  * @method setDescription($array = [])
  * @method getMyDescription($array = [])
@@ -1115,6 +1117,8 @@ CREATE TABLE IF NOT EXISTS `users` (
             'deletecommands'                    => 'deleteMyCommands',
             'getmycommands'                     => 'getMyCommands',
             'getcommands'                       => 'getMyCommands',
+            'setmyname'                         => 'setMyName',
+            'getmyname'                         => 'getMyName',
             'setmydescription'                  => 'setMyDescription',
             'setdescription'                    => 'setMyDescription',
             'getmydescription'                  => 'getMyDescription',
