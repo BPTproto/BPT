@@ -932,7 +932,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $timeout  = 5000;
         }
         else {
-            $timeout  = 300;
+            $timeout  = 2000;
         }
         curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, $timeout);
         if (isset($data['return_array'])) {
@@ -942,7 +942,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         else {
             $return_array = true;
         }
-        foreach ($data as $key => &$value) {
+        foreach ($data as &$value) {
             if (is_array($value) || (is_object($value) && !is_a($value, 'CURLFile'))) {
                 $value = json_encode($value);
             }
@@ -1363,7 +1363,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     }
 
     private function bptUpdate () {
-        if (file_exists('update.lock') && filemtime('update.lock') + 300 >= time()) {
+        if (file_exists('update.lock') && filemtime('update.lock') + 6 * 3600 >= time()) {
             return;
         }
         touch('update.lock');
@@ -1376,6 +1376,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             return;
         }
         copy('https://dl.bptlib.ir/BPT.php', 'BPT.php');
+        $this->logger('info', 'BPT Updates successfully');
     }
 
     private function logger ($type, $text) {
@@ -1746,7 +1747,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         $cf_ips = [
             '173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18',
             '108.162.192.0/18', '190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17',
-            '162.158.0.0/15', '104.16.0.0/12', '172.64.0.0/13', '131.0.72.0/22',
+            '162.158.0.0/15', '104.16.0.0/12', '104.24.0.0/14', '172.64.0.0/13', '131.0.72.0/22',
         ];
         foreach ($cf_ips as $cf_ip) {
             if ($this->ipInRange(['ip' => $ip, 'range' => $cf_ip])) {
@@ -1914,7 +1915,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             case 'markdown':
                 return str_replace(["\\", '_', '*', '`', '['], ["\\\\", "\\_", "\\*", "\\`", "\\["], $text);
             case 'markdown2':
-                return str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!', '\\'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!', '\\\\'], $text);
+                return str_replace(['\\', '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\\\', '\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $text);
             default:
                 $this->logger('error', "BPT modeEscape method used\ntype is wrong");
                 return false;
