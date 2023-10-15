@@ -15,7 +15,7 @@ function endPage () {
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 6.8
+ * BOT API version : 6.9
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
@@ -1727,10 +1727,10 @@ CREATE TABLE IF NOT EXISTS `users` (
             throw new exception('ip parameter not found');
         }
         $ip = $array['ip'];
-        if ($this->settings['cloudFlare'] && isset($_SERVER['HTTP_CF_CONNECTING_IP']) && $this->isCloudFlare($ip)) {
+        if ($this->settings['cloudFlare'] && isset($_SERVER['HTTP_CF_CONNECTING_IP']) && $this->isCloudFlare(['ip' => $ip])) {
             $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
         }
-        elseif ($this->settings['arvanCloud'] && isset($_SERVER['HTTP_AR_REAL_IP']) && $this->isArvanCloud($ip)) {
+        elseif ($this->settings['arvanCloud'] && isset($_SERVER['HTTP_AR_REAL_IP']) && $this->isArvanCloud(['ip' => $ip])) {
             $ip = $_SERVER['HTTP_AR_REAL_IP'];
         }
 
