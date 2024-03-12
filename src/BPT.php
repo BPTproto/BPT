@@ -3219,12 +3219,6 @@ CREATE TABLE IF NOT EXISTS `users` (
             throw new exception('array parameter must be array!');
         }
         switch ($type) {
-            case 'alaki':///
-                return json_decode(file_get_contents('https://poty.ir/apis/alaki.php'), true)['results'];
-            case 'arz':
-                return json_decode(file_get_contents('https://poty.ir/apis/arz.php?type=arz'), true)['results'];
-            case 'tala'://
-                return json_decode(file_get_contents('https://poty.ir/apis/arz.php?type=tala'), true)['results'];
             case 'arzdigital':
                 return json_decode(file_get_contents('https://poty.ir/apis/arzdigital.php'), true)['results'];
             case 'ayam':
@@ -3239,8 +3233,6 @@ CREATE TABLE IF NOT EXISTS `users` (
                 return json_decode(file_get_contents('https://poty.ir/apis/dialog.php'), true)['results'];
             case 'hadis':
                 return json_decode(file_get_contents('https://poty.ir/apis/hadis2.php'), true)['results'];
-            case 'joke'://
-                return json_decode(file_get_contents('https://poty.ir/apis/joke.php'), true)['results'];
             case 'fall':
                 return 'https://poty.ir/apis/fal.php';
             case 'khatere':
@@ -3255,16 +3247,6 @@ CREATE TABLE IF NOT EXISTS `users` (
                 return json_decode(file_get_contents('https://poty.ir/apis/time.php'), true)['results'];
             case 'corona':
                 return json_decode(file_get_contents('https://poty.ir/apis/corona.php'), true)['results'];
-            case 'pdf':
-                if (!isset($option['url'])) {
-                    throw new exception('pdf api need url field!');
-                }
-                return 'https://poty.ir/apis/topdf.php?url=' . urlencode($option['url']);
-            case 'uupload':
-                if (!isset($option['url'])) {
-                    throw new exception('uupload api need url field!');
-                }
-                return json_decode(file_get_contents('https://poty.ir/apis/uupload.php?link=' . urlencode($option['url'])), true)['results'];
             case 'proxy':
                 if (isset($option['id'])) {
                     $id = $array['id'];
@@ -3279,10 +3261,6 @@ CREATE TABLE IF NOT EXISTS `users` (
                     throw new exception('screenshot api need url field!');
                 }
                 $url = urlencode($option['url']);
-                $res1 = file_get_contents('https://poty.ir/apis/screenshot3.php?url=' . $url);
-                if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
-                    return 'https://poty.ir/apis/screenshot3.php?url=' . $url;
-                }
                 $res1 = file_get_contents('https://poty.ir/apis/screenshot2.php?url=' . $url);
                 if (strpos($res1, 'cannot be displayed because it contains errors.') !== false) {
                     return 'https://poty.ir/apis/screenshot2.php?url=' . $url;
@@ -3292,20 +3270,6 @@ CREATE TABLE IF NOT EXISTS `users` (
                     return 'https://poty.ir/apis/screenshot.php?type=fullscreen&url=' . $url;
                 }
                 return false;
-            case 'short':
-                if (!isset($option['url'])) {
-                    throw new exception('short api need url field!');
-                }
-                $url = urlencode($option['url']);
-                if (strpos($url, 'http') === 0) {
-                    return json_decode(file_get_contents('https://jx9.ir/?domain=jx9&url=' . $url), true)['results'];
-                }
-                return json_decode(file_get_contents('https://jx9.ir/?domain=jx9&url=http%3A%2F%2F' . $url), true)['results'];
-            case 'alexa':
-                if (!isset($option['url'])) {
-                    throw new exception('alexa api need url field!');
-                }
-                return json_decode(file_get_contents('https://poty.ir/apis/alexa.php?url=' . urlencode($option['url'])), true)['results'];
             case 'num2text':
                 if (!isset($option['num'])) {
                     throw new exception('num2text api need num field!');
