@@ -15,7 +15,7 @@ function endPage () {
 /**
  * BPT CLASS
  * Simple class for handling telegram bot and write it very easily
- * BOT API version : 6.9
+ * BOT API version : 7.1
  *
  * @method getUpdates($array = [])
  * @method getUp($array = [])
@@ -36,8 +36,12 @@ function endPage () {
  * @method send($array)
  * @method forwardMessage($array)
  * @method forward($array)
+ * @method forwardMessages($array)
+ * @method forwards($array)
  * @method copyMessage($array)
  * @method copy($array)
+ * @method copyMessages($array)
+ * @method copys($array)
  * @method sendPhoto($array)
  * @method photo($array)
  * @method sendAudio($array)
@@ -78,6 +82,8 @@ function endPage () {
  * @method sendChatAction($array = [])
  * @method chatAction($array = [])
  * @method action($array = [])
+ * @method setMessageReaction($array = [])
+ * @method setReaction($array = [])
  * @method getUserProfilePhotos($array = [])
  * @method userPhotos($array = [])
  * @method getFile($array = [])
@@ -143,6 +149,9 @@ function endPage () {
  * @method unpinGeneralTopicMessages($array = [])
  * @method answerCallbackQuery($array = [])
  * @method answer($array = [])
+ * @method getUserChatBoosts($array = [])
+ * @method getChatBoosts($array = [])
+ * @method getUserBoosts($array = [])
  * @method setMyCommands($array)
  * @method setCommands($array)
  * @method deleteMyCommands($array = [])
@@ -188,6 +197,8 @@ function endPage () {
  * @method stopPoll($array)
  * @method deleteMessage($array = [])
  * @method del($array = [])
+ * @method deleteMessages($array)
+ * @method dels($array)
  * @method sendSticker($array)
  * @method sticker($array)
  * @method getStickerSet($array)
@@ -984,8 +995,12 @@ CREATE TABLE IF NOT EXISTS `users` (
             'send'                              => 'sendMessage',
             'forwardmessage'                    => 'forwardMessage',
             'forward'                           => 'forwardMessage',
+            'forwardmessages'                   => 'forwardMessages',
+            'forwards'                          => 'forwardMessages',
             'copymessage'                       => 'copyMessage',
             'copy'                              => 'copyMessage',
+            'copymessages'                      => 'copyMessages',
+            'copys'                             => 'copyMessages',
             'sendphoto'                         => 'sendPhoto',
             'photo'                             => 'sendPhoto',
             'sendaudio'                         => 'sendAudio',
@@ -1026,6 +1041,8 @@ CREATE TABLE IF NOT EXISTS `users` (
             'sendchataction'                    => 'sendChatAction',
             'chataction'                        => 'sendChatAction',
             'action'                            => 'sendChatAction',
+            'setmessagereaction'                => 'setMessageReaction',
+            'setreaction'                       => 'setMessageReaction',
             'getuserprofilephotos'              => 'getUserProfilePhotos',
             'userphotos'                        => 'getUserProfilePhotos',
             'getfile'                           => 'getFile',
@@ -1115,6 +1132,9 @@ CREATE TABLE IF NOT EXISTS `users` (
             'unpinGeneralTopicMessages'         => 'unpinAllGeneralForumTopicMessages',
             'answercallbackquery'               => 'answerCallbackQuery',
             'answer'                            => 'answerCallbackQuery',
+            'getuserchatboosts'                 => 'getUserChatBoosts',
+            'getchatboosts'                     => 'getUserChatBoosts',
+            'getuserboosts'                     => 'getUserChatBoosts',
             'setmycommands'                     => 'setMyCommands',
             'setcommands'                       => 'setMyCommands',
             'deletemycommands'                  => 'deleteMyCommands',
@@ -1160,6 +1180,8 @@ CREATE TABLE IF NOT EXISTS `users` (
             'stoppoll'                          => 'stopPoll',
             'deletemessage'                     => 'deleteMessage',
             'del'                               => 'deleteMessage',
+            'deletemessages'                    => 'deleteMessages',
+            'dels'                              => 'deleteMessages',
             'sendsticker'                       => 'sendSticker',
             'sticker'                           => 'sendSticker',
             'getstickerset'                     => 'getStickerSet',
@@ -1214,7 +1236,9 @@ CREATE TABLE IF NOT EXISTS `users` (
             'setWebhook'                        => ['url'],
             'sendMessage'                       => ['chat_id'],
             'forwardMessage'                    => ['from_chat_id', 'message_id'],
+            'forwardMessages'                   => ['from_chat_id'],
             'copyMessage'                       => ['from_chat_id', 'message_id'],
+            'copyMessages'                      => ['from_chat_id'],
             'sendPhoto'                         => ['chat_id'],
             'sendAudio'                         => ['chat_id'],
             'sendDocument'                      => ['chat_id'],
@@ -1228,6 +1252,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             'sendPoll'                          => ['chat_id'],
             'sendDice'                          => ['chat_id'],
             'sendChatAction'                    => ['chat_id', 'action'],
+            'setMessageReaction'                => ['chat_id', 'message_id'],
             'getUserProfilePhotos'              => ['user_id'],
             'getFile'                           => ['file_id'],
             'banChatMember'                     => ['chat_id', 'user_id'],
@@ -1261,12 +1286,14 @@ CREATE TABLE IF NOT EXISTS `users` (
             'deleteChatStickerSet'              => ['chat_id'],
             'unpinAllGeneralForumTopicMessages' => ['chat_id'],
             'answerCallbackQuery'               => ['callback_query_id'],
+            'getUserChatBoosts'                 => ['chat_id', 'user_id'],
             'editMessageText'                   => ['inline_query' => ['inline_message_id'], 'other' => ['chat_id', 'message_id']],
             'editMessageCaption'                => ['inline_query' => ['inline_message_id'],'other' => ['chat_id', 'message_id']],
             'editMessageMedia'                  => ['inline_query' => ['inline_message_id'], 'other'=> ['chat_id', 'message_id']],
             'editMessageReplyMarkup'            => ['inline_query' => ['inline_message_id'], 'other' => ['chat_id', 'message_id']],
             'stopPoll'                          => ['chat_id', 'message_id'],
             'deleteMessage'                     => ['chat_id', 'message_id'],
+            'deleteMessages'                    => ['chat_id'],
             'sendSticker'                       => ['chat_id'],
             'uploadStickerFile'                 => ['user_id'],
             'createNewStickerSet'               => ['user_id'],
