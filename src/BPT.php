@@ -326,8 +326,10 @@ class BPT {
             if ($settings['security']) {
                 ini_set('magic_quotes_gpc', 'off');
                 ini_set('sql.safe_mode', 'on');
-                ini_set('max_execution_time', 30);
-                ini_set('max_input_time', 30);
+                if (!$settings['multi']) {
+                    ini_set('max_execution_time', 30);
+                    ini_set('max_input_time', 30);
+                }
                 ini_set('memory_limit', '20M');
                 ini_set('post_max_size', '8K');
                 ini_set('expose_php', 'off');
@@ -914,7 +916,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $timeout  = $this->settings['forgot_time'];
             unset($data['forgot']);
         }
-        elseif ($action === 'getUpdates') {
+        elseif ($action === 'getUpdates' || $action === 'setWebhook') {
             $timeout  = 5000;
         }
         else {
@@ -2076,8 +2078,8 @@ CREATE TABLE IF NOT EXISTS `users` (
         }
         $string = $array['string'];
         if ($action === 'enc') {
-            $key = $this->randomString(['length' => 64]);
-            $iv = $this->randomString(['length' => 16]);
+            $key = $array['key'] ?? $this->randomString(['length' => 64]);
+            $iv = $array['iv'] ?? $this->randomString(['length' => 16]);
             $output = base64_encode(openssl_encrypt($string, 'AES-256-CBC', $key, 1, $iv));
             return ['hash' => $output, 'key' => $key, 'iv' => $iv];
         }
