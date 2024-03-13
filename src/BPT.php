@@ -299,6 +299,7 @@ class BPT {
         $settings['array_update'] ??= false;
         $settings['split_update'] ??= true;
         $settings['multi'] ??= false;
+        $settings['multi_exec_argument'] ??= false;
         $settings['debug'] ??= false;
         $settings['cloudFlare'] ??= true;
         $settings['arvanCloud'] ??= true;
@@ -447,7 +448,12 @@ CREATE TABLE IF NOT EXISTS `users` (
                         $file = basename($_SERVER['REQUEST_URI']);
                         $url2 = str_replace($file, 'receiver.php', $url);
                         if (function_exists('exec') && !in_array('exec', array_map('trim', explode(', ', ini_get('disable_functions')))) && strtolower(ini_get('safe_mode')) != 1) {
-                            file_put_contents('receiver.php', '<?php $BPT = file_get_contents("php://input");$id = json_decode($BPT, true)[\'update_id\'];file_put_contents("{$_SERVER[\'REMOTE_ADDR\']}-$id.update",$BPT);exec("php ' . $file . ' > /dev/null &");');
+                            if ($settings['multi_exec_argument']) {
+                                file_put_contents('receiver.php', '<?php $BPT = file_get_contents("php://input");$id = json_decode($BPT, true)[\'update_id\'];$file_name = "{$_SERVER[\'REMOTE_ADDR\']}-$id.update";file_put_contents($file_name,$BPT);exec("php ' . $file . ' $file_name > /dev/null &");');
+                            }
+                            else {
+                                file_put_contents('receiver.php', '<?php $BPT = file_get_contents("php://input");$id = json_decode($BPT, true)[\'update_id\'];file_put_contents("{$_SERVER[\'REMOTE_ADDR\']}-$id.update",$BPT);exec("php ' . $file . ' > /dev/null &");');
+                            }
                             $res = $this->setWebhook([
                                 'url'             => $url2,
                                 'allowed_updates' => json_encode($settings['allowed_updates']),
@@ -524,15 +530,28 @@ CREATE TABLE IF NOT EXISTS `users` (
                     }
                 }
                 else {
-                    $up = glob('*.update');
-                    if (!isset($up[0])) {
-                        $this->logger('warning', 'not authorized access denied');
-                        endPage();
+                    if ($settings['multi_exec_argument']) {
+                        if (!isset($argv)) {
+                            $this->logger('warning', 'not authorized access denied');
+                            endPage();
+                        }
+                        if (!isset($argv[1])) {
+                            $this->logger('error', 'Your host/server does not support exec arguments!');
+                            endPage();
+                        }
+                        $up = $argv[1];
                     }
-                    $up = end($up);
-                    $ip = explode('-', $up)[0];
-                    if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
+                    else {
+                        $up = glob('*.update');
+                        if (!isset($up[0])) {
+                            $this->logger('warning', 'not authorized access denied');
+                            endPage();
+                        }
+                        $up = end($up);
+                    }
+                    if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => trim(explode('-', $up)[0])])) {
                         $this->logger('warning', 'not authorized access denied');
+                        unlink($up);
                         endPage();
                     }
                     $updates = file_get_contents($up);
