@@ -6,7 +6,7 @@ if (!in_array(__FILE__, get_included_files())) {
 
 if (PHP_MAJOR_VERSION === 5 || (PHP_MAJOR_VERSION === 7 && PHP_MINOR_VERSION < 4)) {
     $newline = PHP_SAPI !== 'cli' ? '<br>' . PHP_EOL : PHP_EOL;
-    die("You can't run this library on php version lower then 7.4$newline supported versions: php 7.4+$newline recommended version: php 8.0$newline");
+    die("You can't run this library on php version lower then 7.4$newline supported versions: php 7.4+$newline recommended version: php 8.0+$newline");
 }
 function endPage () {
     die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
@@ -283,33 +283,29 @@ class BPT {
     private bool $web_answered = false;
 
     public function __construct (array $settings) {
-        $settings['logger'] = $settings['logger'] ?? true;
-        $settings['log_size'] = $settings['log_size'] ?? false;
-        $settings['auto_update'] = $settings['auto_update'] ?? true;
-        $settings['max_connection'] = $settings['max_connection'] ?? 40;
-        $settings['certificate'] = $settings['certificate'] ?? null;
-        $settings['base_url'] = $settings['base_url'] ?? 'https://api.telegram.org/bot';
-        $settings['down_url'] = $settings['down_url'] ?? 'https://api.telegram.org/file/bot';
+        $settings['logger'] ??= true;
+        $settings['log_size'] ??= false;
+        $settings['auto_update'] ??= true;
+        $settings['max_connection'] ??= 40;
+        $settings['certificate'] ??= null;
+        $settings['base_url'] ??= 'https://api.telegram.org/bot';
+        $settings['down_url'] ??= 'https://api.telegram.org/file/bot';
         $settings['forgot_time'] = isset($settings['forgot_time']) && is_numeric($settings['forgot_time']) ? $settings['forgot_time'] : 100;
-        $settings['receive'] = $settings['receive'] ?? 'webhook';
-        $settings['handler'] = $settings['handler'] ?? true;
-        $settings['allowed_updates'] = $settings['allowed_updates'] ?? ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
-        $settings['security'] = $settings['security'] ?? false;
-        $settings['secure_folder'] = $settings['secure_folder'] ?? false;
-        $settings['array_update'] = $settings['array_update'] ?? false;
-        $settings['split_update'] = $settings['split_update'] ?? true;
-        $settings['multi'] = $settings['multi'] ?? false;
-        $settings['debug'] = $settings['debug'] ?? false;
-        $settings['cloudFlare'] = $settings['cloudFlare'] ?? true;
-        $settings['arvanCloud'] = $settings['arvanCloud'] ?? true;
-        $settings['telegram_verify'] = $settings['telegram_verify'] ?? true;
+        $settings['receive'] ??= 'webhook';
+        $settings['handler'] ??= true;
+        $settings['allowed_updates'] ??= ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
+        $settings['security'] ??= false;
+        $settings['secure_folder'] ??= false;
+        $settings['array_update'] ??= false;
+        $settings['split_update'] ??= true;
+        $settings['multi'] ??= false;
+        $settings['debug'] ??= false;
+        $settings['cloudFlare'] ??= true;
+        $settings['arvanCloud'] ??= true;
+        $settings['telegram_verify'] ??= true;
         $this->settings = $settings;
         if ($settings['logger']) {
-            $log_size = $settings['log_size'];
-            if (!is_numeric($log_size)) {
-                $log_size = 10;
-            }
-            $log_size = round($log_size, 1);
+            $log_size = round(is_numeric($settings['log_size']) ? $settings['log_size'] : 10, 1);
             $mode = file_exists('BPT.log') && !(filesize('BPT.log') > $log_size * 1024 * 1024) ? 'a' : 'w';
             define('LOG', fopen('BPT.log', $mode));
             if ($mode == 'w') {
@@ -357,12 +353,8 @@ class BPT {
                 $settings['db']['type'] = 'json';
             }
             if ($settings['db']['type'] === 'sql') {
-                if (!isset($settings['db']['host'])) {
-                    $settings['db']['host'] = 'localhost';
-                }
-                if (!isset($settings['db']['port'])) {
-                    $settings['db']['port'] = 3306;
-                }
+                $settings['db']['host'] ??= 'localhost';
+                $settings['db']['port'] ??= 3306;
                 if (!isset($settings['db']['user'])) {
                     $this->logger('error', 'db user parameter not found , sql type need user parameter');
                     throw new exception('sql user parameter');
@@ -411,9 +403,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->db = $db;
             }
             elseif ($settings['db']['type'] === 'json') {
-                if (!isset($settings['db']['file_name'])) {
-                    $settings['db']['file_name'] = 'BPT-DB.json';
-                }
+                $settings['db']['file_name'] ??= 'BPT-DB.json';
                 $this->db = $settings['db'];
                 if (!file_exists($settings['db']['file_name'])) {
                     file_put_contents($settings['db']['file_name'], json_encode([
@@ -524,8 +514,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                     }
                     else {
                         $input = json_decode(file_get_contents("php://input"), true);
-                        $ip = $input['ip'];
-                        if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $ip])) {
+                        if ($settings['telegram_verify'] && !$this->isTelegram(['ip' => $input['ip']])) {
                             $this->logger('warning', 'not authorized access denied');
                             endPage();
                         }
@@ -594,10 +583,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->update = json_decode($updates);
                 if ($settings['array_update']) {
                     if (isset($update['message']['text']) || isset($update['edited_message']['text'])) {
-                        if (isset($update['message'])) {
-                            $type = 'message';
-                        }
-                        else $type = 'edited_message';
+                        $type = isset($update['message']) ? 'message' : 'edited_message';
                         $text = &$update[$type]['text'];
                         if ($settings['security']) {
                             $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
@@ -618,24 +604,21 @@ CREATE TABLE IF NOT EXISTS `users` (
                 }
                 else {
                     if (isset($update->message->text) || isset($update->edited_message->text)) {
-                        if (isset($update->message)) {
-                            $type = 'message';
-                        }
-                        else $type = 'edited_message';
-                        $text = &$update->$type->text;
+                        $type = isset($update->message) ? 'message' : 'edited_message';
+                        $text = &$update->{$type}->text;
                         if ($settings['security']) {
                             $text = htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
                         }
                         if (strpos($text, '/') === 0) {
                             preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
                             if (!empty($result[1])) {
-                                $update->$type->commend = $result[1];
+                                $update->{$type}->commend = $result[1];
                             }
                             if (!empty($result[2])) {
-                                $update->$type->commend_username = $result[2];
+                                $update->{$type}->commend_username = $result[2];
                             }
                             if (!empty($result[3])) {
-                                $update->$type->commend_payload = $result[3];
+                                $update->{$type}->commend_payload = $result[3];
                             }
                         }
                     }
@@ -835,15 +818,11 @@ CREATE TABLE IF NOT EXISTS `users` (
             $defaults = $this->methodsDefault($action);
             foreach ($defaults as $key => $default) {
                 if (is_numeric($key)) {
-                    if (!isset($data[$default])) {
-                        $data[$default] = $this->catchFields(['field' => $default]);
-                    }
+                    $data[$default] ??= $this->catchFields(['field' => $default]);
                 }
-                elseif (isset($update->$key) || $key === 'other') {
+                elseif (isset($this->update->{$key}) || $key === 'other') {
                     foreach ($default as $def) {
-                        if (!isset($data[$def])) {
-                            $data[$def] = $this->catchFields(['field' => $def]);
-                        }
+                        $data[$def] ??= $this->catchFields(['field' => $def]);
                     }
                     break;
                 }
@@ -896,15 +875,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 $this->logger('error', 'you can\'t use answer mode when multi is on');
                 throw new exception('answer mode not allowed bc multi');
             }
-            if (isset($data['token'])) {
-                unset($data['token']);
-            }
-            if (isset($data['forgot'])) {
-                unset($data['forgot']);
-            }
-            if (isset($data['return_array'])) {
-                unset($data['return_array']);
-            }
+            unset($data['token'], $data['forgot'], $data['return_array']);
             foreach ($data as $key => &$value) {
                 if (!isset($value)) {
                     unset($data[$key]);
@@ -1419,8 +1390,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         if (!$this->settings['logger']) {
             return;
         }
-        $text = ($type !== '' ? " : ⤵\n$type" : '') . " : $text\n";
-        fwrite(LOG, date('Y/m/d H:i:s', $text));
+        fwrite(LOG, date('Y/m/d H:i:s') . ($type !== '' ? " : ⤵\n$type" : '') . " : $text\n");
     }
 
     private function users ($update, $update_type) {
@@ -1457,13 +1427,11 @@ CREATE TABLE IF NOT EXISTS `users` (
                     elseif (isset($news)) {
                         foreach ($news as $user) {
                             $user_id = $user['id'] ?? $user->id;
-                            if (!isset($BPT_DB[$type][$id]['users'][$user_id])) {
-                                $BPT_DB[$type][$id]['users'][$user_id] = [];
-                            }
-                            else unset($BPT_DB[$type][$id]['users'][$user_id]['leaved']);
+                            $BPT_DB[$type][$id]['users'][$user_id] ??= [];
+                            unset($BPT_DB[$type][$id]['users'][$user_id]['leaved']);
                         }
                     }
-                    elseif (!isset($BPT_DB[$type][$id]['users'][$user_id])) $BPT_DB[$type][$id]['users'][$user_id] = [];
+                    else $BPT_DB[$type][$id]['users'][$user_id] ??= [];
                     $BPT_DB[$type][$id]['users'][$user_id]['last_active'] = time();
                 }
                 else $BPT_DB[$type][$id]['last_active'] = time();
@@ -1612,14 +1580,14 @@ CREATE TABLE IF NOT EXISTS `users` (
             if (isset($this->update->message)) $type = 'message';
             elseif (isset($this->update->edited_message)) $type = 'edited_message';
             else return false;
-            if (isset($this->update->$type->animation)) return $this->update->$type->animation->file_id;
-            if (isset($this->update->$type->audio)) return $this->update->$type->audio->file_id;
-            if (isset($this->update->$type->document)) return $this->update->$type->document->file_id;
-            if (isset($this->update->$type->photo)) return end($this->update->$type->photo)->file_id;
-            if (isset($this->update->$type->sticker)) return $this->update->$type->sticker->file_id;
-            if (isset($this->update->$type->video)) return $this->update->$type->video->file_id;
-            if (isset($this->update->$type->video_note)) return $this->update->$type->video_note->file_id;
-            if (isset($this->update->$type->voice)) return $this->update->$type->voice->file_id;
+            if (isset($this->update->{$type}->animation)) return $this->update->{$type}->animation->file_id;
+            if (isset($this->update->{$type}->audio)) return $this->update->{$type}->audio->file_id;
+            if (isset($this->update->{$type}->document)) return $this->update->{$type}->document->file_id;
+            if (isset($this->update->{$type}->photo)) return end($this->update->{$type}->photo)->file_id;
+            if (isset($this->update->{$type}->sticker)) return $this->update->{$type}->sticker->file_id;
+            if (isset($this->update->{$type}->video)) return $this->update->{$type}->video->file_id;
+            if (isset($this->update->{$type}->video_note)) return $this->update->{$type}->video_note->file_id;
+            if (isset($this->update->{$type}->voice)) return $this->update->{$type}->voice->file_id;
             return false;
         }
         if ($field === 'callback_query_id') {
@@ -1949,7 +1917,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             case 'html':
                 return str_replace(['&', '<', '>'], ["&amp;", "&lt;", "&gt;"], $text);
             case 'markdown':
-                return str_replace(["\\", '_', '*', '`', '['], ["\\\\", "\\_", "\\*", "\\`", "\\["], $text);
+                return str_replace(["\\", '_', '*', '`', '['], ['\\\\', '\_', '\*', '\`', '\['], $text);
             case 'markdown2':
                 return str_replace(['\\', '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\\\\', '\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $text);
             default:
@@ -1994,12 +1962,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
         $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($files as $file) {
-            if ($file->isDir()) {
-                rmdir($file->getRealPath());
-            }
-            else {
-                unlink($file->getRealPath());
-            }
+            $file->isDir() ? rmdir($file->getRealPath()) : unlink($file->getRealPath());
         }
         return rmdir($path);
     }
@@ -2040,8 +2003,8 @@ CREATE TABLE IF NOT EXISTS `users` (
             'second' => 's',
         ];
         foreach ($string as $k => &$v) {
-            if ($diff->$v) {
-                $v = $diff->$v;
+            if ($diff->{$v}) {
+                $v = $diff->{$v};
             }
             else unset($string[$k]);
         }
@@ -2125,13 +2088,11 @@ CREATE TABLE IF NOT EXISTS `users` (
             $this->logger('error', "BPT crypto function used\nkey parameter not found");
             throw new exception('key parameter not found');
         }
-        $key = $array['key'];
         if (!isset($array['iv'])) {
             $this->logger('error', "BPT crypto function used\niv parameter not found");
             throw new exception('iv parameter not found');
         }
-        $iv = $array['iv'];
-        return openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 1, $iv);
+        return openssl_decrypt(base64_decode($string), 'AES-256-CBC', $array['key'], 1, $array['iv']);
     }
 
     /**
@@ -2192,12 +2153,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
         foreach ($files as $file) {
             if ($file->isFile()) {
-                if ($sub_folder) {
-                    $zip->addFile($file, str_replace($path . '\\', '', $file));
-                }
-                else {
-                    $zip->addFile($file, basename($file));
-                }
+                $zip->addFile($file, $sub_folder ? str_replace($path . '\\', '', $file) : basename($file));
             }
             elseif ($file->isDir() && $sub_folder) {
                 $zip->addEmptyDir(str_replace($path . '\\', '', $file . '\\'));
@@ -2254,7 +2210,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             return $size;
         }
         $o = 0;
-        $rate = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $rate = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
         while ($size > 1024){
             $size = $size / 1024;
             $o++;
@@ -2410,7 +2366,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $data = json_encode($data);
         }
         if (pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
-            $name = $name . '.json';
+            $name .= '.json';
         }
         return (bool) file_put_contents($name, gzcompress($data));
     }
@@ -2437,14 +2393,13 @@ CREATE TABLE IF NOT EXISTS `users` (
             throw new exception('name parameter not found');
         }
         $name = $array['name'];
-        $type = $array['type'] ?? true;
         if (pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
-            $name = $name . '.json';
+            $name .= '.json';
         }
         if (!file_exists($name)) {
             return false;
         }
-        return json_decode(gzuncompress(file_get_contents($name)), $type);
+        return json_decode(gzuncompress(file_get_contents($name)), $array['type'] ?? true);
     }
 
     /**
@@ -2464,7 +2419,7 @@ CREATE TABLE IF NOT EXISTS `users` (
         }
         $name = $array['name'];
         if (pathinfo($name, PATHINFO_EXTENSION) !== 'json') {
-            $name = $name . '.json';
+            $name .= '.json';
         }
         if (!file_exists($name)) {
             return false;
@@ -2673,15 +2628,11 @@ CREATE TABLE IF NOT EXISTS `users` (
         $this->logger('', "BPT stats function used\n");
         if ($this->settings['db']['type'] === 'json') {
             $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
-            $BPT_users = count($BPT_DB['private']);
-            $BPT_group = count($BPT_DB['group']);
-            $BPT_sgroup = count($BPT_DB['supergroup']);
-            $BPT_channel = count($BPT_DB['channel']);
             return [
-                'users'       => $BPT_users,
-                'groups'      => $BPT_group,
-                'supergroups' => $BPT_sgroup,
-                'channels'    => $BPT_channel,
+                'users'       => count($BPT_DB['private']),
+                'groups'      => count($BPT_DB['group']),
+                'supergroups' => count($BPT_DB['supergroup']),
+                'channels'    => count($BPT_DB['channel']),
             ];
         }
         if ($this->settings['db']['type'] !== 'sql') {
@@ -2734,12 +2685,8 @@ CREATE TABLE IF NOT EXISTS `users` (
         if ($this->settings['db']['type'] !== 'sql') {
             return false;
         }
-        if ($type === 'private') {
-            $check = $this->db->query("select * from `private` where `id` = $chat_id limit 1");
-        }
-        else {
-            $check = $this->db->query("select * from `chats` where `id` = $chat_id limit 1");
-        }
+        $table_name = $type === 'private' ? 'private' : 'chats';
+        $check = $this->db->query("select * from `$table_name` where `id` = $chat_id limit 1");
         if ($check->num_rows <= 0) {
             return false;
         }
@@ -2797,7 +2744,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $phones = $array['phones'];
         }
         elseif (is_string($array['phones'])) {
-            if ($array['phones'] === '98' || strtolower($array['phones']) === 'iran' || $array['phones'] === 'ایران') {
+            if (in_array($array['phones'], ['98', 'iran', 'ایران'])) {
                 $phones = ['98'];
             }
             else {
@@ -2953,14 +2900,14 @@ CREATE TABLE IF NOT EXISTS `users` (
         if ($this->settings['db']['type'] === 'json') {
             $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
             foreach ($BPT_DB['private'] as $id => $x) {
-                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
         if ($this->settings['db']['type'] === 'sql') {
             $BPT_DB = $this->db->query('select `id` from `private`')->fetch_all(MYSQLI_ASSOC);
             foreach ($BPT_DB as $id) {
-                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
@@ -3007,14 +2954,14 @@ CREATE TABLE IF NOT EXISTS `users` (
         if ($this->settings['db']['type'] === 'json') {
             $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
             foreach ($BPT_DB['groups'] as $id => $x) {
-                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
         if ($this->settings['db']['type'] === 'sql') {
             $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
             foreach ($BPT_DB as $id) {
-                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
@@ -3062,14 +3009,14 @@ CREATE TABLE IF NOT EXISTS `users` (
             if ($this->settings['db']['type'] === 'json') {
                 $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
                 foreach ($BPT_DB['supergroup'] as $id => $x) {
-                    $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->{$method}(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
             elseif ($this->settings['db']['type'] === 'sql') {
                 $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup'")->fetch_all(MYSQLI_ASSOC);
                 foreach ($BPT_DB as $id) {
-                    $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                    $this->{$method}(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
                 }
                 return true;
             }
@@ -3121,14 +3068,14 @@ CREATE TABLE IF NOT EXISTS `users` (
             $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
             $ids = array_merge($BPT_DB['supergroup'], $BPT_DB['groups']);
             foreach ($ids as $id => $x) {
-                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
         if ($this->settings['db']['type'] === 'sql') {
             $BPT_DB = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
             foreach ($BPT_DB as $id) {
-                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
@@ -3176,7 +3123,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $BPT_DB = json_decode(file_get_contents($this->settings['db']['file_name']), true);
             $ids = array_merge($BPT_DB['private'], $BPT_DB['supergroup'], $BPT_DB['groups']);
             foreach ($ids as $id => $x) {
-                $this->$method(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id, 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
@@ -3185,7 +3132,7 @@ CREATE TABLE IF NOT EXISTS `users` (
             $chats = $this->db->query("select `id` from `chats` where `type` = 'supergroup' || `type` = 'group'")->fetch_all(MYSQLI_ASSOC);
             $ids = array_merge($privates, $chats);
             foreach ($ids as $id) {
-                $this->$method(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
+                $this->{$method}(['chat_id' => $id['id'], 'from_chat_id' => $chat_id, 'message_id' => $message_id]);
             }
             return true;
         }
